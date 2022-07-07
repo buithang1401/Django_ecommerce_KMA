@@ -1,0 +1,193 @@
+/* nav-css */
+
+/* sticky */
+
+/* css San Pham */
+.sanPham{
+  display: flex;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.anhSanPham{
+  width: 70%;
+  margin-right: 40px;
+}
+
+.thongTinSP{
+  width: 50%
+}
+.thongTinSP>h5{
+  margin-top:20px
+}
+.MSP{
+  display:flex;
+  justify-content: space-between;
+}
+.MSP>p{
+  font-size: 12px;
+  font-weight: 100;
+}
+/* css giá sản phẩm */
+.giaSp{
+  display: inline-flex;
+  background-color: #AFEEEE;
+  width: 100%;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+.giaSp>h4{
+  display: block;
+  margin: 5px;
+  margin-left: 4px;
+}
+.giaSp>p{
+  display: block;
+  margin: 5px;
+}
+#p-sale{
+  background-color :#FF8C00;
+  border-radius: 10px;
+  color: white;
+  padding: 5px
+}
+/* css chọn màu */
+.mauSac{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.mau{
+  width: 40px;
+  height: 40px;
+  border: 5px;
+  border-style: solid;
+  border-width:0.05rem;
+  border-color:#EEEEEE;
+  border-radius: 100px;
+}
+/* css chọn size */
+
+.Size{
+  width: 40px;
+  height: 40px;
+  border: 5px;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 100px;
+}
+#KhongNhoSize{
+  display: block;
+  width: 100%;
+  margin: auto;
+  text-decoration:none;
+  color:#FF8C00;
+  font-weight: 500;
+}
+/* số lượng sản phẩm thêm  */
+.SoLuongSanPham{
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.SoLuongSanPham>p{
+  display: block;
+  padding: 4px 10px 4px 2px;
+  margin-right: 10px;
+  font-size:20px;
+  font-weight: 500;
+}
+#TangGiam{
+  margin-left: 40px;
+}
+/* -- quantity box -- */
+.quantity {
+ display: inline-block; }
+
+.quantity .input-text.qty {
+ width: 35px;
+ height: 39px;
+ padding: 0px;
+ text-align: center;
+ background-color: transparent;
+ border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+ text-align: left;
+ position: relative;
+ white-space: nowrap;
+ vertical-align: top; }
+
+.quantity.buttons_added input {
+ display: inline-block;
+ margin: 0;
+ vertical-align: top;
+ box-shadow: none;
+}
+p{
+
+}
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+ padding: 7px 10px 8px;
+ height: 39px;
+ background-color: #ffffff;
+ border: 1px solid #efefef;
+ cursor:pointer;}
+
+.quantity.buttons_added .minus {
+ border-right: 0; }
+
+.quantity.buttons_added .plus {
+ border-left: 0; }
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+ background: #eeeeee; }
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ margin: 0; }
+
+ .quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+ outline: none; }
+
+
+/* thêm vào giỏ hàng */
+.themGioHang{
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.themGioHang>button{
+  border-radius: 10px
+}
+#ThemGH{
+  display:block;
+  width: 49%;
+  margin-right: 2%;
+}
+#muaNgay{
+  display:block;
+  width: 49%;
+}
+
+.form_button{
+    display: block;
+    float: left;
+}
+
+.button_up_down{
+    width: 30px;
+    display: block;
+    margin-left: 10%;
+}
+
+.custom_alert{
+    font-weight: bold;
+    font-size: 150px;
+}

@@ -1,0 +1,104 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Tables</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item active">Tables</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Product Table
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in product %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.product_name}}</td>
+                            <td>{{item.category_id.name_category}}</td>
+                            <td>{{item.product_description }}</td>
+                            <td>{{item.product_status}}</td>
+                            <td>{{item.type_id.type_name}}</td>
+                            <td><img src="{{item.product_image.url}}" style="width: 15%"> -  {{item.product_image}}</td>
+                            <td>{{item.product_price}}</td>
+                            <td>{{item.quantity}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {#  ------------------------------------------  Table Type --------------------#}
+    <div class="container-fluid px-4" style="width: 50%; float: left">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Type Table
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple" style="border: 0.5px solid #adadad; width: 100%; padding: 0.5%">
+                    <thead>
+                    <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                        <th style="border: 0.5px solid #adadad; padding: 0.5%">ID</th>
+                        <th style="border: 0.5px solid #adadad; padding: 0.5%">Type Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item1 in type %}
+                        <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                            <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item1.id}}</td>
+                            <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item1.type_name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {#  ------------------------------------------  Table Type --------------------#}
+    <div class="container-fluid px-4" style="width: 50%; float: right">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Product Table
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple" style="border: 0.5px solid #adadad; width: 100%; padding: 0.5%">
+                    <thead>
+                    <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                        <th style="border: 0.5px solid #adadad; padding: 0.5%">ID</th>
+                        <th style="border: 0.5px solid #adadad; padding: 0.5%">Type Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item2 in category %}
+                        <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                            <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item2.id}}</td>
+                            <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item2.name_category}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock%}

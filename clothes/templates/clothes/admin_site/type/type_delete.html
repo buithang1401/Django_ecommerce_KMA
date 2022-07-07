@@ -1,0 +1,24 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Delete Type</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Delete Type</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Delete Type
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h6>Are you sure to Delete this Type</h6>
+                    <input type="submit" value="Delete Type" class="add-post">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock%}

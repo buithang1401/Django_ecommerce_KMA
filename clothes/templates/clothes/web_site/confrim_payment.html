@@ -1,0 +1,55 @@
+{% extends 'clothes/web_site/base.html' %}
+
+{% block content %}
+    <h1 style="display: block;; text-align: center">XÁC NHẬN THANH TOÁN GIỎ HÀNG</h1>
+    <div class="main-QuanLyThongTin">
+
+      <div class="QuanLyThongTin-ThongTinKhachHang">
+        <div id="TieuDe-QLTT">
+          <h2 >Thông tin nhận hàng</h2>
+          <hr>
+        </div>
+        {% if user%}
+        <div class="QuanLyThongTin-ThongTinDiaChiKhachHang">
+          <p>Họ Và Tên: {{user.name}} </p>
+          <p>Số điện thoại: {{ user.phone_number}}</p>
+          <p>Email: {{ user.email }}</p>
+          <p>Địa chỉ nhận hàng:{{ user.address }}</p>
+          <p>Thông tin thanh toán: {{ object.get_total}}</p><span></span>
+          <p>Mã đơn hàng:</p><span></span>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang">
+        <h2 style="text-align: center;"> Danh mục sản phẩm</h2>
+        <hr style="width: 80%;
+        margin-left: 10%  ;">
+        <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang-container" id="hihihi">
+            {% for order_product in object.products.all%}
+              <div class="warp-QLTT-TTSPTGH  d-flex">
+
+                <img src="{{order_product.product.product_image.url}}" alt="" id="thanhtoan-thongtin-sanpham-img">
+                <div class="ThongTinSanPhamTrongGioHang-ChiTietCacSanPham">
+                    <h6 >{{order_product.product.product_name}}</h6>
+                    <div class="d-flex">
+                      <p>Số lượng: {{ order_product.quantity }}</p>
+                      <p>Size:{{ order_product.size }}</p>
+                      <p>Thành Tiền : {{ order_product.total }} VNĐ</p>
+                    </div>
+                </div>
+
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    <form action="", method="post">
+        {% csrf_token %}
+        <button type="submit" id="QuanLyThongTin-HoanTatDonHang" href="{% url 'clothes:confirm_checkout' %}"><p style="margin:auto">HOÀN TẤT ĐƠN HÀNG</p></button>
+    </form>
+    <a id="QuayLaiMuaSam" href="">Quay lại tiếp tục mua sắm</a>
+
+
+{% endblock %}

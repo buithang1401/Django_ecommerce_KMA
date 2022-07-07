@@ -1,0 +1,56 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+{% load cart_template_tags %}
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Orders Statical</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active"> Orders Statical</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                User
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+{#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+
+                        <th>STT</th>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+{#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                    </tr>
+                    </tfoot>
+                    <tbody>
+
+                    {% for item in product %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.product_name}}</td>
+                            <td>{{item.soled}}</td>
+                            <td>{{item.get_toal_product_soled|to_int }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock%}

@@ -1,0 +1,76 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Manager Product</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Manager Product</li>
+        </ol>
+    <!-- product table -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Product
+
+            </div>
+
+            <div class="card-body">
+                <table id="datatablesSimple">
+                <button style="float: right; margin:0 0 0 0.5%; border: 0.5px solid #adadad; padding: 0.4%; ">
+                    <a style="text-decoration: none; color: black" href="{% url 'clothes:add_product' %}">Add Product</a>
+                </button>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th colspan="2" style="text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th colspan="2" style="text-align: center;">Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for item in object_list %}
+                            <tr>
+                                <td>{{item.id}}</td>
+                                <td>{{item.product_name}}</td>
+                                <td>{{item.category_id.name_category}}</td>
+                                <td>{{item.product_description }}</td>
+                                <td>{{item.product_status}}</td>
+                                <td>{{item.type_id.type_name}}</td>
+                                <td><img src="{{item.product_image.url}}" style="width: 15%">{{item.product_image}}</td>
+                                <td>{{item.product_price}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td><button style="border: 0.5px solid #adadad">
+                                    <a style="text-decoration: none; color: black" href="{% url 'clothes:product_edit_admin' item.pk %}">Edit</a>
+                                </button> </td>
+                                <td><button style="border: 0.5px solid #adadad">
+                                    <a style="text-decoration: none; color: black" href="{% url 'clothes:product_delete_admin' item.pk %}">Delete</a>
+                                </button></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock%}

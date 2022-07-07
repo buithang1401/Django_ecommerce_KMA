@@ -1,0 +1,44 @@
+.ThongTin{
+  padding-top: 20px;
+  margin: 0px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.anh{
+  padding-left: 50px;
+  width: 50%;
+}
+
+.i-f{
+  margin-left: 100px;
+  width: 50%;
+
+}
+
+.i-f>h4{
+  font-weight: lighter;
+}
+
+.masp{
+  display:flex;
+  justify-content:space-between;
+}
+
+.masp>h5{
+  font-weight: lighter;
+}
+
+.ThanhToan{
+  margin-top: 50px;
+  display: flex;
+}
+
+.TTThanhToan{
+  width: 50%;
+}
+
+..GioHang{
+  width: 50%;
+}

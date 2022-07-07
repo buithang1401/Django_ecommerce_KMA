@@ -1,0 +1,62 @@
+.containerGioHang{
+  display: flex;
+  margin-top: 40px;
+  height: 800px;
+  width: 100%;
+
+}
+.sanPhamTrongGioHang{
+  display: block;
+  margin-top: 2%;
+  margin-left: 10%;
+  width:50%;
+  height: 100px ;
+  border-radius: 5px;
+  border: 1px solid #efefef;
+  background-color: ;
+
+}
+.sanPhamTrongGioHang>img{
+  width:;
+  height: 100%;
+
+}
+
+.sanPhamTrongGioHang-ThanhTien{
+  width: 20%;
+  margin:auto;
+  margin-top: 25px;
+}
+.GioHang-SoLuongSanPham{
+  width: 20%;
+  margin: auto;
+
+}
+/* Thanh toan */
+.GioHang-ThanhToan{
+  margin-top: 2%;
+  margin-left: 5%;
+  margin-right: 10%;
+  display: block;
+  box-sizing: border-box;
+  width: 30%;
+}
+.GioHang-ThongTinThanhToan{
+  display: block;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #efefef;
+}
+.GioHang-Button>button{
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 10px;
+  height: 50px
+}
+.GioHang-Button>button>p{
+  font-weight: 600;
+  font-size: 20px
+}

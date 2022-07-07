@@ -1,0 +1,20 @@
+{% extends 'clothes/web_site/base.html' %}
+
+{% block content %}
+    {% load static %}
+    <div style="justify-content: center">
+        <H1 style="text-align: center; display: block">Quần Jean Nam</H1>
+    </div>
+    <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+        {% for item in object_list %}
+            <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 30%; margin: 2% 0 2% 2% ">
+
+                    <img style="%" src="{{item.product_image.url}}" alt="" class="card-image" />
+                    <div class="card-content">
+                        <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item.pk %}" style="text-decoration: none">{{item.product_name}}</a></h5>
+                    </div>
+^
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

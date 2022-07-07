@@ -1,0 +1,229 @@
+
+        body{
+            background-image: url("images/background_city.jpg") ;
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            overflow: auto;
+
+        }
+ /*------------------------------------------------------*/
+        .header{
+            padding: 2% 2% 2% 2% ;
+            background-image: url("images/bg4.jpg") ;
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            overflow: auto;
+        }
+        .logo{
+            float: left;
+            display: block;
+            width: 20%;
+
+        }
+        .logo img{
+            width:50%;
+            float: left;
+        }
+/*------------------------------------------------------*/
+        .menu{
+            margin-top: 1%;
+            width: 70%;
+            float: left;
+            font-size: 30px;
+            color: #FFF;
+        }
+        .menu ul li{
+            float: left;
+            padding:6px 7px ;
+            color: #003366;
+            font-weight: bold;
+        }
+        .menu ul{
+            list-style-type: none;
+            position: center;
+
+        }
+        .menu ul li:hover{
+            background-color: #c5e8ef;
+            font-size: larger;
+            color:#003366;
+        }
+        .menu:after{
+            clear: both;
+            display: table;
+            content: "";
+        }
+/*------------------------------------------------------*/
+        .login{
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 3%;
+        }
+        .login:hover{
+            background-color: #0b5ed7;
+        }
+/*------------------------------------------------------*/
+        section{
+            font-size: 0.99em;
+            float: left;
+            display: block;
+            width: 75%;
+            height: auto;
+        }
+
+        aside{
+            display: block;
+            float: left;
+            width: 20%;
+            height: auto;
+
+        }
+        aside image{
+            width: 50px;
+            height: 30px;
+        }
+        .posts{
+            margin: 30px 50px;
+            display: block;
+            float: left;
+            width: 80%;
+            height: 500px;
+            background-color: #81d4fa;
+        }
+        iframe{
+            width: 800px;
+            height: 400px;
+            display: block;
+           margin: 5px 20px;
+        }
+        .footer{
+            padding: 1em;
+            color: white;
+            background-color: black;
+            clear: left;
+            text-align: center;
+        }
+/*-------------------------------------------------------*/
+        /* login form */
+        .login-form {
+
+        }
+        .login-form form {
+            width: 45%;
+            margin: 12%;
+            background-image: url("images/bg4.jpg") ;
+            border-radius: 6%;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); padding: 30px;
+        }
+        .login-form h2 {
+            text-align: center;
+            font-size:40px;
+        }
+        .form-control {
+            width: 100%;
+            min-height: 38px;
+            display: block;
+            position: center;
+            border-radius: 8px;
+            margin-bottom: 2%;
+            font-size: 30px;
+            text-align: center;
+        }
+        .form-group{
+            margin: 2%  ;
+        }
+        .button{
+            font-size: 30px;
+            font-weight: bold;
+            margin-left: 33%;
+            margin-top: 3%;
+            border-radius: 7%;
+            background-color: #cecccc;
+        }
+
+        .post-form{
+            
+        }
+        .post-form form{
+            float: left;
+            clear: both;
+            width: 65%;
+            margin: 12%;
+            background-image: url("images/bg4.jpg") ;
+            border-radius: 4%;
+        }
+        .post-control{
+            font-size: 25px;
+            width:80%;
+            margin-left: 10%;
+        }
+        .post-form h2{
+            font-size: 30px;
+            font-weight: bolder;
+            text-align: center;
+        }
+        .add-post{
+            font-size: 30px;
+            font-weight: bold;
+            margin-left: 36%;
+            margin-top: 10%;
+            margin-bottom: 10%;
+            background-color: #cecccc;
+
+        }
+
+
+        .notice{
+            float: left;
+            clear: both;
+            width: 65%;
+            margin: 12%;
+            background-image: url("images/bg4.jpg") ;
+            border-radius: 4%;
+        }
+        .notice h2{
+            text-align: center;
+            font-size: 35px;
+        }
+        .notice h4{
+            font-size: 28px;
+            margin-left: 20%;
+        }
+        
+
+        caption{
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        table{
+            width: 85%;
+            border: 5px solid black;
+            margin-bottom: 5%;
+        }
+
+        td{
+            border: 1px solid black;
+            font-size: 25px;
+            padding-left: 3%;
+        }
+        th{
+            border: 3px solid black;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .td_user{
+            text-align: center;
+        }
+        .td_button{
+            padding: 1% 1% 1% 1%;
+        }
+
+        .d-block w-100{
+            width:50%;
+            float: left;
+        }
+        

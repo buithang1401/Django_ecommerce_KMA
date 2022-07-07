@@ -1,0 +1,24 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Delete User</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Delete User</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Delete User
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h6>Are you sure to Delete this User</h6>
+                    <input type="submit" value="Delete User" class="add-post">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock%}

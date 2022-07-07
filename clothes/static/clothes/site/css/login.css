@@ -1,0 +1,187 @@
+
+h1 {
+  font-family: 'Play', sans-serif;
+}
+li ,ul{
+  list-style: none;
+  padding: 0px;
+  font-size: 15px
+}
+nav{
+  display: block;
+  position: relative;
+  height: 50px
+}
+#thc{
+  display: block;
+  margin: 10px;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 1000;
+}
+.AoQuan-Nam{
+  box-sizing: border-box;
+  margin: 0px;
+  padding-right: 0px;
+
+}
+.AoNam{
+  display: block;
+  width: 50%;
+  margin: 5px;
+}
+
+.QuanNam{
+  display: block;
+  width: 50%;
+  margin: 5px;
+}
+
+.search-us{
+  display: flex;
+  justify-content: flex-end;
+}
+.user{
+  display: block;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-left: 4px;;
+  width: auto;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+.cart{
+  display: block;
+  padding: 5px;
+  padding-top: 7px;
+  box-sizing: border-box;
+  margin-left: 4px;;
+  width: auto;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+.contai{
+  display: flex;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding: 20px;
+  width: 100%;
+  height: 80%;
+  justify-content: center;
+}
+#cnt{
+  background-image: url('https://images.pexels.com/photos/1383779/pexels-photo-1383779.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+  background-size: cover;
+}
+.conten-inf{
+  margin-right: 50px;
+  margin-top: 60px;
+  width: 40%;
+}
+.conten-inf p{
+  display: block;
+  margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 25px;
+  font-weight: 1000;
+  width:100%;
+}
+.conten-inf h1{
+  display: block;
+  justify-content: center;
+  padding-left: 10px;
+  width: 100%;
+  color: white;
+}
+.dangnhap{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.dangnhap h1{
+  font-family: 'Play', sans-serif;
+  font-weight: 100
+}
+.bt-lg button{
+  width: 100%;
+}
+
+.bt-lg button h4{
+  color: white;
+  display: inline-block;
+  margin: 5PX;
+}
+
+.login{
+  width: 33%;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  padding: 20px
+}
+
+.login h1{
+  display: inline-block;
+  justify-content: space-between;
+}
+.login p{
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+  font-size: 12px;
+  width: 100%
+}
+
+#h5login{
+  display: flex;
+  justify-content:end;
+  display: inline-block;
+  font-size: 16px;
+  width: 100%
+}
+
+.ForgetPass{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+
+}
+
+.other-login{
+  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+ .other-login button{
+  height: 50px;
+   width: 49%;
+ }
+
+.header_nav{
+  position: fixed;
+  justify-content: center;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+nav.sticky{
+  box-shadow: 0 5px 5px 5px rgba(94, 147, 255, 0.64);
+  height: 8%;
+}

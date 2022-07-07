@@ -1,0 +1,54 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Manager Type</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Manager Type</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Type
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <button style="float: right; margin:0 0 0 0.5%; border: 0.5px solid #adadad; padding: 0.4%; ">
+                        <a style="text-decoration: none; color: black" href="{% url 'clothes:add_type' %}">Add Type</a>
+                    </button>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type Name</th>
+                        <th colspan="2" style="text-align: center;">Action</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type Name</th>
+                        <th colspan="2" style="text-align: center;">Action</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.type_name}}</td>
+                            <td><button style="border: 0.5px solid #adadad; margin-left: 40%">
+                                <a style="text-decoration: none; color: black" href="{% url 'clothes:edit_type' item.pk %}">Edit</a>
+                            </button> </td>
+                            <td><button style="border: 0.5px solid #adadad; margin-left: 40%">
+                                <a style="text-decoration: none; color: black" href="{% url 'clothes:delete_type' item.pk %}">Delete</a>
+                            </button></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock%}

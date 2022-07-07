@@ -1,0 +1,150 @@
+{% extends 'clothes/web_site/base.html' %}
+
+{% block content %}
+    {% load static %}
+    <div class="container-thanhtoan">
+        <form action="", method="post">
+            {% csrf_token %}
+            <div class="tieude">
+                <h1 class="TieuDe">THÔNG TIN THANH TOÁN</h1>
+            </div>
+            <div class="thanhtoan-informationgrap">
+                <div class="thanhtoan-form-nhap">
+                    <h3>THÔNG TIN KHÁCH HÀNG</h3>
+                    <p style="opacity:0.7; color: grey">
+                    Thông tin khách hàng được bảo mật</p>
+                    <hr>
+                    {% if user%}
+                    <div class="input-group mb-3 d-flex justify-content-between ">
+                        <h5>Họ và tên khách hàng  </h5>
+                        <div class="forminpt">
+                            <input type="text" class="form-control" value="{{user.name}}" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3 d-flex justify-content-between ">
+                        <h5>Email </h5>
+                        <div class="forminpt">
+                            <input type="email" class="form-control" value="{{ user.email}}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3 d-flex justify-content-between ">
+                        <h5>Số điện thoại</h5>
+                        <div class="forminpt">
+                            <input type="number" class="form-control" value="{{ user.phone_number}}" aria-label="Username" aria-describedby="basic-addon1" name="sdt_khachhang" required>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3 d-flex justify-content-between ">
+                        <h5>Địa chỉ nhận hàng</h5>
+                        <div class="forminpt">
+                            <input type="text" class="form-control" value="{{ user.address}}" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <h4>PHƯƠNG THỨC THANH TOÁN</h4>
+                    <div class="thanhtoan-phuongThucThanhToan">
+                        <div class="thanhtoan-phuongThucThanhToan-container">
+                            <div class="form-check pt-4">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" required>
+                                <label class="form-check-label" for="exampleRadios2"><h6>Thanh toán khi nhận hàng</h6></label>
+                                <p class="justify"></p>
+                            </div>
+                            <div class="form-check pt-4">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" required>
+                                <label class="form-check-label" for="exampleRadios2"><h6>Chuyển khoản ngân hàng</h6></label>
+                                <div class="justify" id="thanhToanNganHang" >
+                                    <h6 class="thongtin-thanhtoan-chuyenkhoan">Ngân hàng: Vietcombank (VCB)</h6>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Số TK: 0451000213225</p>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Chi nhánh: Chi nhánh Thăng Long, PGD Lê Văn Lương, tòa nhà 18T2 Trung Hòa, Nhân Chính, Hà Nội</p>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Chủ TK: LÊ THI THANH HUYỀN</p>
+                                    <h6 class="thongtin-thanhtoan-chuyenkhoan">Ngân hàng: Viettinbank (VTB)</h6>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Số TK: 106000253914</p>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Chi nhánh: Chi nhánh Thanh Xuân, Hà Nội</p>
+                                    <p class="thongtin-thanhtoan-chuyenkhoan">Chủ TK: Lê Thị Thanh Huyền</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="thanhtoan-thongtin-sanpham">
+                    <div class="thanhtoan-thongtin-sanpham-sanphammua-contianer">
+                        {% if object %}
+                            {% for order_product in object.products.all%}
+                                <div class="thanhtoan-thongtin-sanpham-sanphammua">
+                                    <img src="{{order_product.product.product_image.url}}" alt="" id="thanhtoan-thongtin-sanpham-img">
+                                    <div class="thanhtoan-thongtin-sanpham-sanphammua-giatien">
+                                        <h6 >{{order_product.product.product_name}}</h6>
+                                        <div class="h124 d-flex justify-content-between">
+                                                <div class=" " id="" style="">
+                                                    <p>Số lượng:</p>
+                                                    <form>
+                                                        <input value="", type="hidden">
+                                                    </form>
+                                                    <form action="{% url 'clothes:remove_from_cart' order_product.product.pk %}", method="POST" enctype="multipart/form-data" >
+                                                    {% csrf_token %}
+                                                        <input value="{{ order_product.size }}" name="size_in_pay" type="hidden">
+                                                        <input type="submit" value="-" class="button_up_down">
+                                                    </form>
+                                                    <h5 style="display: block; text-align: left; padding-left: 21%">{{ order_product.quantity }}</h5>
+                                                    <form action="{% url 'clothes:add_single_to_cart' order_product.product.pk %}", method="POST" enctype="multipart/form-data" >
+                                                    {% csrf_token %}
+                                                        <input value="{{ order_product.size }}" name="size_in_pay" type="hidden">
+                                                        <input type="submit" value="+" class="button_up_down">
+                                                    </form>
+                                                </div>
+                                            </p>
+                                            <p>Size: {{ order_product.size }}</p>
+                                            <h5>{{ order_product.total }} VNĐ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if not object %}
+                            <div style="margin-left: 20%">
+                                <h5>Bạn chưa có sản phẩm trong giỏ hàng</h5>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <hr style="width: 90%; margin-left:30px">
+                    <p id="thanhToan-MaGiamGia">Bạn có mã giảm giá? vui lòng nhập tại đây !</p>
+
+                    <div class="input-group mb-3" id="thanhToan-MaGiamGia-check">
+                        <input type="text" class="form-control" placeholder="Mã giảm giá" aria-label="Mã giảm giá" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Kiểm tra</button>
+                    </div>
+                    <hr style="width: 90%; margin-left:30px">
+
+                    <div class="ThanhToan-ThanhTien">
+                        <div class=" d-flex justify-content-between">
+                            <h6>Tiền hàng tạm tính:</h6>
+                            <h6>{{ object.get_total}}</h6>
+
+                        </div>
+                        <div class=" d-flex justify-content-between">
+                            <h6>Chiết khấu</h6>
+                            <h6></h6>
+
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6>Phí Vận Chuyển</h6>
+                            <h6>  0VNĐ</h6>
+                        </div>
+                        <hr >
+                        <div class="d-flex justify-content-between">
+                            <h4>Cần thanh toán</h4>
+                            <h4>{{ object.get_total}}VNĐ</h4>
+                        </div>
+                    </div>
+
+                    <input type="text" placeholder="  Ghi chú đơn hàng (nếu có)" id="thanhToan-LoiNhan">
+                    <button type="submit" id="thanhtoan-HoanTatDonHang"><p style="margin:auto">HOÀN TẤT ĐƠN HÀNG</p></button>
+                </div>
+            </div>
+
+        <!-- ..................... -->
+
+        </form>
+    </div>
+{% endblock %}

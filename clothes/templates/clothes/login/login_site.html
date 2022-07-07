@@ -1,0 +1,42 @@
+{% extends 'clothes/web_site/base.html' %}
+
+{% block content %}
+    <div class="contai" id="cnt">
+        <div class="conten-inf">
+            <h1>WELCOME TO THC-Fashion</h1>
+            <p>Dịch vụ của THC không chỉ đơn giản là thái độ phục vụ của nhân viên tư vấn bán hàng mà thể hiện thông qua các sản phẩm THC – đây không chỉ là quần áo mà còn là toàn bộ tình yêu, nhiệt huyết của toàn thể các thành viên THC từ các nhà thiết kế đẳng cấp, chuyên gia cắt, may mẫu, tới các chị gấp sản phẩm hoàn thiện nó</p>
+        </div>
+        <div class="login">
+            <form action="", method="post">
+                {% csrf_token %}
+                <div class="dangnhap">
+                    <h1>ĐĂNG NHẬP</h1>
+                </div>
+                <p id="h5login">Nếu bạn chưa có tài khoản, <a href="{% url 'clothes:register' %}">Đăng kí tại đây</a></p>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">User Name</label>
+                    <input type="text" class="form-control" name="user_name" aria-describedby="emailHelp" required="required" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Mật Khẩu</label>
+                    <input type="password" class="form-control" name="pass_word" placeholder="Password" required="required">
+                </div>
+                <div class="ForgetPass">
+                    <a href="{% url 'clothes:forget_password' %}">Quên Mật Khẩu</a>
+                </div>
+                <div class="bt-lg">
+                    <button type="submit" class="btn btn-info" ><h4>Đăng Nhập</h4></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if alert_flag %}
+        <script>alert("Incorrect User Name or Password.")</script>
+    {% endif %}
+    {% if alert_flag3 %}
+        <script>alert("Register Successful! Login Again")</script>
+    {% endif %}
+        {% if alert_flag2 %}
+        <script>alert("Change Password Successful! Login Again")</script>
+    {% endif %}
+{% endblock%}

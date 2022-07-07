@@ -1,0 +1,82 @@
+{% extends 'clothes/admin_site/admin_base.html' %}
+{% load cart_template_tags %}
+{% block admin_content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Manager Orders</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Manager Orders</li>
+        </ol>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                User
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Payment Status</th>
+                        <th>Product</th>
+                        <th>Total</th>
+{#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Payment Status</th>
+                        <th>Product</th>
+                        <th>Total</th>
+{#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                    </tr>
+                    </tfoot>
+                    <tbody>
+
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.user.customer.name}}</td>
+                            <td>{{item.ordered_date}}</td>
+                            {% if item.ordered == False %}
+                                <td>Chưa đặt hàng</td>
+                            {% endif %}
+                            {% if item.ordered == True %}
+                                <td>Đã đặt hàng</td>
+                            {% endif %}
+                            {% if item.payment_status == False %}
+                                <td>Chưa giao hàng </td>
+                            {% endif %}
+                            {% if item.payment_status == True %}
+                                <td>Chưa giao hàng </td>
+                            {% endif %}
+                            <td>
+                            {% for i in item.products.all %}
+                                Tên SP: {{i.product}} --- Số lượng: {{ i.quantity }} --- Size: {{ i.size }} <br />
+                            {% endfor %}
+                            </td>
+                            <td>{{item.get_total|to_int}} vnd</td>
+
+{#                            <td><button style="border: 0.5px solid #adadad; margin-left: 40%">#}
+{#                                <a style="text-decoration: none; color: black" href="{% url 'clothes:edit_user' item.pk %}">Edit</a>#}
+{#                            </button> </td>#}
+{#                            <td><button style="border: 0.5px solid #adadad; margin-left: 40%">#}
+{#                                <a style="text-decoration: none; color: black" href="{% url 'clothes:delete_user' item.pk %}">Delete</a>#}
+{#                            </button></td>#}
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock%}

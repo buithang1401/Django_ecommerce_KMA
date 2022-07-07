@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+{% load cart_template_tags %}
+<html lang="en" dir="ltr">
+    <head>{% load static %}
+    <meta charset="utf-8">
+    <title></title>
+    <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'clothes/site/js/script.js' %} "></script>
+    <script src="{% static 'clothes/site/js/thanhtoan.js' %} "></script>
+    <script src="{% static 'clothes/site/js/QuanLyThongTin.js' %} "></script>
+
+    <link rel="stylesheet" type="text/css" href="your_website_domain/css_root/flaticon.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'clothes/site/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'clothes/site/css/sp.css' %}" />
+    <link rel="stylesheet" href="{% static 'clothes/site/css/thanhtoan.css' %}" />
+    <link rel="stylesheet" href="{% static 'clothes/site/css/QuanLyThongTin.css' %}" />
+    <!-- css-Icon -->
+    <link href='https://css.gg/user.css' rel='stylesheet'>
+    <link href='https://css.gg/shopping-cart.css' rel='stylesheet'>
+    <link href='https://css.gg/arrow-up-o.css' rel='stylesheet'>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Play:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+    <script type="text/javascript">
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function uuidv4(){
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() *16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        let device = getCookie('device')
+        if (device == null || device == undefined){
+            device = uuidv4()
+        }
+        document.cookie = 'device=' + device + ";domain=;path=/"
+    </script>
+  </head>
+  <body>
+    <!-- sticky meess -->
+    <div class="fixed-bottom" style="width:50px;margin-left: 90%;padding-bottom: 2%;">
+      <div id="sticky" style="display: block;
+      height: 100%;
+      width: 55px;
+      padding-left: 93%;
+      padding-bottom: 2%;" >
+        <a href=""><img
+         style="display: block;
+                width: 80px;
+                height: 80px; "src="{% static 'clothes/site/img/icon.jpg' %}" alt=""></a>
+        <a href="" style="padding-left: 15px; display:block;"><img
+         style="display: block;
+                width: 50px;
+                height: 50px;
+                border: 5px;
+                margin:auto;
+                border-radius: 100px;" src="{% static 'clothes/site/img/icon2.png' %}" alt=""></a>
+
+      </div>
+    </div>
+
+    <!-- narbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light header_nav" style="width: 100%">
+          <div class="container-fluid">
+            <a class="navbar-brand" aria-current="page" href="{% url 'clothes:home' %}" style="display: block; float: left"><p id="thc">THC</p></a>
+{% comment %}            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>{% endcomment %}
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarText" style="display:flex ; justify-content: space-between; width: 150%">
+              <div class="Nav-list" style="width: 100%;
+              display: flex;
+              justify-content: space-between;">
+                <div class="ListDrop d-flex justify-content-between" style="">
+                  <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      NAM
+                    </a>
+
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                      <div class="d-flex justify-content-center" class="AoQuan-Nam">
+                        <div class="AoNam">
+                          <ul>
+                             <li> <p class="d-flex justify-content-center fw-bold">Áo</p>
+                             <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo phông</a></li>
+                             <li><a href="{% url 'clothes:ao_polo_name' %}" class="dropdown-item">Áo polo</a></li>
+                             <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo khoác</a></li>
+                             <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo hoodie</a></li>
+                           </ul>
+                        </div>
+                        <div class="QuanNam">
+                          <ul>
+                            <li><p class="d-flex justify-content-center fw-bold">Quần</p></li>
+                            <li><a href="{% url 'clothes:quan_jean_nam' %}" class="dropdown-item">Quần Jean</a></li>
+                            <li><a href="{% url 'clothes:quan_short_nam' %}" class="dropdown-item">Quần Short</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                  <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      NỮ
+                    </a>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                      <div class="d-flex justify-content-center" class="AoQuan-Nam">
+                        <div class="AoNam">
+                          <ul>
+                             <li> <p class="d-flex justify-content-center fw-bold">Áo</p>
+                             <li><a href="" class="dropdown-item">Áo phông</a></li>
+                             <li><a href="" class="dropdown-item">Áo sơ mi</a></li>
+                             <li><a href="" class="dropdown-item">Áo Gym</a></li>
+                             <li><a href="" class="dropdown-item">Áo Bra</a></li>
+                             <li><a href="" class="dropdown-item">Áo khoác</a></li>
+                             <li><a href="" class="dropdown-item">Áo hoodie</a></li>
+                           </ul>
+                        </div>
+                        <div class="QuanNam">
+                          <ul>
+                            <li><p class="d-flex justify-content-center fw-bold">Quần-Váy</p></li>
+                            <li><a href="" class="dropdown-item">Quần kaki</a></li>
+                            <li><a href="" class="dropdown-item">Quần jean</a></li>
+                            <li><a href="" class="dropdown-item">Quần short</a></li>
+                            <li><a href="" class="dropdown-item">Quần âu</a></li>
+                            <li><a href="" class="dropdown-item">Quần lót</a></li>
+                            <li><a href="" class="dropdown-item">Váy dài</a></li>
+                            <li><a href="" class="dropdown-item">Váy ngắn</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                  <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      UNISEX
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" class="drpl">
+                      <div class="d-flex justify-content-center" class="AoQuan-Nam">
+                        <div class="AoNam">
+                          <li><p class="d-flex justify-content-center fw-bold">Áo</p>
+                          <li><a href="" class="dropdown-item">Áo sơ mi</a></li>
+                          <li><a href="" class="dropdown-item">Áo thun</a></li>
+                          <li><a href="" class="dropdown-item">Áo sweater</a></li>
+                          <li><a href="" class="dropdown-item">Áo blazer</a></li>
+                          <li><a href="" class="dropdown-item">Áo khoác</a></li>
+                        </div>
+                        <div class="QuanNam">
+                          <ul>
+                            <li><p class="d-flex justify-content-center fw-bold">Quần</p></li>
+                            <li><a href="" class="dropdown-item">Quần Jogger</a></li>
+                            <li><a href="" class="dropdown-item">Quần baggy</a></li>
+                            <li><a href="" class="dropdown-item">Quần short</a></li>
+                            <li><a href="" class="dropdown-item">Quần thể thao</a></li>
+                            <li><a href="" class="dropdown-item">Quần âu</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+                <form class="search-us" method="post", action="{% url 'clothes:search_data' %}">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="text" id="search_data" placeholder="Search" aria-label="Search", name="search_data">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+
+                    <div class="user">
+                        <a href="{% url 'clothes:login' %}"><i class="gg-user"></i></a>
+                    </div>
+                    <div class="cart">
+                        <a href="{% url 'clothes:payment' %}">
+                          <i class="gg-shopping-cart" style="display: block"></i>
+                          {% if request.user.is_authenticated %}
+                            <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request.user|cart_item_count }}</span>
+                          {% endif %}
+                          {% if not request.user.is_authenticated %}
+                              <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request|cart_item_count_anonymous }}</span>
+                          {% endif %}
+                        </a>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </nav>
+    <div style="background-image: url('{% static 'clothes/images/background_city.jpg' %}'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; margin-top: 5% ; padding-bottom: 1%">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="custom_alert">
+                    <h5 class="">{{ message }}</h5>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="Af">
+      <style media="screen">
+        .Af{
+          height: auto;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          margin: 3% 0 0 0;
+        }
+        .Af-icon{
+          display: flex;
+          box-sizing: border-box;
+          width: 20%;
+          margin-left: 2%;
+        }
+        .Af-icon>img{
+          display: block;
+          box-sizing: border-box;
+          background-size: cover;
+          height: 70px;
+          width: 70px;
+        }
+        .Af-text{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .Af-text>h4{
+          /* margin-top: 10px; */
+          font-size: 20px;
+        }
+        .Af-text>p{
+          font-size: 10px;
+        }
+      </style>
+      <div class="Af-icon">
+        <img src="{% static 'clothes/site/img/shipp.png' %}" alt="">
+        <div class="Af-text">
+          <h4>Miễn phí giao hàng</h4>
+          <p>Miễn phí ship với mọi đơn hàng</p>
+        </div>
+      </div>
+      <div class="Af-icon">
+        <img src="{% static 'clothes/site/img/wallet.png' %}" alt="">
+        <div class="Af-text">
+          <h4>Thanh toán COD</h4>
+          <p>Thanh toán khi nhận hàng(COD)</p>
+        </div>
+      </div>
+      <div class="Af-icon">
+        <img src="{% static 'clothes/site/img/vip.png' %}" alt="">
+        <div class="Af-text">
+          <h4>VIP</h4>
+          <p>Ưu đãi dành riêng khách hàng VIP</p>
+        </div>
+      </div>
+      <div class="Af-icon">
+        <img src="{% static 'clothes/site/img/cut.png' %}" alt="">
+        <div class="Af-text">
+          <h4>Miễn phí sửa chữa</h4>
+          <p>THC miễn phí sửa chữa tất cả các sản phẩm</p>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <!-- Section: Social media -->
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-gem me-3"></i>Company name
+              </h6>
+              <p>
+                Here you can use rows and columns to organize your footer content. Lorem ipsum
+                dolor sit amet, consectetur adipisicing elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Products
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Angular</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">React</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Vue</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Laravel</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Pricing</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Settings</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Orders</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Help</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Contact
+              </h6>
+              <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                info@example.com
+              </p>
+              <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+              <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2021 Copyright:
+        <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                if($(this).scrollTop()){
+                    $('nav').addClass('sticky');
+                }else{
+                    $('nav').removeClass('sticky');
+                }
+            });
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://js.stripe.com/v3/fingerprinted/css/elements-inner-payment-529b1a854a0f16ba606a8b19b565cbe3.css" rel="stylesheet">
+    <script charset="utf-8" src="https://js.stripe.com/v3/fingerprinted/js/vendors~phone-numbers-lib-688e39900080b0c9490f0d7d4984b97b.js"></script>
+    <script charset="utf-8" src="https://js.stripe.com/v3/fingerprinted/js/phone-numbers-lib-c40017a53f7b47f6e09d242aff8f9336.js"></script>
+    <script src="https://js.stripe.com/v3/fingerprinted/js/shared-edffd7a055448ee49298420c8cb1ed6a.js"></script>
+    <script src="https://js.stripe.com/v3/fingerprinted/js/elements-inner-payment-e848ee25e158671819af032527acbe57.js"></script>
+  </body>
+</html>
