@@ -8,49 +8,178 @@
             <li class="breadcrumb-item active"> Orders Statical</li>
         </ol>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                User
-            </div>
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>ID</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-{#                        <th colspan="2" style="text-align: center;">Action</th>#}
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
+        <form action="", method="post">
+            {% csrf_token %}
+            <label>Nhập ngày muốn tìm kiếm: Từ</label>
+            {% if date_start %}
+                <input type="date" id="date_start" name="date_start" required value="{{ date_start }}">
+            {% endif %}
+            {% if not date_start %}
+                <input type="date" id="date_start" name="date_start" required>
+            {% endif %}
 
-                        <th>STT</th>
-                        <th>ID</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-{#                        <th colspan="2" style="text-align: center;">Action</th>#}
-                    </tr>
-                    </tfoot>
-                    <tbody>
 
-                    {% for item in product %}
+            <label>Đến</label>
+            {% if date_end %}
+                <input type="date" id="date_end" name="date_end" required value="{{ date_end }}">
+            {% endif %}
+            {% if not date_end %}
+                <input type="date" id="date_end" name="date_end" required>
+            {% endif %}
+            <br />
+            <br />
+            <label>Lựa chọn Top</label>
+            {% if number_of_top %}
+                <input type="number" name="number_of_top" id="number_of_top" value="{{ number_of_top }}">
+            {% endif %}
+
+            {% if not number_of_top %}
+                <input type="number" name="number_of_top" id="number_of_top">
+            {% endif %}
+
+            <br />
+            <br />
+            <button type="submit"> Thống kê </button>
+        </form>
+        <hr />
+        {% if product %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Statical
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
                         <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{item.id}}</td>
-                            <td>{{item.product_name}}</td>
-                            <td>{{item.soled}}</td>
-                            <td>{{item.get_toal_product_soled|to_int }}</td>
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+    {#                        <th colspan="2" style="text-align: center;">Action</th>#}
                         </tr>
-                    {% endfor %}
+                        </thead>
+                        <tfoot>
+                        <tr>
 
-                    </tbody>
-                </table>
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+    {#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        {% for item in product %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.product_name}}</td>
+                                <td>{{item.soled}}</td>
+                                <td>{{item.get_toal_product_soled|to_int }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        {% endif %}
+
+{#        tra ve ket qua#}
+        {% if order_in_time %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Các đơn hàng trong thời gian bạn tìm
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Order Date</th>
+                            <th>Total</th>
+    {#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+
+                            <th>STT</th>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Order Date</th>
+                            <th>Total</th>
+    {#                        <th colspan="2" style="text-align: center;">Action</th>#}
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        {% for item in order_in_time %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{item.id}}</td>
+                                <td>
+                                    {% for i in item.products.all %}
+                                        {{ forloop.counter }}- {{i.product}} --- Số lượng: {{ i.quantity }} --- Size: {{ i.size }} --- Đơn giá: {{ i.product.product_price}}
+                                        <hr />
+                                    {% endfor %}
+                                </td>
+                                <td>{{item.ordered_date}}</td>
+                                <td>{{item.get_total|to_int }} VNĐ</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+{#        {%  if not order_in_time %}#}
+{#            <h3>Không có đơn hàng nào</h3>#}
+{#        {%  endif %}#}
+
+        {% if top_product %}
+            <div class="card mb-4" style="width: 100%; float:right; margin-left: 2%">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Top Sản Phẩm  bán chạy nhất trong thời gian bạn tìm kiếm
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple" style="border: 0.5px solid #adadad; width: 100%; padding: 0.5%">
+                        <thead>
+                        <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                            <th style="border: 0.5px solid #adadad; padding: 0.5%">STT</th>
+                            <th style="border: 0.5px solid #adadad; padding: 0.5%">ID</th>
+                            <th style="border: 0.5px solid #adadad; padding: 0.5%">Product</th>
+                            <th style="border: 0.5px solid #adadad; padding: 0.5%">Quantity</th>
+{#                            <th style="border: 0.5px solid #adadad; padding: 0.5%">Total</th>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in top_product %}
+                            <tr style="border: 0.5px solid #adadad; padding: 0.5%">
+                                <td style="border: 0.5px solid #adadad; padding: 0.5%">{{ forloop.counter }}</td>
+                                <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item.0.0}}</td>
+                                <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item.0.1}}</td>
+                                <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item.1}}</td>
+{#                                <td style="border: 0.5px solid #adadad; padding: 0.5%">{{item.get_toal_product_soled|to_int }}</td>#}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% for i in top_product %}
+                <h4>{{ i.product_name }}</h4>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock%}

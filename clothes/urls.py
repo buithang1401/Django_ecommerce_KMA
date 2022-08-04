@@ -6,7 +6,7 @@ from clothes.views.admin_views import AdminView, TableAdminView, ChartAdminView,
     Logout, CusAdminView, OrderAdminView, OrderStaticAdminView
 from clothes.views.user_view import HomeClass, AoPhongNamView, ItemDetail, AoPoloNamView, QuanJeanNamView, \
     QuanShortNamView, ClothesMenView, add_to_cart, Payment, remove_from_cart, add_single_to_cart, ConfirmCheckout, \
-    OnlinePayment, OnlinePayment1, search_data
+    OnlinePayment, OrderManage, search_data
 
 app_name = 'clothes'
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     path('payment/', Payment.as_view(), name='payment'),
     path('confirm_pay/', ConfirmCheckout.as_view(), name='confirm_checkout'),
     path('onlinepayment/', OnlinePayment.as_view(), name='online_payment'),
-    path('onlinepayment1/', OnlinePayment1.as_view(), name='online_payment1'),
+    path('order_manage/', OrderManage.as_view(), name='manage_order'),
 
     path('add_to_cart/<pk>', add_to_cart, name='add_to_cart'),
     path('remove_from_cart/<pk>', remove_from_cart, name='remove_from_cart'),

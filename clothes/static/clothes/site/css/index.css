@@ -5,3 +5,106 @@
 .slide{
   position: relative;
 }
+.dropbtn {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 8px 8px 16px 8px rgba(0,0,0,0.2);
+  margin-top: 5%;
+  margin-left: -150%;
+
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {
+  display: block;
+}
+.hide-menu-user{display: none}
+
+.cart-if-items{
+  background-color: #f1f1f1;
+  box-sizing: border-box;
+  padding: 5px;
+  height: 150px;
+  width: 500px;
+  overflow: scroll;
+  border-radius: 8px;
+  box-shadow: 8px 8px 16px 8px rgba(0,0,0,0.2);
+}
+.cart-if-items-container{
+  width: 100%;
+
+}
+#cart-if-items-img{
+  height: 100px;
+  width: auto;
+  background-size: cover;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 10%;
+
+}
+.cart-if-items-thongtinsp{
+  width: 90%
+}
+.cart-if-items-thongtinsp>h6{
+  width: 100%
+}
+#cart-thanhtoan{
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-size: 20px;
+  align-content: center;
+  text-align: center;
+  margin: auto;
+  background-color:#CCFFFF;
+  border-radius:  10px;
+
+}
+#cart-thanhtoan>p{
+  font-size: 20px;
+  align-content: center;
+  text-align: center;
+  margin: auto;
+}
+
+.cart-if.activeDrop{
+  display: block !important;
+}
+
+.cart-if{
+  display: none;
+  position: absolute;
+  right: 0.5%;
+  margin-top: 1%;
+  z-index: 1;
+
+}

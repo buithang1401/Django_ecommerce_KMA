@@ -13,7 +13,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, TemplateView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
-
+import collections
 from clothes.decorators import unauthenticated_user, allow_users
 from clothes.forms import ProductForm, TypeForm, CateForm, UserForm
 from clothes.models import Product, ClothesType, Category, Profile, Customer, Order, OrderProduct
@@ -246,7 +246,7 @@ class OrderAdminView(LoginRequiredMixin,ListView):
 
 #admin manager order
 class OrderStaticAdminView(LoginRequiredMixin,View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         product = Product.objects.all().order_by('-soled')
 
         customer = Customer.objects.all()
@@ -255,3 +255,24 @@ class OrderStaticAdminView(LoginRequiredMixin,View):
             "product":product
         }
         return render(request, 'clothes/admin_site/order/order_static.html', context )
+    def post(self, request, *args, **kwargs):
+        date_start = request.POST.get('date_start')
+        date_end = request.POST.get('date_end')
+        number_of_top = request.POST.get('number_of_top')
+        order_in_time = Order.objects.filter(ordered_date__range=[date_start, date_end], ordered=True).order_by('-ordered_date')
+        top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).values_list('product_id', 'product__product_name',)
+        print(top_product)
+        print(collections.Counter(top_product).most_common())
+        a = collections.Counter(top_product).most_common()[:int(number_of_top)]
+        context = {
+            'order_in_time': order_in_time,
+            'date_start': date_start,
+            'date_end': date_end,
+            'top_product': a,
+            'number_of_top':number_of_top,
+        }
+        if date_start < date_end:
+            return render(request, 'clothes/admin_site/order/order_static.html', context)
+        else:
+            messages.error(request, "Ngày bắt đầu phải nhỏ hơn ngày kết thúc", extra_tags='error')
+            return redirect('clothes:order_static_admin')

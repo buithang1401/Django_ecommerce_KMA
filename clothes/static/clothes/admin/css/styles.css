@@ -3584,6 +3584,14 @@ textarea.form-control-lg {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
+  opacity: 0;
+  animation-name: show-div;
+  animation-duration: 3s;
+}
+@keyframes show-div{
+  from{opacity: 0;}
+  to{opacity: 1;}
+
 }
 .dropdown-menu[data-bs-popper] {
   top: 100%;

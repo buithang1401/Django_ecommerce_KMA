@@ -1,0 +1,102 @@
+{% extends 'clothes/web_site/base.html' %}
+{% load cart_template_tags %}
+{% block content %}
+    {% load static %}
+    <div class="DHDM-container">
+        <h1>LỊCH SỬ ĐƠN HÀNG</h1>
+        {% if order %}
+            {% for i in user %}
+                <div style="width: 30%; height: 5%; border: 0.5px solid black; padding: 0.5%; margin: 0 auto 2% auto; box-shadow: 8px 8px 16px 8px rgba(0,0,0,0.2); border-radius: 10px">
+                        <h5 style="display: block; margin-bottom: 2%; text-align: center; ">Khách hàng: {{ i.name }} - {{ i.phone_number }}</h5>
+                </div>
+            {% endfor %}
+            {% for item in order %}
+                <form>
+                {% csrf_token %}
+
+                    <div class="DonHang-container">
+                        <div class="DonHang-top">
+                            <div class="DonHang-top-left">
+                                <p>Ngày: </p>
+                                <p>{{ item.ordered_date }}</p>
+                            </div>
+                            <div class="DonHang-top-right">
+                                {% if item.ordered == False %}
+                                    <p>Chưa đặt hàng</p>
+                                    <i class="gg-close-o" style="  color: red;" ></i>
+                                {% endif %}
+                                {% if item.ordered == True %}
+                                    <p>Đã đặt hàng</p>
+                                    <i class="gg-check-o"></i>
+                                {% endif %}
+                                <span content="\007C">&#124;</span>
+                                {% if item.payment_status == False %}
+                                    <p>Chưa giao hàng </p>
+                                    <i class="gg-close-o" style="  color: red; margin-right:0;" ></i>
+                                {% endif %}
+                                {% if item.payment_status == True %}
+                                    <p>Đã giao hàng </p>
+                                    <i class="gg-check-o" style=" margin-right:0;"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr>
+                        {% for sanpham in item.products.all %}
+                            <div class="DonHang-conten-warp">
+                                <div class="DonHang-conten">
+                                    <div class="d-flex">
+                                        <img src="{{sanpham.product.product_image.url}}" alt="">
+                                        <div class="DonHang-conten-if">
+                                            <h2 style="font-size: 25px">{{ sanpham.product}}</h2>
+                                            <h6>Đơn giá: {{ sanpham.product.product_price }}</h6>
+                                            <h6>Số lượng: {{ sanpham.quantity }}</h6>
+                                        </div>
+                                    </div>
+                                    <h3>
+                                        {{sanpham.total|to_int}} VNĐ
+                                    </h3>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <hr />
+                        <div class="DonHang-end-warp">
+                            <div class="DEW-A">
+                                <div>
+                                    <div style="float: left; margin: 2% 0 6.5% 0">
+                                        <h2> Đánh giá</h2>
+                                    </div>
+                                    <div class="rate">
+                                        <input type="radio" id="5" name="rate" value="5" />
+                                        <label for="5" title="text"></label>
+                                        <input type="radio" id="4" name="rate" value="4" />
+                                        <label for="4" title="text"></label>
+                                        <input type="radio" id="3" name="rate" value="3" />
+                                        <label for="3" title="text"></label>
+                                        <input type="radio" id="2" name="rate" value="2" />
+                                        <label for="2" title="text"></label>
+                                        <input type="radio" id="1" name="rate" value="1" />
+                                        <label for="1" title="text" ></label>
+                                    </div>
+                                </div>
+                                <input class="form-control me-2" type="text" placeholder="Phản hồi ý kiến của bạn tại đây nhé" style="display: block; width: 120%" >
+                            </div>
+                            <div class="DonHang-end">
+                                <div class="DonHang-end-thanhtien">
+                                    <i class="fa-solid fa-sack-dollar"></i>
+                                    <p>TỔNG SỐ TIỀN:</p>
+                                    <h4>{{ item.get_total|to_int}} VNĐ</h4>
+                                </div>
+                                <div class="DonHang-end-button">
+                                    <button type="button" class="btn btn-outline-secondary">Gửi Đánh giá</button>
+                                    {% if item.payment_status == False %}
+                                        <button type="button" class="btn btn-warning">Đã nhận hàng</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

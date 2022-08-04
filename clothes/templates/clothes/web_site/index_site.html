@@ -2,7 +2,7 @@
 
 {% block content %}
     {% load static %}
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top: 5%">
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -19,11 +19,11 @@
           <img src="{% static 'clothes/site/img/slide1.jpg' %}" class="d-block w-100" alt="...">
         </div>
       </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="height: fit-content; margin-top: 25%">
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="height: min-content; margin-top: 25%">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only"></span>
       </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="height: min-content; margin-top: 25%">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only"></span>
       </a>

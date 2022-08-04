@@ -1,19 +1,18 @@
-from random import randint, uniform
-
-from django.contrib.auth import authenticate, login
+import datetime
+from random import randint
+from django.conf import settings
 from django.contrib.auth.models import User, Group
-from django.utils import timezone
 from django.views import View
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 
 from clothes.forms import CheckoutForm
-from clothes.models import Product, OrderProduct, Order, Product_img, Customer, Size
+from clothes.models import Product, OrderProduct, Order, Product_img, Customer, Size, PaymentModel
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Sum
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+import stripe
+# stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+stripe.api_key=settings.STRIPE_SECRET_KEY
 
 #--------------- home index view ----------------------
 def HomeClass(request):
@@ -23,7 +22,15 @@ def HomeClass(request):
     # orser = Oder
     return render(request, 'clothes/web_site/index_site.html', {"aophongnam":aophongnam, "aopolonam":aopolonam, "quanjeannam":quanjeannam})
 
-
+def HomeBaseClass(request):
+    try:
+        order_cart_tag = Order.objects.filter(user=request.user, ordered=False).all()
+        print("xong try")
+    except:
+        device = request.COOKIES['device']
+        order_cart_tag = ""
+        print("vaoo except")
+    return render(request, 'clothes/web_site/base.html', {"order_cart_tag":order_cart_tag})
 # ---------------  men clothes view ------------------
 class ClothesMenView(ListView):
     template_name = 'clothes/web_site/men_site_clothes/quan_ao_nam.html'
@@ -78,7 +85,7 @@ def add_to_cart(request, pk):
                         i.quantity = int(i.quantity) + int(quantity)
                         i.total = float(i.total) + float(product.product_price) * float(quantity)
                         i.save()
-                    messages.info(request, "Cập nhật số lượng thành công")
+                    messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
                     return redirect("clothes:product_detail", pk=pk)
                 else:
                     order.products.add(OrderProduct.objects.create(
@@ -87,12 +94,12 @@ def add_to_cart(request, pk):
                         user=request.user,
                         size=size,
                         total=float(quantity) * float(product.product_price),
-                        ordered=False
                     ))
-                    messages.info(request, "Đã thêm vào giỏ hàng")
+                    messages.success(request, "Đã thêm vào giỏ hàng" , extra_tags='success')
                     return redirect("clothes:product_detail", pk=pk)
             else:
-                ordered_date = timezone.now()
+                ordered_date = datetime.datetime.now()
+                print(ordered_date)
                 order = Order.objects.create(user=request.user, ordered_date=ordered_date)
                 order.products.add(OrderProduct.objects.create(
                     product=product,
@@ -100,16 +107,14 @@ def add_to_cart(request, pk):
                     user=request.user,
                     size=size,
                     total=float(quantity) * float(product.product_price),
-                    ordered=False
                 ))
-                messages.info(request, "Đã thêm vào giỏ hàng")
+                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
                 return redirect("clothes:product_detail", pk=pk)
             return redirect("clothes:product_detail", pk=pk)
     else:
         device = request.COOKIES['device']
         if Customer.objects.filter(device=device).exists():
             u = get_object_or_404(User, customer__device__exact=device)
-            print(u)
             order_qs = Order.objects.filter(user__customer__device__exact=device, ordered=False)
             if order_qs.exists():
                 order = order_qs[0]
@@ -119,7 +124,7 @@ def add_to_cart(request, pk):
                         i.quantity = int(i.quantity) + int(quantity)
                         i.total = float(i.total) + float(product.product_price) * float(quantity)
                         i.save()
-                    messages.info(request, "Cập nhật số lượng thành công")
+                    messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
                     return redirect("clothes:product_detail", pk=pk)
                 else:
                     order.products.add(OrderProduct.objects.create(
@@ -128,9 +133,8 @@ def add_to_cart(request, pk):
                         user=u,
                         size=size,
                         total=float(quantity) * float(product.product_price),
-                        ordered=False
                     ))
-                    messages.info(request, "Đã thêm vào giỏ hàng")
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
                     return redirect("clothes:product_detail", pk=pk)
         else:
             #tao user anonymous
@@ -142,7 +146,7 @@ def add_to_cart(request, pk):
                 Customer.objects.create(user=u , device=device)
                 my_group = Group.objects.get(name='customer')
                 my_group.user_set.add(u)
-                ordered_date = timezone.now()
+                ordered_date = datetime.datetime.now()
                 order = Order.objects.create(user=u, ordered_date=ordered_date)
                 order.products.add(OrderProduct.objects.create(
                     product=product,
@@ -150,9 +154,8 @@ def add_to_cart(request, pk):
                     user=u,
                     size=size,
                     total=float(quantity) * float(product.product_price),
-                    ordered=False
                 ))
-                messages.info(request, "Đã thêm vào giỏ hàng")
+                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
 
             except:
                 username = randint(1, 10)
@@ -161,7 +164,7 @@ def add_to_cart(request, pk):
                 u.set_unusable_password()
                 u.save()
                 Customer.objects.create(user=u)
-                ordered_date = timezone.now()
+                ordered_date = datetime.datetime.now()
                 order = Order.objects.create(user=u, ordered_date=ordered_date)
                 order.products.add(OrderProduct.objects.create(
                     product=product,
@@ -169,9 +172,8 @@ def add_to_cart(request, pk):
                     user=u,
                     size=size,
                     total=float(quantity) * float(product.product_price),
-                    ordered=False
                 ))
-                messages.info(request, "Đã thêm vào giỏ hàng")
+                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
         return redirect("clothes:product_detail", pk=pk)
 
 
@@ -191,7 +193,7 @@ def remove_from_cart(request, pk):
                 i.total = float(i.total) - float(product.product_price)
                 if i.quantity==0:
                     exist_product_order.delete()
-                    messages.info(request, "Đã xoá sản phẩm")
+                    messages.success(request, "Đã xoá sản phẩm", extra_tags='success')
                 i.save()
             return redirect("clothes:payment")
         else:
@@ -243,7 +245,9 @@ class Payment(View):
                 device = request.COOKIES['device']
                 user = Customer.objects.filter(device=device)
                 order = Order.objects.get(user__customer__device__exact=device, ordered=False)
+                print(user)
                 context = {
+                    'user': user,
                     'object': order,
                 }
                 return render(self.request, 'clothes/web_site/pay.html', context)
@@ -253,71 +257,68 @@ class Payment(View):
     def post(self, request, *args, **kwargs):
         try:
             try:
-                print("vao try")
                 customer_name = request.POST.get('ten_khachhang')
                 customer_email = request.POST.get('email_khachhang')
                 customer_phone = request.POST.get('sdt_khachhang')
                 customer_address = request.POST.get('diachi_nhanhang')
                 payment_method = request.POST.get('exampleRadios')
-                print(customer_phone, customer_address, customer_email, customer_name, payment_method)
                 user = Customer.objects.filter(user=request.user)
                 if user.exists():
                     user_exisited = user.get(user=request.user)
                 else:
                     new_customer = Customer()
                     new_customer.user = request.user
+                    new_customer.name = customer_name
+                    new_customer.email = customer_email
                     new_customer.address = customer_address
                     new_customer.phone_number = customer_phone
                     new_customer.save()
-                    print("tao user r")
 
-                if payment_method=="option1":
+                if payment_method=="option1":  #thanh toan COD
                     print("thanh toan khi nhan hang")
+                    Order.objects.filter(user=request.user, ordered=False).update(
+                        payment_method="COD",
+                        shipping_address=customer_address
+                    )
                     return redirect('clothes:confirm_checkout')
-                else:
+                else:  #Thanh toan online
+                    Order.objects.filter(user=request.user, ordered=False).update(
+                        payment_method="Online_Banking",
+                        shipping_address=customer_address
+                    )
                     print("thanh toan qua chuyen khoan ngan hang")
-                    return redirect('clothes:home')
+                    return redirect('clothes:online_payment')
             except:
-                print("vao except")
                 device = request.COOKIES['device']
                 customer_name = request.POST.get('ten_khachhang')
                 customer_email = request.POST.get('email_khachhang')
                 customer_phone = request.POST.get('sdt_khachhang')
                 customer_address = request.POST.get('diachi_nhanhang')
                 payment_method = request.POST.get('exampleRadios')
-                print(customer_phone, customer_address, customer_email, customer_name, payment_method)
                 Customer.objects.filter(device=device, ).update(
-                    name = customer_name,
-                    email= customer_email,
-                    address = customer_address,
-                    phone_number = customer_phone,
+                    name=customer_name,
+                    email=customer_email,
+                    address=customer_address,
+                    phone_number=customer_phone,
                 )
 
                 if payment_method=="option1":
                     print("thanh toan khi nhan hang")
+                    Order.objects.filter(user__customer__device=device, ordered=False).update(
+                        payment_method="COD",
+                        shipping_address=customer_address
+                    )
                     return redirect('clothes:confirm_checkout')
                 else:
+                    Order.objects.filter(user__customer__device=device, ordered=False).update(
+                        payment_method="Online_Banking",
+                        shipping_address=customer_address
+                    )
                     print("thanh toan qua chuyen khoan ngan hang")
                     return redirect('clothes:online_payment')
-                return redirect('clothes:login')
         except:
-            messages.info(request, "Bạn chưa có sản phảm nào trong giỏ hàng!")
+            messages.warning(request, "Bạn chưa có sản phảm nào trong giỏ hàng!" , extra_tags='error')
             return redirect("clothes:payment")
-
-
-class Checkout_view(View):
-    def get(self, *args, **kwargs):
-        form = CheckoutForm
-        context = {
-            'form':form
-        }
-        return render(self.request, 'clothes/web_site/pay.html', context)
-
-    def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST or None)
-        if form.is_valid():
-            print("the form is valid")
-            return redirect('clothes:payment')
 
 class ConfirmCheckout(View):
     def get(self, request, *args, **kwargs):
@@ -342,7 +343,7 @@ class ConfirmCheckout(View):
     def post(self, request, *args, **kwargs):
         try:
             Order.objects.filter(user=self.request.user).update(ordered=True)
-            messages.info(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm")
+            messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
             return redirect("clothes:home")
         except:
             device = request.COOKIES['device']
@@ -350,16 +351,154 @@ class ConfirmCheckout(View):
             # order = Order.objects.get(user=self.request.user, ordered=False)
             # # Product.objects.filter()
             # order.products.update(soled=1, quantity=45)
-            messages.info(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm")
+            messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
             return redirect("clothes:home")
 
 #online method
-class OnlinePayment(ListView):
-    model = Order
-    template_name = 'clothes/web_site/online_payment.html'
-class OnlinePayment1(ListView):
-    model = Order
-    template_name = 'clothes/web_site/online_payment2.html'
+class OnlinePayment(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+        except:
+            device = request.COOKIES['device']
+            order = Order.objects.get(user__customer__device=device)
+        if order:
+            context = {
+                'order': order,
+                'DISPLAY_COUPON_FORM': False,
+                'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
+            }
+        print(settings.STRIPE_PUBLIC_KEY)
+        return render(self.request, 'clothes/web_site/card_payment1.html', context)
+    def post(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            token = self.request.POST.get('stripeToken')
+            amount = int(order.get_total())
+            try:
+
+                charge = stripe.Charge.create(
+                    amount=amount,
+                    currency="usd",
+                    source=token,
+                )
+                print('try payment')
+                # create the payment
+                payment = PaymentModel()
+                payment.stripe_charge_id = charge['id']
+                payment.user = self.request.user
+                payment.amount = order.get_total()
+                payment.save()
+                order.ordered = True
+                order.paymnent = payment
+                order.save()
+
+                messages.success(self.request, "Bạn đã thanh toán đơn hàng thành công, hãy xem lại trong Đơn hàng nhé !!!" , extra_tags='success')
+                return redirect('clothes:home')
+
+            except stripe.error.CardError as e:
+                body = e.json_body
+                err = body.get('error', {})
+                messages.warning(self.request, f"{err.get('message')}")
+                return redirect("/")
+
+            except stripe.error.RateLimitError as e:
+                # Too many requests made to the API too quickly
+                messages.warning(self.request, "Rate limit error")
+                return redirect("/")
+
+            except stripe.error.InvalidRequestError as e:
+                # Invalid parameters were supplied to Stripe's API
+                messages.warning(self.request, "Invalid parameters")
+                return redirect("/")
+
+            except stripe.error.AuthenticationError as e:
+                # Authentication with Stripe's API failed
+                # (maybe you changed API keys recently)
+                messages.warning(self.request, "Not authenticated")
+                return redirect("/")
+
+            except stripe.error.APIConnectionError as e:
+                # Network communication with Stripe failed
+                messages.warning(self.request, "Network error")
+                return redirect("/")
+
+            except stripe.error.StripeError as e:
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                messages.warning(self.request, "Something went wrong. You were not charge. Please try again")
+                return redirect("/")
+
+            except Exception as e:
+                # Something else happened, completely unrelated to Stripe
+                messages.warning(self.request, "A serious error occurred. We have been notifed")
+                return redirect("/")
+
+        #online payment with anonymous
+        except:
+            device = request.COOKIES['device']
+            user = get_object_or_404(User, customer__device__exact=device)
+            order = Order.objects.get(user__customer__device=device, ordered=False)
+            token = self.request.POST.get('stripeToken')
+            amount = int(order.get_total())
+            try:
+
+                charge = stripe.Charge.create(
+                    amount=amount,
+                    currency="usd",
+                    source=token,
+                )
+                print('try payment')
+                # create the payment
+                payment = PaymentModel()
+                payment.stripe_charge_id = charge['id']
+                payment.user = user
+                payment.amount = order.get_total()
+                payment.save()
+                order.ordered = True
+                order.paymnent = payment
+                order.save()
+
+                messages.success(self.request, "Bạn đã thanh toán đơn hàng thành công, hãy xem lại trong Đơn hàng nhé !!!", extra_tags='success')
+                return redirect('clothes:home')
+
+            except stripe.error.CardError as e:
+                body = e.json_body
+                err = body.get('error', {})
+                messages.warning(self.request, f"{err.get('message')}")
+                return redirect("/")
+
+            except stripe.error.RateLimitError as e:
+                # Too many requests made to the API too quickly
+                messages.warning(self.request, "Rate limit error")
+                return redirect("/")
+
+            except stripe.error.InvalidRequestError as e:
+                # Invalid parameters were supplied to Stripe's API
+                messages.warning(self.request, "Invalid parameters")
+                return redirect("/")
+
+            except stripe.error.AuthenticationError as e:
+                # Authentication with Stripe's API failed
+                # (maybe you changed API keys recently)
+                messages.warning(self.request, "Not authenticated")
+                return redirect("/")
+
+            except stripe.error.APIConnectionError as e:
+                # Network communication with Stripe failed
+                messages.warning(self.request, "Network error")
+                return redirect("/")
+
+            except stripe.error.StripeError as e:
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                messages.warning(self.request, "Something went wrong. You were not charge. Please try again")
+                return redirect("/")
+
+            except Exception as e:
+                # Something else happened, completely unrelated to Stripe
+                messages.warning(self.request, "A serious error occurred. We have been notifed")
+                return redirect("/")
 
 #search in Website
 def search_data(request):
@@ -369,3 +508,16 @@ def search_data(request):
         return render(request,'clothes/web_site/search_data.html', {'search_data': search_data, 'match_data':match_data})
     else:
         return render(request, 'clothes/web_site/index_site.html', {})
+
+
+class OrderManage(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.filter(user=request.user, ordered=True).order_by('-ordered_date').all()
+            user = Customer.objects.filter(user=request.user).all()
+        except:
+            # device = request.COOKIES['device']
+            # order = Order.objects.filter(user__customer__device=device, ordered=True).order_by('-ordered_date').all()
+            messages.warning(request, "Bạn chưa có đơn hàng nào! Hãy tiếp tục mua sắm" , extra_tags='error')
+            return redirect('/')
+        return render(request, 'clothes/web_site/customer_manage_order.html', {'order':order, 'user':user})

@@ -2,9 +2,13 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from phone_field import PhoneField
-# Create your models here.
-
 from Web_clothes_1 import settings
+
+# Create your models here.
+PAYMENT_METHOD = (
+    ('COD', 'COD'),
+    ('Online_Banking', 'Online_Banking'),
+)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE )
@@ -48,6 +52,7 @@ class Product(models.Model):
     soled = models.IntegerField(default=0)
     def __str__(self):
         return str(self.id) +" - "+ self.product_name
+        # return self.product_name
 
     def get_absolute_url(self):
         return reverse('clothes:product_admin', kwargs={'pk': self.id})
@@ -86,7 +91,6 @@ class Product_img(models.Model):
 
 class OrderProduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    ordered = models.BooleanField(default=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.CharField(max_length=10, blank=True, null=True)
     quantity = models.IntegerField(default=0)
@@ -102,14 +106,28 @@ class OrderProduct(models.Model):
     #     for oder_product in self.product.soled:
     #         total += oder_product.get_toal_product_soled()
     #     return total
+
+class PaymentModel(models.Model):
+    stripe_charge_id = models.CharField(max_length=50)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True )
     products = models.ManyToManyField(OrderProduct)
     # start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    ordered = models.BooleanField(default=False)
     payment_status = models.BooleanField(default=False)
-    payment_method = models.CharField(max_length=50, blank=True, null=True)
+    payment_method = models.CharField(choices=PAYMENT_METHOD, max_length=50, blank=True, null=True)
+    shipping_address = models.CharField(max_length=100, blank=True, null=True)
+    paymnent = models.ForeignKey(PaymentModel, on_delete=models.SET_NULL, blank=True, null=True)
+
     def __str__(self):
         return self.user.username
 
@@ -118,3 +136,4 @@ class Order(models.Model):
         for oder_product in self.products.all():
             total += oder_product.get_toal_product_price()
         return total
+

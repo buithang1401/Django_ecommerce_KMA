@@ -10,12 +10,15 @@
     <script src="{% static 'clothes/site/js/QuanLyThongTin.js' %} "></script>
 
     <link rel="stylesheet" type="text/css" href="your_website_domain/css_root/flaticon.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'clothes/site/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'clothes/site/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'clothes/site/css/sp.css' %}" />
     <link rel="stylesheet" href="{% static 'clothes/site/css/thanhtoan.css' %}" />
     <link rel="stylesheet" href="{% static 'clothes/site/css/QuanLyThongTin.css' %}" />
+    <link rel="stylesheet" href="{% static 'clothes/site/css/donhangdamua.css' %}" />
     <!-- css-Icon -->
     <link href='https://css.gg/user.css' rel='stylesheet'>
     <link href='https://css.gg/shopping-cart.css' rel='stylesheet'>
@@ -60,6 +63,8 @@
         }
         document.cookie = 'device=' + device + ";domain=;path=/"
     </script>
+        {% block extra_head %}
+        {% endblock %}
   </head>
   <body>
     <!-- sticky meess -->
@@ -97,11 +102,11 @@
               justify-content: space-between;">
                 <div class="ListDrop d-flex justify-content-between" style="">
                   <div class="dropdown">
-                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a onmouseenter="mouseenter2()" onmouseleave="mouseout2()" class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                       NAM
                     </a>
 
-                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                    <ul onmouseleave="mouseout2()" onmouseenter="mouseenter2()"class="dropdown-menu " aria-labelledby="dropdownMenuLink" id="quanaonam">
                       <div class="d-flex justify-content-center" class="AoQuan-Nam">
                         <div class="AoNam">
                           <ul>
@@ -123,10 +128,10 @@
                     </ul>
                   </div>
                   <div class="dropdown">
-                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a onmouseenter="mouseenter3()" onmouseleave="mouseout3()" class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                       NỮ
                     </a>
-                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                    <ul onmouseleave="mouseout3()" onmouseenter="mouseenter3()" class="dropdown-menu " aria-labelledby="dropdownMenuLink" id="quanaonu" >
                       <div class="d-flex justify-content-center" class="AoQuan-Nam">
                         <div class="AoNam">
                           <ul>
@@ -155,10 +160,10 @@
                     </ul>
                   </div>
                   <div class="dropdown">
-                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a onmouseenter="mouseenter4()" onmouseleave="mouseout4()" class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                       UNISEX
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" class="drpl">
+                    <ul onmouseleave="mouseout4()" onmouseenter="mouseenter4()" class="dropdown-menu" aria-labelledby="dropdownMenuLink" class="drpl" id="quanaounisex">
                       <div class="d-flex justify-content-center" class="AoQuan-Nam">
                         <div class="AoNam">
                           <li><p class="d-flex justify-content-center fw-bold">Áo</p>
@@ -187,11 +192,20 @@
                     <input class="form-control me-2" type="text" id="search_data" placeholder="Search" aria-label="Search", name="search_data">
                     <button class="btn btn-outline-success" type="submit">Search</button>
 
-                    <div class="user">
-                        <a href="{% url 'clothes:login' %}"><i class="gg-user"></i></a>
+                    <div class="user dropdown">
+                        <button onmouseenter="myFunction()" onmouseleave="mouseout()" class="dropbtn" type="button">
+                                <a href="{% url 'clothes:login' %}" > <i class="gg-user"></i></a>
+                        </button>
+                        <div id="myDropdown" class="dropdown-content" onmouseleave="mouseout()" onmouseenter="myFunction()" >
+                            {% if not request.user.is_authenticated %}
+                                <a href="{% url 'clothes:login' %}">Đăng nhập</a>
+                            {%  endif %}
+                            <a href="{% url 'clothes:manage_order' %}">Đơn hàng</a>
+                        </div>
+
                     </div>
                     <div class="cart">
-                        <a href="{% url 'clothes:payment' %}">
+                        <a href="{% url 'clothes:payment' %}" onmouseenter="mouseenter5()">
                           <i class="gg-shopping-cart" style="display: block"></i>
                           {% if request.user.is_authenticated %}
                             <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request.user|cart_item_count }}</span>
@@ -200,22 +214,55 @@
                               <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request|cart_item_count_anonymous }}</span>
                           {% endif %}
                         </a>
+                        <div class="cart-if" id="cart-if-items" onmouseleave="mouseout5()">
+                            <div class="cart-if-items"  >
+                                {% for product in order_cart_tag %}
+                                    {% for i in product.products.all %}
+                                        <div class="cart-if-items-container d-flex">
+                                            <img src="{{i.product.product_image.url}}" alt="" id="cart-if-items-img">
+                                            <div class="cart-if-items-thongtinsp">
+                                                <h6 >{{ i.product }}</h6>
+                                                <div class="d-flex">
+                                                    <p>Số lượng: {{ i.quantity }}</p>
+                                                    <p>Size: {{ i.size }}</p>
+                                                    <p>Thành Tiền : {{ i.total}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </form>
               </div>
             </div>
           </div>
     </nav>
-    <div style="background-image: url('{% static 'clothes/images/background_city.jpg' %}'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; margin-top: 5% ; padding-bottom: 1%">
+    <div style="background-image: url('{% static 'clothes/images/background_city.jpg' %}'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; margin-top: 5% ; padding-bottom: 1%;">
         {% if messages %}
             {% for message in messages %}
-                <div class="custom_alert">
-                    <h5 class="">{{ message }}</h5>
-                </div>
+                {%if "error" in message.tags %}
+                    <div class="alert alert-danger" style="margin-bottom: 0">
+                        <h5>{{ message }}</h5>
+                    </div>
+                {%endif%}
             {% endfor %}
         {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                {%if "success" in message.tags %}
+                    <div class="alert alert-success" style="margin-bottom: 0">
+                        <h5>{{ message }}</h5>
+                    </div>
+                {%endif%}
+            {% endfor %}
+        {% endif %}
+
         {% block content %}
         {% endblock %}
+
     </div>
 
     <div class="Af">
@@ -419,7 +466,41 @@
         function myFunction() {
           document.getElementById("myDropdown").classList.toggle("show");
         }
+        function mouseout(){
+            document.getElementById("myDropdown").classList.remove("show");
+        }
 
+        function mouseenter2(){
+            document.getElementById("quanaonam").classList.toggle("show");
+        }
+
+        function mouseout2(){
+            document.getElementById("quanaonam").classList.remove("show");
+        }
+
+        function mouseenter3(){
+            document.getElementById("quanaonu").classList.toggle("show");
+        }
+
+        function mouseout3(){
+            document.getElementById("quanaonu").classList.remove("show");
+        }
+
+        function mouseenter4(){
+            document.getElementById("quanaounisex").classList.toggle("show");
+        }
+
+        function mouseout4(){
+            document.getElementById("quanaounisex").classList.remove("show");
+        }
+
+        function mouseenter5(){
+            document.getElementById("cart-if-items").classList.toggle("activeDrop");
+        }
+
+        function mouseout5(){
+            document.getElementById("cart-if-items").classList.remove("activeDrop");
+        }
         // Close the dropdown if the user clicks outside of it
         window.onclick = function(event) {
           if (!event.target.matches('.dropbtn')) {
@@ -444,6 +525,7 @@
             });
         });
 
+
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <link href="https://js.stripe.com/v3/fingerprinted/css/elements-inner-payment-529b1a854a0f16ba606a8b19b565cbe3.css" rel="stylesheet">
@@ -451,5 +533,7 @@
     <script charset="utf-8" src="https://js.stripe.com/v3/fingerprinted/js/phone-numbers-lib-c40017a53f7b47f6e09d242aff8f9336.js"></script>
     <script src="https://js.stripe.com/v3/fingerprinted/js/shared-edffd7a055448ee49298420c8cb1ed6a.js"></script>
     <script src="https://js.stripe.com/v3/fingerprinted/js/elements-inner-payment-e848ee25e158671819af032527acbe57.js"></script>
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
   </body>
 </html>
