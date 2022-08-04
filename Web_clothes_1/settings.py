@@ -12,18 +12,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+import environ
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z#3s$+2jk9_aq15q&tpn^tezgx6z3)mi+j8r6q)q10izhwld!j'
 
+# SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-z#3s$+2jk9_aq15q&tpn^tezgx6z3)mi+j8r6q)q10izhwld!j'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -108,7 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -139,3 +147,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER= 'buithang1401@gmail.com'
 EMAIL_HOST_PASSWORD = 'xmxzvosojplesnmb'
+
+STRIPE_PUBLIC_KEY=env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET=env('STRIPE_WEBHOOK_SECRET')

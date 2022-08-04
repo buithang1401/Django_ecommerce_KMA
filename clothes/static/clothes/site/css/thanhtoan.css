@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 *{
   margin: 0px
 }
@@ -19,8 +21,7 @@
   /* margin: auto;
   padding-left: 30%; */
   text-align: center;
-  margin-top: 10%;
-  position: absolute;
+  margin-top: 6%;
 }
 /* css phan js tang giam so luong sp */
 
@@ -110,7 +111,7 @@
 
 }
 #thanhToanNganHang{
-  display: block;
+  display: none;
 }
 
 
@@ -135,7 +136,7 @@
   height: 300px;
   overflow-y: scroll;
 }
-.-webkit-csrollbar{
+-webkit-csrollbar{
   width: 10px;
   background-color: black
 }
@@ -208,4 +209,99 @@
   margin-bottom: 10px;
   border-radius: 10px;
   background-color: #f58020
+}
+/* css top thanh toan the */
+.top-ThanhToanThe{
+  width: 60vw;
+  height: 10vh;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+.top-img{
+  width:30%;
+  height: auto;
+  float: left;
+}
+.top-img>img{
+  width:20%;
+  height: auto;
+}
+/*  css thank toan online */
+
+.card{
+  width: 60vw;
+  height: 60vh;
+  margin: auto;
+}
+.card>button{
+  width: 100%;
+  height: 50px;
+  display: block;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+.card>button>p{
+  font-family: 'Roboto', sans-serif;
+  font-size: 80px;
+}
+
+.new-card-form{
+  width: 100%;
+  display: block;
+
+}
+.c1>input{
+  margin-bottom: 5px;
+  width: 100%;
+}
+.card-p{
+  font-size: 25px;
+  padding-bottom: 0px;
+  margin-bottom: 5px;
+  font-family: 'Darker Grotesque', sans-serif;
+  font-weight: bold;
+}
+.cardnumber{
+  width: 100%;
+  position: relative;
+}
+
+.cardnumber>input{
+  width: 100%;
+  position: relative;
+}
+.card-icon-ipnut{
+  display: flex;
+  position: absolute;
+  top: 45px;
+  right: 2%
+}
+.card-icon-ipnut>img{
+  height: 50px
+}
+#ipc{
+  border-radius: 5px;
+  border:none;
+  box-shadow: 2px 5px 5px -3px rgba(161,158,161,1);
+  height: 60px;
+  text-align: center;
+  text-align: left;
+}
+
+#ipc.placeholder {
+    text-align: center;
+}
+.CVC{
+  width: 48%;
+  margin-right: 4%  ;
+}
+.expiration{
+  width: 48%;
+}
+.Country>select{
+  width: 100%
 }

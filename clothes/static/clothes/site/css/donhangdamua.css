@@ -1,0 +1,196 @@
+@import url('https://css.gg/check-o.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://css.gg/close-o.css');
+h1{
+  text-align: center;
+  font-size: 40px;
+}
+
+.DHDM-container{
+  height: auto;
+  padding-top: 2%;
+  width: 100%;
+  margin-bottom: 2%;
+}
+.DonHang-container{
+  width: 80%;
+  margin: 0px 10% 0px 10%;
+  /* border: 0.1px solid; */
+  padding:2%;
+  border-radius: 20px;
+  background-color: #F8F8FF;
+  margin-bottom: 30px;
+  box-shadow: 5px 5px #EEEEEE
+}
+/* css top */
+.DonHang-top{
+  display: flex;
+  justify-content: space-between;
+}
+.DonHang-top-left{
+  display: flex;
+}
+.DonHang-top-left>p{
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 10px;
+
+}
+
+
+.DonHang-top-right{
+  display: flex;
+  justify-content: end;
+  height: 30px;
+  align-items: center;
+}
+.DonHang-top-right>p{
+  margin: auto;
+  margin-right: 10px;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.DonHang-top-right>i{
+  color: green;
+  margin-right: 30px;
+}
+
+/* css conten */
+.DonHang-conten-warp{
+  height: auto;
+  display: block;
+  width: 100%
+}
+.DonHang-conten{
+  display:flex;
+  width: 100%;
+  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+}
+.d-flex>img{
+  height: 200px;
+  border-radius: 10px;
+  margin-right: 30px;
+}
+.DonHang-conten-if{
+  height: 200px
+}
+.DonHang-conten-if>h5{
+  font-weight: 500;
+}
+.DonHang-conten-if>h2{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.DonHang-conten>h3{
+  font-size: 25px;
+  font-weight: 200;
+}
+
+/* css end */
+.DonHang-end-warp{
+  display: block;
+  display: flex;
+  justify-content:  space-between;
+  height: 150px
+}
+.DEW-A{
+  display: block;
+  height: 150px;
+  margin-top: 1%;
+}
+.DEW-A>a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 50px;
+  border-radius: 5px;
+  padding: 4px
+}
+.DEW-A>a:hover{
+  font-size: 25px;
+  background-color: #96d6ff;
+
+}
+.DonHang-end{
+  display: block;
+  margin: auto 0px auto 0px;
+  width: 50%;
+
+}
+.DonHang-end-thanhtien{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: auto
+}
+.DonHang-end-thanhtien>p{
+  margin: auto 0px auto 0px;
+  padding:10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.DonHang-end-thanhtien>i{
+  color: 	#330000;
+  font-size: 20px;
+}
+.DonHang-end-thanhtien>h4{
+  color: 	#CC0000;
+  margin: auto 0px auto 0px;
+  padding:10px;
+  font-size: 30px;
+}
+.DonHang-end-button{
+  display: flex;
+  justify-content: end;
+  width: 100%
+}
+.DonHang-end-button>button{
+  width:50%;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+.rate {
+  float: left;
+  position: relative;
+  height: 46px;
+  padding: 0 10px;
+  margin-left: 30px;
+  margin-top: -3%;
+}
+.rate:not(:checked) > label {
+  float:right;
+  width:1em;
+  overflow:hidden;
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:45px;
+  color:#ccc;
+}
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+/*.rate > input:checked + label:hover,*/
+/*.rate > input:checked + label:hover ~ label,*/
+/*.rate > input:checked ~ label:hover,*/
+/*.rate > input:checked ~ label:hover ~ label,*/
+/*.rate > label:hover ~ input:checked ~ label {*/
+/*  color: #c59b08;*/
+/*}*/

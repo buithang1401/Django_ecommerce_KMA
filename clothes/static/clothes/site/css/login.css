@@ -43,9 +43,8 @@ nav{
 }
 .user{
   display: block;
-  padding: 10px;
   box-sizing: border-box;
-  margin-left: 4px;;
+  margin-left: 4px;
   width: auto;
   height: auto;
   border: 1px solid black;

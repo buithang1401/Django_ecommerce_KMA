@@ -99,6 +99,26 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {%if "error" in message.tags %}
+                                <div class="alert alert-danger" style="margin-bottom: 0">
+                                    <h5>{{ message }}</h5>
+                                </div>
+                            {%endif%}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            {%if "success" in message.tags %}
+                                <div class="alert alert-success" style="margin-bottom: 0">
+                                    <h5>{{ message }}</h5>
+                                </div>
+                            {%endif%}
+                        {% endfor %}
+                    {% endif %}
+
                     {% block admin_content %}
                     {% endblock %}
                 </main>

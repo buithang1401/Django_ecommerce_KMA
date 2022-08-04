@@ -190,4 +190,5 @@ p{
 .custom_alert{
     font-weight: bold;
     font-size: 150px;
+    background: none;
 }
