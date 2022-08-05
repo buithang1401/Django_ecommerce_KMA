@@ -4,7 +4,10 @@
     <h1 style="display: block;; text-align: center">XÁC NHẬN THANH TOÁN GIỎ HÀNG</h1>
     <div class="main-QuanLyThongTin">
 
-      <div class="QuanLyThongTin-ThongTinKhachHang">
+      <div class="QuanLyThongTin-ThongTinKhachHang"
+      style="   width:40%;
+                margin-right: 10px;
+                margin-left: 10%;">
         <div id="TieuDe-QLTT">
           <h2 >Thông tin nhận hàng</h2>
           <hr>
@@ -21,7 +24,10 @@
         {% endif %}
       </div>
 
-      <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang">
+      <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang"
+           style="width: 40%;
+                  margin-right: 10%;"
+      >
         <h2 style="text-align: center;"> Danh mục sản phẩm</h2>
         <hr style="width: 80%;
         margin-left: 10%  ;">
@@ -47,7 +53,14 @@
     </div>
     <form action="", method="post">
         {% csrf_token %}
-        <button type="submit" id="QuanLyThongTin-HoanTatDonHang" href="{% url 'clothes:confirm_checkout' %}"><p style="margin:auto">HOÀN TẤT ĐƠN HÀNG</p></button>
+        <button type="submit" id="QuanLyThongTin-HoanTatDonHang" href="{% url 'clothes:confirm_checkout' %}"
+        style=" font-size:20px"
+        ><p style="margin:auto">HOÀN TẤT ĐƠN HÀNG</p></button>
+        <style>
+            #QuanLyThongTin-HoanTatDonHang:hover{
+                 color: white;
+                 font-weight: bold;}
+        </style>
     </form>
     <a id="QuayLaiMuaSam" href="">Quay lại tiếp tục mua sắm</a>
 

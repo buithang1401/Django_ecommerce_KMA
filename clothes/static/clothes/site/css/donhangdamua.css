@@ -194,3 +194,107 @@ h1{
 /*.rate > label:hover ~ input:checked ~ label {*/
 /*  color: #c59b08;*/
 /*}*/
+@media screen and (max-width:600px){
+  body{
+    width: 100vw;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+  nav{
+    width: 100vw;
+  }
+   .DonHang-top{
+    flex-direction: column;
+    height: auto;
+   }
+   .DonHang-top-left{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    height:20px
+   }
+   .DonHang-top-left>p{
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    height: 20px;
+   }
+   .DonHang-top-right{
+    justify-content: flex-start;
+    width: 100%;
+   }
+   /* ................ */
+   .DonHang-conten{
+    flex-direction: column;
+   }
+   .DonHang-conten>div{
+    flex-direction: column;
+   }
+   .DonHang-conten>div>img{
+    margin: auto;
+    background-size: cover;
+   }
+   .DonHang-conten-if{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0px;
+    padding-top: 0px;
+   }
+   .DonHang-conten-if>h2,h5{
+    width: 100%;
+    text-align: center;
+   }
+
+   /* ---------------------------------------------------------------- */
+   .DonHang-end-warp{
+    flex-direction: column;
+    padding-top:0px;
+    margin-top: 0px;
+   }
+   .DonHang-end-warp>a{
+    width: 100%;
+    font-size: 12px;
+   }
+   .DonHang-end{
+    width: 100%;
+    margin-top: 5px;
+   }
+   .DonHang-end-thanhtien{
+    width: 100%;
+   }
+   .DonHang-end-thanhtien>p{
+    margin-right: 0px;
+    width: 50%;
+    font-size: 15px;
+   }
+   .DonHang-end-thanhtien>h4{
+    font-size: 25px;
+   }
+   .DonHang-end-button{
+    width: 100%;
+    margin-left: 5px;
+    padding-left: 0px;
+    justify-content: space-around;
+   }
+   .DonHang-end-button>button{
+    margin-left: 0px;
+    width: 45%;
+   }
+   .Af{
+    flex-direction: column;
+    width: 100vw;
+  }
+  .Af-icon{
+    justify-content: flex-start;
+    width: 100vw;
+    margin: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .Af-icon>img{
+    margin-right: 30px;
+  }
+}

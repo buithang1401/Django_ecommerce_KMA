@@ -2,6 +2,56 @@
 
 {% block content %}
     {% load static %}
+<script>
+        const clickNav = document.getElementByClassNames('navbar-toggler')
+        const showNav = document.getElementById('navbarText')
+        let check = 0
+        clickNav.addEventListener('click', () => {
+          checkh()
+        })
+        function checkh(){
+          if (check === 0) {
+            showNav.style.opacity = '1';
+            showNav.style.transform = 'translateY(30px)';
+            showNav.style.zIndex = '1'
+            check = 1;
+          } else{
+            showNav.style.opacity = '0';
+            showNav.style.transform = 'translateY(-30px)';
+            showNav.style.zIndex = '-1'
+            check = 0;
+          }}
+      </script>
+      <style>
+
+        nav{
+          width: 100vw;
+        }
+
+        #navbarText{
+          height: 60px;
+        }
+        .container-fluid{
+          display: block;
+          z-index: 1;
+        }
+
+        @media all and (max-width:608px) {
+          #navbarText{
+            display: block;
+            transform: translateY(-30px);
+            z-index: -1;
+            height: 0px;
+            opacity: 0;
+            margin-bottom: 20px;
+            transition: 1s;
+          }
+          .Nav-list{
+          flex-direction: column;
+          background-color: #f8f9fa;
+         }
+        }
+      </style>
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

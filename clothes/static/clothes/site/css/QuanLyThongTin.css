@@ -61,16 +61,13 @@ h1{
   position: relative;
 }
 .QuanLyThongTin-ThongTinKhachHang{
-  width:50%;
-  margin-right: 2%;
-  padding-left: 10%;
+
 }
 .QuanLyThongTin-ThongTinDiaChiKhachHang>p{
   font-weight: bold;
 }
 .QuanLyThongTin-ThongTinSanPhamTrongGioHang{
-  width: 50%;
-  padding-right: 10%;
+
 }
 .QuanLyThongTin-ThongTinSanPhamTrongGioHang-container{
   width: 100%;

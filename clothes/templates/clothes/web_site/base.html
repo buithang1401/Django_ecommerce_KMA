@@ -93,7 +93,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light header_nav" style="width: 100%">
           <div class="container-fluid">
             <a class="navbar-brand" aria-current="page" href="{% url 'clothes:home' %}" style="display: block; float: left"><p id="thc">THC</p></a>
-{% comment %}            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+{% comment %}            <button class="navbar-toggler" type="button" id="navclick" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>{% endcomment %}
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarText" style="display:flex ; justify-content: space-between; width: 150%">
@@ -238,6 +238,56 @@
               </div>
             </div>
           </div>
+         <script>
+        const clickNav = document.getElementById('navclick')
+        const showNav = document.getElementById('navbarText')
+        let check = 0
+        clickNav.addEventListener('click', () => {
+          checkh()
+        })
+        function checkh(){
+          if (check === 0) {
+            showNav.style.opacity = '1';
+            showNav.style.transform = 'translateY(30px)';
+            showNav.style.zIndex = '1'
+            check = 1;
+          } else{
+            showNav.style.opacity = '0';
+            showNav.style.transform = 'translateY(-30px)';
+            showNav.style.zIndex = '-1'
+            check = 0;
+          }}
+      </script>
+      <style>
+
+        nav{
+          width: 100vw;
+        }
+
+        #navbarText{
+          height: 60px;
+        }
+        .container-fluid{
+          display: block;
+          z-index: 1;
+        }
+
+        @media all and (max-width:608px) {
+          #navbarText{
+            display: block;
+            transform: translateY(-30px);
+            z-index: -1;
+            height: 0px;
+            opacity: 0;
+            margin-bottom: 20px;
+            transition: 1s;
+          }
+          .Nav-list{
+          flex-direction: column;
+          background-color: #f8f9fa;
+         }
+        }
+      </style>
     </nav>
     <div style="background-image: url('{% static 'clothes/images/background_city.jpg' %}'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; margin-top: 5% ; padding-bottom: 1%;">
         {% if messages %}
@@ -376,12 +426,10 @@
             <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
               <!-- Content -->
               <h6 class="text-uppercase fw-bold mb-4">
-                <i class="fas fa-gem me-3"></i>Company name
+                <i class="fas fa-gem me-3"></i>THC
               </h6>
               <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum
-                dolor sit amet, consectetur adipisicing elit.
-              </p>
+                Chúng tôi ra đời để lắng nghe mong ước của các bạn, dựa trên thực tế nhiều người mong muốn được mặc đẹp hơn, khoác lên người những bộ quần áo làm tôn lên vẻ đẹp của bản thân với một mức giá phù hợp nhất. </p>
             </div>
             <!-- Grid column -->
 
@@ -392,16 +440,13 @@
                 Products
               </h6>
               <p>
-                <a href="#!" class="text-reset">Angular</a>
+                <a href="#!" class="text-reset">NAM</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">React</a>
+                <a href="#!" class="text-reset">NỮ</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Vue</a>
-              </p>
-              <p>
-                <a href="#!" class="text-reset">Laravel</a>
+                <a href="#!" class="text-reset">UNISEX</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -410,19 +455,19 @@
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
               <!-- Links -->
               <h6 class="text-uppercase fw-bold mb-4">
-                Useful links
+                Chăm sóc khách hàng
               </h6>
               <p>
-                <a href="#!" class="text-reset">Pricing</a>
+                <a href="#!" class="text-reset">Chính sách khách hàng</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Settings</a>
+                <a href="#!" class="text-reset">Chính sách bảo mật</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Orders</a>
+                <a href="#!" class="text-reset">Thanh toán, giao nhận</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Help</a>
+                <a href="#!" class="text-reset">Trợ giúp</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -431,15 +476,15 @@
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
               <!-- Links -->
               <h6 class="text-uppercase fw-bold mb-4">
-                Contact
+                Thông tin liên hệ
               </h6>
-              <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+              <p><i class="fas fa-home me-3"></i> 175 Chiến Thắng, Hà Đông, Hà Nội</p>
               <p>
                 <i class="fas fa-envelope me-3"></i>
-                info@example.com
+                THChelp@gmail.com
               </p>
-              <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-              <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+              <p><i class="fas fa-phone me-3"></i> 0845378678 </p>
+              <p><i class="fas fa-print me-3"></i>0574865042<p>
             </div>
             <!-- Grid column -->
           </div>
@@ -451,7 +496,7 @@
       <!-- Copyright -->
       <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
         © 2021 Copyright:
-        <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        <a class="text-reset fw-bold" href="https://THCshop.com">THCshop.com</a>
       </div>
       <!-- Copyright -->
     </footer>
@@ -461,6 +506,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
     <script>
+
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
         function myFunction() {
