@@ -7,8 +7,7 @@
     <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'clothes/site/js/script.js' %} "></script>
     <script src="{% static 'clothes/site/js/thanhtoan.js' %} "></script>
-    <script src="{% static 'clothes/site/js/QuanLyThongTin.js' %} "></script>
-
+    <script src="{% static 'clothes/site/js/QuanLyThongTin.js' %} "></script><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="your_website_domain/css_root/flaticon.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -93,9 +92,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light header_nav" style="width: 100%">
           <div class="container-fluid">
             <a class="navbar-brand" aria-current="page" href="{% url 'clothes:home' %}" style="display: block; float: left"><p id="thc">THC</p></a>
-{% comment %}            <button class="navbar-toggler" type="button" id="navclick" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>{% endcomment %}
+                {% comment %}
+                <button class="navbar-toggler" type="button" id="navclick" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>{% endcomment %}
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarText" style="display:flex ; justify-content: space-between; width: 150%">
               <div class="Nav-list" style="width: 100%;
               display: flex;
@@ -273,6 +273,9 @@
         }
 
         @media all and (max-width:608px) {
+          #navclick{
+            display: block;
+            }
           #navbarText{
             display: block;
             transform: translateY(-30px);
