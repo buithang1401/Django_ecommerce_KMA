@@ -122,7 +122,6 @@ button:hover {
                 </div>
               </div>
             {% endif %}
-
             <div class="current-card-form">
               <form action="." method="post" class="stripe-form">
                   {% csrf_token %}
@@ -166,7 +165,12 @@ button:hover {
                       <div class="QuanLyThongTin-ThongTinKhachHang"
                             style=" width:50%;
                                     margin-right: 10px;
-                                    margin-left: 10px";
+                                    margin-left: 10px;
+                                    box-shadow: 1px 1px 1px 1px grey;
+                                    padding-right:10px;
+                                    margin-left:30px;
+                                    height: 400px;
+                                                                        "
                       >
                             <div id="TieuDe-QLTT">
                               <h3 >Thông tin nhận hàng</h3>
@@ -175,12 +179,18 @@ button:hover {
                             <div class="QuanLyThongTin-ThongTinDiaChiKhachHang"
                              style="margin-left: 40px;"
                             >
-                              <p>Họ Và Tên: {{user.name}} </p>
-                              <p>Số điện thoại: {{ user.phone_number}}</p>
-                              <p>Email: {{ user.email }}</p>
-                              <p>Địa chỉ nhận hàng:{{ user.address }}</p>
-                              <p>Thông tin thanh toán: {{ object.get_total}}</p><span></span>
-                              <p>Mã đơn hàng:</p><span></span>
+                                <style>
+                                    .QuanLyThongTin-ThongTinDiaChiKhachHang>span{
+                                        display:flex;
+                                          justify-content:space-between
+                                    }
+                                </style>
+                              <span><p>Họ Và Tên:  </p><p>{{user.name}}</p></span>
+                              <span><p>Số điện thoại: </p><p>{{ user.phone_number}}</p></span>
+                              <span><p>Email: </p><p>{{ user.email }}</p></span>
+                              <span><p>Địa chỉ nhận hàng:</p><p>{{ user.address }}</p></span>
+                              <span><p>Thông tin thanh toán: </p><p>{{ object.get_total}}</p></span>
+                              <span><p>Mã đơn hàng:</p></span>
                             </div>
                             {% endif %}
                       </div>

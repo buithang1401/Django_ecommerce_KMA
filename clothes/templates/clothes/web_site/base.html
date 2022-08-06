@@ -89,7 +89,7 @@
     </div>
 
     <!-- narbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light header_nav" style="width: 100%">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light header_nav" style="width: 100%;">
           <div class="container-fluid">
             <a class="navbar-brand" aria-current="page" href="{% url 'clothes:home' %}" style="display: block; float: left"><p id="thc">THC</p></a>
                 {% comment %}
@@ -238,57 +238,32 @@
               </div>
             </div>
           </div>
-         <script>
-        const clickNav = document.getElementById('navclick')
-        const showNav = document.getElementById('navbarText')
-        let check = 0
-        clickNav.addEventListener('click', () => {
-          checkh()
-        })
-        function checkh(){
-          if (check === 0) {
-            showNav.style.opacity = '1';
-            showNav.style.transform = 'translateY(30px)';
-            showNav.style.zIndex = '1'
-            check = 1;
-          } else{
-            showNav.style.opacity = '0';
-            showNav.style.transform = 'translateY(-30px)';
-            showNav.style.zIndex = '-1'
-            check = 0;
-          }}
-      </script>
       <style>
-
-        nav{
-          width: 100vw;
+<!--      responsive nav-->
+        body{
+        margin-top:80px
         }
-
-        #navbarText{
-          height: 60px;
-        }
-        .container-fluid{
-          display: block;
-          z-index: 1;
-        }
-
         @media all and (max-width:608px) {
-          #navclick{
-            display: block;
+            body{
+              margin-top:100px
             }
-          #navbarText{
-            display: block;
-            transform: translateY(-30px);
-            z-index: -1;
-            height: 0px;
-            opacity: 0;
-            margin-bottom: 20px;
-            transition: 1s;
-          }
-          .Nav-list{
-          flex-direction: column;
-          background-color: #f8f9fa;
-         }
+            .Nav-list{
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+            }
+            .ListDrop{
+            position: absolute;
+            top:15px;
+            right:10px;
+            justify-content: flex-end;
+            }
+            .search-us{
+            position: absolute;
+            top:60px;
+            right:10px;
+
+            }
         }
       </style>
     </nav>
@@ -354,6 +329,18 @@
           font-size: 10px;
         }
       </style>
+<!--        resopn Af-->
+        <style>
+            @media all and (max-width:608px){
+                .Af-icon{
+                width: 90%;
+                }
+                .Af-text{
+                margin-left: 40px;
+                }
+            }
+        </style>
+<!--        ------------------->
       <div class="Af-icon">
         <img src="{% static 'clothes/site/img/shipp.png' %}" alt="">
         <div class="Af-text">
