@@ -6,8 +6,8 @@
         <h1>LỊCH SỬ ĐƠN HÀNG</h1>
         {% if order %}
             {% for i in user %}
-                <div style="width: 30%; height: 5%; border: 0.5px solid black; padding: 0.5%; margin: 0 auto 2% auto; box-shadow: 8px 8px 16px 8px rgba(0,0,0,0.2); border-radius: 10px">
-                        <h5 style="display: block; margin-bottom: 2%; text-align: center; ">Khách hàng: {{ i.name }} - {{ i.phone_number }}</h5>
+                <div id="TenKhachHang">
+                        <h5 style="">Khách hàng: {{ i.name }} - {{ i.phone_number }}</h5>
                 </div>
             {% endfor %}
             {% for item in order %}
@@ -42,7 +42,7 @@
                         </div>
                         <hr>
                         {% for sanpham in item.products.all %}
-                            <div class="DonHang-conten-warp">
+                        <div class="DonHang-conten-warp">
                                 <div class="DonHang-conten">
                                     <div class="d-flex">
                                         <img src="{{sanpham.product.product_image.url}}" alt="">
@@ -63,7 +63,7 @@
                             <div class="DEW-A">
                                 <div>
                                     <div style="float: left; margin: 2% 0 6.5% 0">
-                                        <h2> Đánh giá</h2>
+                                        <h2 id="DanhGia"> Đánh giá</h2>
                                     </div>
                                     <div class="rate">
                                         <input type="radio" id="5" name="rate" value="5" />
@@ -78,7 +78,7 @@
                                         <label for="1" title="text" ></label>
                                     </div>
                                 </div>
-                                <input class="form-control me-2" type="text" placeholder="Phản hồi ý kiến của bạn tại đây nhé" style="display: block; width: 120%" >
+                                <input class="form-control me-2" type="text" placeholder="Phản hồi ý kiến của bạn tại đây nhé" style="display: block; width: 100%" >
                             </div>
                             <div class="DonHang-end">
                                 <div class="DonHang-end-thanhtien">
@@ -99,4 +99,62 @@
             {% endfor %}
         {% endif %}
     </div>
+<style>
+#TenKhachHang>h5{
+display: block;
+margin-bottom: 2%;
+text-align: center; \
+}
+#TenKhachHang{
+width: 30%;
+height: 5%;
+border:0.5px solid black;
+padding: 0.5%;
+margin: 0 auto 2% auto;
+box-shadow: 8px 8px 16px 8px rgba(0,0,0,0.2);
+border-radius: 10px
+}
+.DonHang-container{
+height:auto;
+}
+@media screen and (max-width:600px){
+   #TenKhachHang>h5{
+   width:80%
+   }
+   #TenKhachHang{
+   width: 80%
+   }
+   .DonHang-top{
+   height:80px;
+   flex-direction: column;
+   }
+   .DonHang-top-right>p{
+   font-size:12px;
+   margin-left:2px;
+   width:40%
+   }
+   .DonHang-top-right>i{
+   margin-right: opx;
+   }
+   #DanhGia{
+    text-align: center;
+   }
+   .rate{
+   width:100%;
+   margin:0px;
+   justify-content: space-between;
+   padding-right:20px;
+   margin-bottom:15px
+   }
+   .DonHang-end-warp{
+   height: 350px
+   }
+   .DonHang-end-thanhtien>h4{
+   font-size:20px
+   }
+   .DonHang-end-thanhtien{
+   margin-top:5px;
+   }
+}
+</style>
 {% endblock %}

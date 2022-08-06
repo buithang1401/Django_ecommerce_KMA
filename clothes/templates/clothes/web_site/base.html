@@ -243,9 +243,11 @@
         body{
         margin-top:80px
         }
-        @media all and (max-width:608px) {
+        @media all and (max-width:708px) {
             body{
-              margin-top:100px
+              width: 100vw;
+              margin-top:100px;
+              overflow-x: hidden;
             }
             .Nav-list{
             display: flex;
@@ -255,14 +257,15 @@
             .ListDrop{
             position: absolute;
             top:15px;
-            right:10px;
+            right:50px;
             justify-content: flex-end;
             }
             .search-us{
+            width:90%;
             position: absolute;
             top:60px;
-            right:10px;
-
+            left:5px;
+            justify-content: space-around;
             }
         }
       </style>
