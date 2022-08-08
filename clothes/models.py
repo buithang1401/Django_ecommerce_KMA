@@ -80,7 +80,7 @@ class Customer(models.Model):
     feedback = models.TextField(blank=True, null=True)
     device = models.CharField(max_length=100)
     # def __str__(self):
-    #     return  self.user
+    #     return  str(self.user)
 
 class Product_img(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
@@ -114,10 +114,10 @@ class PaymentModel(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username
+        return f'{self.user}'
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=False )
     products = models.ManyToManyField(OrderProduct)
     # start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
@@ -129,7 +129,7 @@ class Order(models.Model):
     paymnent = models.ForeignKey(PaymentModel, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f'{self.user.username}'
 
     def get_total(self):
         total = 0

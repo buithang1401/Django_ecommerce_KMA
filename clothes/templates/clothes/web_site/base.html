@@ -200,6 +200,9 @@
                             {% if not request.user.is_authenticated %}
                                 <a href="{% url 'clothes:login' %}">Đăng nhập</a>
                             {%  endif %}
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'clothes:logout' %}">Đăng xuất</a>
+                            {%  endif %}
                             <a href="{% url 'clothes:manage_order' %}">Đơn hàng</a>
                         </div>
 
@@ -274,7 +277,7 @@
         {% if messages %}
             {% for message in messages %}
                 {%if "error" in message.tags %}
-                    <div class="alert alert-danger" style="margin-bottom: 0">
+                    <div class="alert alert-danger" style="margin-bottom: -3px" id="successMessage">
                         <h5>{{ message }}</h5>
                     </div>
                 {%endif%}
@@ -284,7 +287,7 @@
         {% if messages %}
             {% for message in messages %}
                 {%if "success" in message.tags %}
-                    <div class="alert alert-success" style="margin-bottom: 0">
+                    <div class="alert alert-success" style="margin-bottom: -3px" id="successMessage">
                         <h5>{{ message }}</h5>
                     </div>
                 {%endif%}
@@ -553,6 +556,13 @@
             }
           }
         }
+
+        setTimeout(() => {
+            const box = document.getElementById('successMessage');
+            box.style.display = 'none';
+            // 👇️ hides element (still takes up space on page)
+            {#box.style.visibility = 'hidden';#}
+        }, 4000);
 
         $(document).ready(function(){
             $(window).scroll(function(){

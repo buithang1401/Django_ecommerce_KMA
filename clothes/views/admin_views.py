@@ -27,7 +27,8 @@ def Login(request):
         password = request.POST.get('pass_word')
         my_user = authenticate(username=username, password=password)
         if my_user is None:
-            return render(request, 'clothes/login/login_site.html', {'alert_flag': True})
+            messages.warning(request, "Tên đăng nhập hoặc mật khẩu không đúng!", extra_tags='error')
+            return redirect('clothes:login')
         login(request, my_user)
         return redirect('clothes:admin_view')
     return render(request, 'clothes/login/login_site.html')
@@ -47,23 +48,31 @@ class Register(View):
 
 
         if User.objects.filter(username=username).first():
-            return render(request, 'clothes/login/register.html', {'alert_flag1': True})
+            messages.warning(request, "Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác !!!", extra_tags='error')
+            return redirect('clothes:register')
         if User.objects.filter(email=email).first():
-            return render(request, 'clothes/login/register.html', {'alert_flag2': True})
+            messages.warning(request, "Email đã được sử dụng, vui lòng đăng nhập hoặc đăng kí tài khoản Email khác !!!", extra_tags='error')
+            return redirect('clothes:register')
+        if Customer.objects.filter(email=email).first():
+            User.objects.filter(customer__email=email).update(username=username, email=email, first_name=first_name, last_name=last_name)
+            User.objects.get(customer__email=email).set_password(password)
+            profile_obj = Profile.objects.create(user=User.objects.get(username=username))
+            profile_obj.save()
+        else:
+            user_obj = User(username=username, email=email, first_name=first_name, last_name=last_name)
+            user_obj.set_password(password)
+            user_obj.save()
 
-        user_obj = User(username=username, email=email, first_name=first_name, last_name=last_name)
-        user_obj.set_password(password)
-        user_obj.save()
+            Customer.objects.create(
+                user=user_obj,
+                name=first_name + " " + last_name,
+                email=email
+            )
 
-        Customer.objects.create(
-            user=user_obj,
-            name=first_name + " " + last_name,
-            email=email
-        )
-
-        profile_obj = Profile.objects.create(user=user_obj)
-        profile_obj.save()
-        return render(request, 'clothes/login/login_site.html', {'alert_flag3': True})
+            profile_obj = Profile.objects.create(user=user_obj)
+            profile_obj.save()
+        messages.success(request, "Đăng kí thành công, vui lòng đăng nhập lại!", extra_tags='success')
+        return redirect('clothes:login')
 
 class FogetPassword(View):
     def get(self, request):
@@ -71,14 +80,17 @@ class FogetPassword(View):
     def post(self, request):
         username = request.POST.get('user_name')
         if not User.objects.filter(username=username).first():
-            return render(request, 'clothes/login/forget_password.html', {'alert_flag': True})
+            messages.warning(request, " Không tìm thấy tài khoản, vui lòng thử lại!!!",
+                             extra_tags='error')
+            return redirect('clothes:forget_password')
         user_obj = User.objects.get(username=username)
         token = str(uuid.uuid4())
         profile_obj = Profile.objects.get(user=user_obj)
         profile_obj.forget_password_token = token
         profile_obj.save()
         send_forget_password_mail(user_obj.email, token)
-        return render(request, 'clothes/login/forget_password.html', {'alert_flag1': True})
+        messages.success(request, "Đã gửi Email xác nhận, hãy kiểm tra hòm thư của bạn!", extra_tags='success')
+        return redirect('clothes:login')
 
 def ChangePassword(request, token):
     context = {}
@@ -90,13 +102,18 @@ def ChangePassword(request, token):
             user_id = request.POST.get('user_id')
 
             if user_id is None:
-                return render(request, 'clothes/login/change_password.html', {'alert_flag1': True})
+                messages.warning(request, " Không tìm thấy id tài khoản, vui lòng thử lại!!!",
+                                 extra_tags='error')
+                return redirect('clothes:change_password')
             if new_password != confirm_password:
-                return render(request, 'clothes/login/change_password.html', {'alert_flag2': True})
+                messages.warning(request, "Mật khẩu nhập lại không khớp!!!",
+                                 extra_tags='error')
+                return redirect('clothes:change_password')
 
             user_obj = User.objects.get(id=user_id)
             user_obj.set_password(new_password)
             user_obj.save()
+            messages.success(request, "Đổi mật khẩu thành công, vui lòng đăng nhập lại!", extra_tags='success')
             return redirect('clothes:login')
         context = {'user_id' : profile_obj.user_id}
     except Exception as e:
