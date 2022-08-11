@@ -23,7 +23,7 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <input class="form-control" type="text" placeholder="Tìm kiếm..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
@@ -33,9 +33,9 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                        <li><a class="dropdown-item" href="{% url 'clothes:home' %}">View Web Site</a></li>
+                        <li><a class="dropdown-item" href="{% url 'clothes:home' %}">Xem trang Web</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'clothes:logout' %}">Logout</a></li>
+                        <li><a class="dropdown-item" href="{% url 'clothes:logout' %}">Đăng xuất</a></li>
                     </ul>
                 </li>
             </ul>
@@ -50,50 +50,55 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Manager</div>
+                            <div class="sb-sidenav-menu-heading">Quản lý</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Manager Product
+                                Quản lý Sản Phẩm
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="http://127.0.0.1:8000/productadmin/">Product</a>
-                                    <a class="nav-link" href="http://127.0.0.1:8000/typeadmin/">Type </a>
-                                    <a class="nav-link" href="http://127.0.0.1:8000/cateadmin/">Category </a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/productadmin/">Sản Phẩm</a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/typeadmin/">Mẫu Mã Sản Phẩm </a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/cateadmin/">Loại Sản Phẩm </a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Manager User
+                                Quản lý Người dùng
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link" href="http://127.0.0.1:8000/user/">User</a>
-                                    <a class="nav-link" href="http://127.0.0.1:8000/cus/">Customer </a>
-                                    <a class="nav-link" href="http://127.0.0.1:8000/order/">Orders </a>
-                                    <a class="nav-link" href="http://127.0.0.1:8000/orderstatic/">Orders Statical </a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/user/">Nhân viên</a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/cus/">Khách hàng </a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/order/">Đơn hàng </a>
+                                    <a class="nav-link" href="http://127.0.0.1:8000/orderstatic/">Thống kê </a>
                                 </nav>
                             </div>
 
 
-                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <div class="sb-sidenav-menu-heading">Xem biểu đồ chung</div>
                             <a class="nav-link" href="http://127.0.0.1:8000/chart/">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                                Biểu đồ
                             </a>
                             <a class="nav-link" href="http://127.0.0.1:8000/table/">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                                Bảng
                             </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        {% if request.user.is_authenticated %}
-                            {{ request.user|show_admin }}
-                        {% endif %}
+                        <div class="small">
+                            <h6>
+                                Người dùng:
+                                {% if request.user.is_authenticated %}
+                                    {{ request.user|show_admin }}
+                                {% endif %}
+                            </h6>
+
+                        </div>
                     </div>
                 </nav>
             </div>

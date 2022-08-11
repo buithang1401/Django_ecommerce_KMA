@@ -77,7 +77,6 @@ class Customer(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     date_of_birth = models.DateTimeField(blank=True, null=True)
     phone_number = PhoneField(blank=True, null=True)
-    feedback = models.TextField(blank=True, null=True)
     device = models.CharField(max_length=100)
     # def __str__(self):
     #     return  str(self.user)
@@ -127,6 +126,7 @@ class Order(models.Model):
     payment_method = models.CharField(choices=PAYMENT_METHOD, max_length=50, blank=True, null=True)
     shipping_address = models.CharField(max_length=100, blank=True, null=True)
     paymnent = models.ForeignKey(PaymentModel, on_delete=models.SET_NULL, blank=True, null=True)
+    feedback = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username}'

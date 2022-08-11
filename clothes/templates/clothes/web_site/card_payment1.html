@@ -1,4 +1,5 @@
 {% extends 'clothes/web_site/base.html' %}
+{% load cart_template_tags %}
 {% block extra_head %}
 <style>
 
@@ -148,7 +149,7 @@ button:hover {
                       </div>
                   </div>
                   <div class="stripe-form-row">
-                    <input type="submit" id="stripeBtn" value="Submit Payment" >
+                    <input type="submit" id="stripeBtn" value="Thanh toán" >
                   </div>
                   <div class="stripe-form-row">
                     <div class="custom-control custom-checkbox">
@@ -160,8 +161,7 @@ button:hover {
               </form>
             </div>
 <!--              thong tin thanh toan       -->
-              <div class="warp-thongTinThanhToan"
-              style="display:flex;flex-direction: row;">
+              <div class="warp-thongTinThanhToan" style="display:flex;flex-direction: row;">
                       <div class="QuanLyThongTin-ThongTinKhachHang"
                             style=" width:50%;
                                     margin-right: 10px;
@@ -170,42 +170,36 @@ button:hover {
                                     padding-right:10px;
                                     margin-left:30px;
                                     height: 400px;
-                                                                        "
-                      >
+                                                                        ">
                             <div id="TieuDe-QLTT">
                               <h3 >Thông tin nhận hàng</h3>
                             </div>
                             {% if user%}
-                            <div class="QuanLyThongTin-ThongTinDiaChiKhachHang"
-                             style="margin-left: 40px;"
-                            >
-                                <style>
-                                    .QuanLyThongTin-ThongTinDiaChiKhachHang>span{
-                                        display:flex;
-                                          justify-content:space-between
-                                    }
-                                </style>
-                              <span><p>Họ Và Tên:  </p><p>{{user.name}}</p></span>
-                              <span><p>Số điện thoại: </p><p>{{ user.phone_number}}</p></span>
-                              <span><p>Email: </p><p>{{ user.email }}</p></span>
-                              <span><p>Địa chỉ nhận hàng:</p><p>{{ user.address }}</p></span>
-                              <span><p>Thông tin thanh toán: </p><p>{{ object.get_total}}</p></span>
-                              <span><p>Mã đơn hàng:</p></span>
-                            </div>
+                                <div class="QuanLyThongTin-ThongTinDiaChiKhachHang" style="margin-left: 40px;">
+                                    <style>
+                                        .QuanLyThongTin-ThongTinDiaChiKhachHang>span{
+                                            display:flex;
+                                              justify-content:space-between
+                                        }
+                                    </style>
+                                    <span><p>Họ Và Tên:  </p><p>{{user.name}}</p></span>
+                                    <span><p>Số điện thoại: </p><p>{{ user.phone_number}}</p></span>
+                                    <span><p>Email: </p><p>{{ user.email }}</p></span>
+                                    <span><p>Địa chỉ nhận hàng:</p><p>{{ order.shipping_address}}</p></span>
+                                    <span><p>Thông tin thanh toán:</p><p>{{ order.get_total|to_int}} VNĐ</p></span>
+                                    <span><p>Mã đơn hàng:</p> <p>{{ order.id }}</p></span>
+                                </div>
                             {% endif %}
                       </div>
 <!--                  ben phai-->
-                      <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang"
-                           style="width: 50%;
-                                  margin-right: 15px;"
-                      >
+                      <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang" style="width: 50%;
+                                  margin-right: 15px;">
                         <h2 style="text-align: center;"> Danh mục sản phẩm</h2>
                         <hr style="width: 80%;
                         margin-left: 10%  ;">
                         <div class="QuanLyThongTin-ThongTinSanPhamTrongGioHang-container" id="hihihi"
-                            style="height: 300px"
-                        >
-                            {% for order_product in object.products.all%}
+                            style="height: 300px">
+                            {% for order_product in order.products.all%}
                               <div class="warp-QLTT-TTSPTGH  d-flex">
 
                                 <img src="{{order_product.product.product_image.url}}" alt="" id="thanhtoan-thongtin-sanpham-img">

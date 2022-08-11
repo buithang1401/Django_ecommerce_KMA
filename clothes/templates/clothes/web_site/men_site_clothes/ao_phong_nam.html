@@ -1,5 +1,5 @@
 {% extends 'clothes/web_site/base.html' %}
-
+{% load cart_template_tags %}
 {% block content %}
     {% load static %}
     <div style="justify-content: center;">
@@ -181,7 +181,7 @@
                     <img src="{{item.product_image.url}}" alt="" class="card-image" />
                     <div class="card-content">
                         <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item.pk %}" style="text-decoration: none">{{item.product_name}}</a></h5>
-                        <h5 style="text-align: center; margin-top: 0.5%">{{ item.product_price }}</h5>
+                        <h5 style="text-align: center; margin-top: 0.5%">{{ item.product_price|to_int }} VNĐ</h5>
                     </div>
             </div>
         {% endfor %}

@@ -12,14 +12,13 @@
         </div>
         {% if user%}
         <div class="QuanLyThongTin-ThongTinDiaChiKhachHang"
-         style="margin-left: 40px;"
-        >
+         style="margin-left: 40px;">
           <p>Họ Và Tên: {{user.name}} </p>
           <p>Số điện thoại: {{ user.phone_number}}</p>
           <p>Email: {{ user.email }}</p>
           <p>Địa chỉ nhận hàng:{{ user.address }}</p>
           <p>Thông tin thanh toán: {{ object.get_total}}</p><span></span>
-          <p>Mã đơn hàng:</p><span></span>
+          <p>Mã đơn hàng: {{ object.id }}</p><span></span>
         </div>
         {% endif %}
       </div>

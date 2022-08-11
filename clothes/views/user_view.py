@@ -25,11 +25,9 @@ def HomeClass(request):
 def HomeBaseClass(request):
     try:
         order_cart_tag = Order.objects.filter(user=request.user, ordered=False).all()
-        print("xong try")
     except:
         device = request.COOKIES['device']
         order_cart_tag = ""
-        print("vaoo except")
     return render(request, 'clothes/web_site/base.html', {"order_cart_tag":order_cart_tag})
 # ---------------  men clothes view ------------------
 class ClothesMenView(ListView):
@@ -70,7 +68,6 @@ class ItemDetail(DetailView):
         context['size'] = Size.objects.all()
         return context
 
-# @login_required(login_url='/login/')
 def add_to_cart(request, pk):
     quantity = request.POST.get('quantity')
     size = request.POST.get('size')
@@ -178,47 +175,83 @@ def add_to_cart(request, pk):
 
 
 def remove_from_cart(request, pk):
-    print("vao day")
     size = request.POST.get('size_in_pay')
-    print(size)
     product = get_object_or_404(Product, pk=pk)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        exist_product_order = order.products.filter(product__id=product.pk, size=size)
-        print(exist_product_order)
-        if exist_product_order.exists():
-            for i in exist_product_order:
-                i.quantity = int(i.quantity) - 1
-                i.total = float(i.total) - float(product.product_price)
-                if i.quantity==0:
-                    exist_product_order.delete()
-                    messages.success(request, "Đã xoá sản phẩm", extra_tags='success')
-                i.save()
-            return redirect("clothes:payment")
+    if request.user.is_authenticated:
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            exist_product_order = order.products.filter(product__id=product.pk, size=size)
+            print(exist_product_order)
+            if exist_product_order.exists():
+                for i in exist_product_order:
+                    i.quantity = int(i.quantity) - 1
+                    i.total = float(i.total) - float(product.product_price)
+                    if i.quantity==0:
+                        exist_product_order.delete()
+                        messages.success(request, "Đã xoá sản phẩm", extra_tags='success')
+                    i.save()
+                return redirect("clothes:payment")
+            else:
+                return redirect("clothes:payment", pk=pk)
         else:
             return redirect("clothes:payment", pk=pk)
     else:
-        return redirect("clothes:payment", pk=pk)
+        device = request.COOKIES['device']
+        order_qs = Order.objects.filter(user__customer__device=device, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            exist_product_order = order.products.filter(product__id=product.pk, size=size)
+            print(exist_product_order)
+            if exist_product_order.exists():
+                for i in exist_product_order:
+                    i.quantity = int(i.quantity) - 1
+                    i.total = float(i.total) - float(product.product_price)
+                    if i.quantity==0:
+                        exist_product_order.delete()
+                        messages.success(request, "Đã xoá sản phẩm", extra_tags='success')
+                    i.save()
+                return redirect("clothes:payment")
+            else:
+                return redirect("clothes:payment", pk=pk)
+        else:
+            return redirect("clothes:payment", pk=pk)
 
 def add_single_to_cart(request, pk):
     size = request.POST.get('size_in_pay')
     print(size)
     product = get_object_or_404(Product, pk=pk)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        exist_product_order = order.products.filter(product__id=product.pk, size=size )
-        if exist_product_order.exists():
-            for i in exist_product_order:
-                i.quantity = int(i.quantity) + 1
-                i.total = float(i.total) + float(product.product_price)
-                i.save()
-            return redirect("clothes:payment")
+    if request.user.is_authenticated:
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            exist_product_order = order.products.filter(product__id=product.pk, size=size )
+            if exist_product_order.exists():
+                for i in exist_product_order:
+                    i.quantity = int(i.quantity) + 1
+                    i.total = float(i.total) + float(product.product_price)
+                    i.save()
+                return redirect("clothes:payment")
+            else:
+                return redirect("clothes:payment", pk=pk)
         else:
             return redirect("clothes:payment", pk=pk)
     else:
-        return redirect("clothes:payment", pk=pk)
+        device = request.COOKIES['device']
+        order_qs = Order.objects.filter(user__customer__device=device, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            exist_product_order = order.products.filter(product__id=product.pk, size=size )
+            if exist_product_order.exists():
+                for i in exist_product_order:
+                    i.quantity = int(i.quantity) + 1
+                    i.total = float(i.total) + float(product.product_price)
+                    i.save()
+                return redirect("clothes:payment")
+            else:
+                return redirect("clothes:payment", pk=pk)
+        else:
+            return redirect("clothes:payment", pk=pk)
 
 class Payment(View):
     def get(self, request, *args, **kwargs, ):
@@ -358,18 +391,29 @@ class ConfirmCheckout(View):
 class OnlinePayment(View):
     def get(self, request, *args, **kwargs):
         try:
+            user = Customer.objects.get(user=self.request.user)
             order = Order.objects.get(user=self.request.user, ordered=False)
+
+            if order:
+                context = {
+                    'order': order,
+                    'DISPLAY_COUPON_FORM': False,
+                    'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY,
+                    'user': user,
+                }
+            return render(self.request, 'clothes/web_site/card_payment1.html', context)
         except:
             device = request.COOKIES['device']
-            order = Order.objects.get(user__customer__device=device)
-        if order:
-            context = {
-                'order': order,
-                'DISPLAY_COUPON_FORM': False,
-                'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
-            }
-        print(settings.STRIPE_PUBLIC_KEY)
-        return render(self.request, 'clothes/web_site/card_payment1.html', context)
+            user = Customer.objects.get(device=device)
+            order = Order.objects.get(user__customer__device=device , ordered=False)
+            if order:
+                context = {
+                    'order': order,
+                    'DISPLAY_COUPON_FORM': False,
+                    'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY,
+                    'user': user,
+                }
+            return render(self.request, 'clothes/web_site/card_payment1.html', context)
     def post(self, request, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)

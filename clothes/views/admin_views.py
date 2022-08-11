@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -277,10 +278,15 @@ class OrderStaticAdminView(LoginRequiredMixin,View):
         date_end = request.POST.get('date_end')
         number_of_top = request.POST.get('number_of_top')
         order_in_time = Order.objects.filter(ordered_date__range=[date_start, date_end], ordered=True).order_by('-ordered_date')
-        top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).values_list('product_id', 'product__product_name',)
+        top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).values_list('product_id', 'product__product_name')
+        # top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).annotate(num_apear=Count('product_id'))
         print(top_product)
-        print(collections.Counter(top_product).most_common())
         a = collections.Counter(top_product).most_common()[:int(number_of_top)]
+        b = collections.Counter(top_product).most_common()
+        print(b)
+        # print(b[0][1])
+        # print(int(b[0][0][2])*int(b[0][1]))
+
         context = {
             'order_in_time': order_in_time,
             'date_start': date_start,
