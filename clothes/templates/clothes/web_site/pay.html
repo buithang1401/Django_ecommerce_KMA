@@ -1,5 +1,8 @@
 {% extends 'clothes/web_site/base.html' %}
-
+{% block extra_head %}
+    <title>Giỏ Hàng</title>
+{% endblock %}
+{% load cart_template_tags %}
 {% block content %}
     {% load static %}
     <div class="container-thanhtoan">
@@ -18,27 +21,27 @@
                     <div class="input-group mb-3 d-flex justify-content-between ">
                         <h5>Họ và tên khách hàng  </h5>
                         <div class="forminpt">
-                            <input type="text" class="form-control" value="{{user.name}}" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
+                            <input type="text" class="form-control" value="{{object.user.customer.name}}" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
                         </div>
                     </div>
 
                     <div class="input-group mb-3 d-flex justify-content-between ">
                         <h5>Email </h5>
                         <div class="forminpt">
-                            <input type="email" class="form-control" value="{{ user.email}}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
+                            <input type="email" class="form-control" value="{{ object.user.customer.email}}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
                         </div>
                     </div>
 
                     <div class="input-group mb-3 d-flex justify-content-between ">
                         <h5>Số điện thoại</h5>
                         <div class="forminpt">
-                            <input type="number" class="form-control" value="{{ user.phone_number}}" aria-label="Username" aria-describedby="basic-addon1" name="sdt_khachhang" required>
+                            <input type="number" class="form-control" value="{{ object.user.customer.phone_number}}" aria-label="Username" aria-describedby="basic-addon1" name="sdt_khachhang" required>
                         </div>
                     </div>
                     <div class="input-group mb-3 d-flex justify-content-between ">
                         <h5>Địa chỉ nhận hàng</h5>
                         <div class="forminpt">
-                            <input type="text" class="form-control" value="{{ user.address}}" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
+                            <input type="text" class="form-control" value="{{ object.shipping_address}}" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
                         </div>
                     </div>
                     {% endif %}
@@ -95,7 +98,7 @@
                                                 </div>
                                             </p>
                                             <p>Size: {{ order_product.size }}</p>
-                                            <h5>{{ order_product.total }} VNĐ</h5>
+                                            <h5>{{ order_product.total|to_int }} VNĐ</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +117,7 @@
                     <div class="ThanhToan-ThanhTien">
                         <div class=" d-flex justify-content-between">
                             <h6>Tiền hàng tạm tính:</h6>
-                            <h6>{{ object.get_total}}</h6>
+                            <h6>{{ object.get_total|to_int}} VNĐ</h6>
 
                         </div>
                         <div class=" d-flex justify-content-between">
@@ -129,7 +132,7 @@
                         <hr >
                         <div class="d-flex justify-content-between">
                             <h4>Cần thanh toán</h4>
-                            <h4>{{ object.get_total}}VNĐ</h4>
+                            <h4>{{ object.get_total|to_int}}VNĐ</h4>
                         </div>
                     </div>
                     <button type="submit" id="thanhtoan-HoanTatDonHang"><p style="margin:auto">HOÀN TẤT ĐƠN HÀNG</p></button>

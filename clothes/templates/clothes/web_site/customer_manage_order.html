@@ -1,4 +1,7 @@
 {% extends 'clothes/web_site/base.html' %}
+{% block extra_head %}
+    <title>Đơn hàng</title>
+{% endblock %}
 {% load cart_template_tags %}
 {% block content %}
     {% load static %}
@@ -11,54 +14,53 @@
                 </div>
             {% endfor %}
             {% for item in order %}
-                <form>
-                {% csrf_token %}
-
-                    <div class="DonHang-container">
-                        <div class="DonHang-top">
-                            <div class="DonHang-top-left">
-                                <p>Ngày: </p>
-                                <p>{{ item.ordered_date }}</p>
-                            </div>
-                            <div class="DonHang-top-right">
-                                {% if item.ordered == False %}
-                                    <p>Chưa đặt hàng</p>
-                                    <i class="gg-close-o" style="  color: red;" ></i>
-                                {% endif %}
-                                {% if item.ordered == True %}
-                                    <p>Đã đặt hàng</p>
-                                    <i class="gg-check-o"></i>
-                                {% endif %}
-                                <span content="\007C">&#124;</span>
-                                {% if item.payment_status == False %}
-                                    <p>Chưa giao hàng </p>
-                                    <i class="gg-close-o" style="  color: red; margin-right:0;" ></i>
-                                {% endif %}
-                                {% if item.payment_status == True %}
-                                    <p>Đã giao hàng </p>
-                                    <i class="gg-check-o" style=" margin-right:0;"></i>
-                                {% endif %}
+                <div class="DonHang-container">
+                    <div class="DonHang-top">
+                        <div class="DonHang-top-left">
+                            <p>Ngày: </p>
+                            <p>{{ item.ordered_date }}</p>
+                        </div>
+                        <div class="DonHang-top-right">
+                            {% if item.ordered == False %}
+                                <p>Chưa đặt hàng</p>
+                                <i class="gg-close-o" style="  color: red;" ></i>
+                            {% endif %}
+                            {% if item.ordered == True %}
+                                <p>Đã đặt hàng</p>
+                                <i class="gg-check-o"></i>
+                            {% endif %}
+                            <span content="\007C">&#124;</span>
+                            {% if item.payment_status == False %}
+                                <p>Chưa giao hàng </p>
+                                <i class="gg-close-o" style="  color: red; margin-right:0;" ></i>
+                            {% endif %}
+                            {% if item.payment_status == True %}
+                                <p>Đã giao hàng </p>
+                                <i class="gg-check-o" style=" margin-right:0;"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    {% for sanpham in item.products.all %}
+                    <div class="DonHang-conten-warp">
+                            <div class="DonHang-conten">
+                                <div class="d-flex">
+                                    <img src="{{sanpham.product.product_image.url}}" alt="">
+                                    <div class="DonHang-conten-if">
+                                        <h2 style="font-size: 25px">{{ sanpham.product}}</h2>
+                                        <h6>Đơn giá: {{ sanpham.product.product_price }}</h6>
+                                        <h6>Số lượng: {{ sanpham.quantity }}</h6>
+                                    </div>
+                                </div>
+                                <h3>
+                                    {{sanpham.total|to_int}} VNĐ
+                                </h3>
                             </div>
                         </div>
-                        <hr>
-                        {% for sanpham in item.products.all %}
-                        <div class="DonHang-conten-warp">
-                                <div class="DonHang-conten">
-                                    <div class="d-flex">
-                                        <img src="{{sanpham.product.product_image.url}}" alt="">
-                                        <div class="DonHang-conten-if">
-                                            <h2 style="font-size: 25px">{{ sanpham.product}}</h2>
-                                            <h6>Đơn giá: {{ sanpham.product.product_price }}</h6>
-                                            <h6>Số lượng: {{ sanpham.quantity }}</h6>
-                                        </div>
-                                    </div>
-                                    <h3>
-                                        {{sanpham.total|to_int}} VNĐ
-                                    </h3>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <hr />
+                    {% endfor %}
+                    <hr />
+                    <form action="" method="post" >
+                        {% csrf_token %}
                         <div class="DonHang-end-warp">
                             <div class="DEW-A">
                                 <div>
@@ -78,7 +80,12 @@
                                         <label for="1" title="text" ></label>
                                     </div>
                                 </div>
-                                <input class="form-control me-2" type="text" placeholder="Phản hồi ý kiến của bạn tại đây nhé" style="display: block; width: 100%" >
+                                {% if item.feedback == None %}
+                                <input class="form-control me-2" type="text" placeholder="Phản hồi ý kiến của bạn tại đây nhé" style="display: block; width: 100%" name="danhgia">
+                                {% endif %}
+                                {% if item.feedback != None %}
+                                <input class="form-control me-2" type="text" value="{{ item.feedback }}" style="display: block; width: 100%" name="danhgia" >
+                                {% endif %}
                             </div>
                             <div class="DonHang-end">
                                 <div class="DonHang-end-thanhtien">
@@ -86,16 +93,21 @@
                                     <p>TỔNG SỐ TIỀN:</p>
                                     <h4>{{ item.get_total|to_int}} VNĐ</h4>
                                 </div>
+
                                 <div class="DonHang-end-button">
-                                    <button type="button" class="btn btn-outline-secondary">Gửi Đánh giá</button>
+                                    <input type="hidden" name="id_Don_hang" value="{{ item.id }}">
+                                    {% if item.feedback == None %}
+                                        <input type="submit" class="btn btn-outline-secondary" name="guidanhgia" value="Gửi Đánh giá" style="display: block; width: 40%; margin-right: 2%" />
+                                    {% endif%}
                                     {% if item.payment_status == False %}
-                                        <button type="button" class="btn btn-warning">Đã nhận hàng</button>
+                                        <input type="submit" class="btn btn-warning" name="danhanhang" value="Đã nhận hàng" style="display: block; width: 40%"/>
                                     {% endif %}
                                 </div>
+
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             {% endfor %}
         {% endif %}
     </div>

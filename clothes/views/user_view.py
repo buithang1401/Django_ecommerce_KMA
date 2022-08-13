@@ -276,7 +276,7 @@ class Payment(View):
             except:
                 print("vao except")
                 device = request.COOKIES['device']
-                user = Customer.objects.filter(device=device)
+                user = Customer.objects.filter(device=device).all()
                 order = Order.objects.get(user__customer__device__exact=device, ordered=False)
                 print(user)
                 context = {
@@ -297,7 +297,7 @@ class Payment(View):
                 payment_method = request.POST.get('exampleRadios')
                 user = Customer.objects.filter(user=request.user)
                 if user.exists():
-                    user_exisited = user.get(user=request.user)
+                    Customer.objects.filter(user=request.user).update(phone_number=customer_phone)
                 else:
                     new_customer = Customer()
                     new_customer.user = request.user
@@ -565,3 +565,18 @@ class OrderManage(View):
             messages.warning(request, "Bạn chưa có đơn hàng nào! Hãy tiếp tục mua sắm" , extra_tags='error')
             return redirect('/')
         return render(request, 'clothes/web_site/customer_manage_order.html', {'order':order, 'user':user})
+    def post(self, request, *args, **kwargs):
+        id = request.POST.get('id_Don_hang')
+        feedback = request.POST.get('danhgia')
+        if 'danhanhang' in request.POST:
+            messages.success(self.request, "Cảm ơn bạn vì đã tin dùng sản phảm của chúng tôi !!!", extra_tags='success')
+            Order.objects.filter(id=id).update(payment_status=True)
+        elif 'guidanhgia' in request.POST:
+            print("vao gui danh gia")
+            if feedback != []:
+                messages.success(self.request, "Cảm ơn những đánh giá của bạn, nếu hài lòng hãy tiếp tục mua hàng nhé !!!", extra_tags='success')
+                Order.objects.filter(id=id).update(feedback=feedback)
+            else:
+                messages.warning(request, "Hãy cho chúng tôi xin đánh giá của bạn trước khi gửi đánh giá nhé", extra_tags='error')
+                return redirect("clothes:manage_order")
+        return redirect("clothes:manage_order")

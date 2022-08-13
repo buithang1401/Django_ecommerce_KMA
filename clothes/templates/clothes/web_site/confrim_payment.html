@@ -1,5 +1,7 @@
 {% extends 'clothes/web_site/base.html' %}
-
+{% block extra_head %}
+    <title>Đặt hàng</title>
+{% endblock %}
 {% block content %}
     <h1 style="display: block;; text-align: center">XÁC NHẬN THANH TOÁN GIỎ HÀNG</h1>
     <div class="main-QuanLyThongTin">
@@ -16,7 +18,7 @@
           <p>Họ Và Tên: {{user.name}} </p>
           <p>Số điện thoại: {{ user.phone_number}}</p>
           <p>Email: {{ user.email }}</p>
-          <p>Địa chỉ nhận hàng:{{ user.address }}</p>
+          <p>Địa chỉ nhận hàng:{{ object.shipping_address }}</p>
           <p>Thông tin thanh toán: {{ object.get_total}}</p><span></span>
           <p>Mã đơn hàng: {{ object.id }}</p><span></span>
         </div>
