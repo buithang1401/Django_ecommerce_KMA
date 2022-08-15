@@ -14,6 +14,8 @@ import stripe
 # stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 stripe.api_key=settings.STRIPE_SECRET_KEY
 
+from telegram import Bot
+bot = Bot("5513998382:AAHE8deL6F9-5ZysLpbi2p26XjfKgtgHUo4")
 #--------------- home index view ----------------------
 def HomeClass(request):
     aophongnam = Product.objects.filter(category_id_id=1, type_id_id=1).order_by("-soled")[:4]
@@ -80,6 +82,7 @@ def add_to_cart(request, pk):
                 if exist_product_order.exists():
                     for i in exist_product_order:
                         i.quantity = int(i.quantity) + int(quantity)
+                        i.product.soled += int(quantity)
                         i.total = float(i.total) + float(product.product_price) * float(quantity)
                         i.save()
                     messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
@@ -119,6 +122,7 @@ def add_to_cart(request, pk):
                 if exist_product_order.exists():
                     for i in exist_product_order:
                         i.quantity = int(i.quantity) + int(quantity)
+                        i.product.soled += int(quantity)
                         i.total = float(i.total) + float(product.product_price) * float(quantity)
                         i.save()
                     messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
@@ -377,6 +381,7 @@ class ConfirmCheckout(View):
         try:
             Order.objects.filter(user=self.request.user).update(ordered=True)
             messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
+            bot.send_message("Đã có khách hàng mua hàng của Shop")
             return redirect("clothes:home")
         except:
             device = request.COOKIES['device']
@@ -385,10 +390,12 @@ class ConfirmCheckout(View):
             # # Product.objects.filter()
             # order.products.update(soled=1, quantity=45)
             messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
+            bot.send_message("Đã có khách hàng mua hàng của Shop")
             return redirect("clothes:home")
 
 #online method
 class OnlinePayment(View):
+
     def get(self, request, *args, **kwargs):
         try:
             user = Customer.objects.get(user=self.request.user)
@@ -580,3 +587,4 @@ class OrderManage(View):
                 messages.warning(request, "Hãy cho chúng tôi xin đánh giá của bạn trước khi gửi đánh giá nhé", extra_tags='error')
                 return redirect("clothes:manage_order")
         return redirect("clothes:manage_order")
+
