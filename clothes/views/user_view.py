@@ -11,7 +11,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 import stripe
-# stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 stripe.api_key=settings.STRIPE_SECRET_KEY
 
 from telegram import Bot
