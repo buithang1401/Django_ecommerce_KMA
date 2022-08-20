@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.views import View
 from django.views.generic import ListView, DetailView
-
 from clothes.forms import CheckoutForm
 from clothes.models import Product, OrderProduct, Order, Product_img, Customer, Size, PaymentModel
 from django.shortcuts import render, get_object_or_404, redirect
@@ -13,15 +12,14 @@ from django.contrib import messages
 import stripe
 stripe.api_key=settings.STRIPE_SECRET_KEY
 
-from telegram import Bot
-bot = Bot("5513998382:AAHE8deL6F9-5ZysLpbi2p26XjfKgtgHUo4")
 #--------------- home index view ----------------------
 def HomeClass(request):
     aophongnam = Product.objects.filter(category_id_id=1, type_id_id=1).order_by("-soled")[:4]
     aopolonam = Product.objects.filter(category_id_id=1, type_id_id=2).order_by("-soled")[:4]
     quanjeannam = Product.objects.filter(category_id_id=1, type_id_id=3).order_by("-soled")[:4]
+    quanshortnam = Product.objects.filter(category_id_id=1, type_id_id=4).order_by("-soled")[:4]
     # orser = Oder
-    return render(request, 'clothes/web_site/index_site.html', {"aophongnam":aophongnam, "aopolonam":aopolonam, "quanjeannam":quanjeannam})
+    return render(request, 'clothes/web_site/index_site.html', {"aophongnam":aophongnam, "aopolonam":aopolonam, "quanjeannam":quanjeannam, "quanshortnam":quanshortnam})
 
 def HomeBaseClass(request):
     try:
@@ -380,7 +378,6 @@ class ConfirmCheckout(View):
         try:
             Order.objects.filter(user=self.request.user).update(ordered=True)
             messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
-            bot.send_message("Đã có khách hàng mua hàng của Shop")
             return redirect("clothes:home")
         except:
             device = request.COOKIES['device']
@@ -389,7 +386,6 @@ class ConfirmCheckout(View):
             # # Product.objects.filter()
             # order.products.update(soled=1, quantity=45)
             messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
-            bot.send_message("Đã có khách hàng mua hàng của Shop")
             return redirect("clothes:home")
 
 #online method

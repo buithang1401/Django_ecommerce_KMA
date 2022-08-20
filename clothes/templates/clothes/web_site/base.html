@@ -112,8 +112,6 @@
                              <li> <p class="d-flex justify-content-center fw-bold">Áo</p>
                              <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo phông</a></li>
                              <li><a href="{% url 'clothes:ao_polo_name' %}" class="dropdown-item">Áo polo</a></li>
-                             <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo khoác</a></li>
-                             <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo hoodie</a></li>
                            </ul>
                         </div>
                         <div class="QuanNam">
@@ -207,7 +205,7 @@
 
                     </div>
                     <div class="cart">
-                        <a href="{% url 'clothes:payment' %}" onmouseenter="mouseenter5()">
+                        <a href="{% url 'clothes:payment' %}" >
                           <i class="gg-shopping-cart" style="display: block"></i>
                           {% if request.user.is_authenticated %}
                             <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request.user|cart_item_count }}</span>
@@ -216,25 +214,25 @@
                               <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request|cart_item_count_anonymous }}</span>
                           {% endif %}
                         </a>
-                        <div class="cart-if" id="cart-if-items" onmouseleave="mouseout5()">
-                            <div class="cart-if-items"  >
-                                {% for product in order_cart_tag %}
-                                    {% for i in product.products.all %}
-                                        <div class="cart-if-items-container d-flex">
-                                            <img src="{{i.product.product_image.url}}" alt="" id="cart-if-items-img">
-                                            <div class="cart-if-items-thongtinsp">
-                                                <h6 >{{ i.product }}</h6>
-                                                <div class="d-flex">
-                                                    <p>Số lượng: {{ i.quantity }}</p>
-                                                    <p>Size: {{ i.size }}</p>
-                                                    <p>Thành Tiền : {{ i.total}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                            </div>
-                        </div>
+{#                        <div class="cart-if" id="cart-if-items" onmouseleave="mouseout5()" onmouseenter="mouseenter5()">#}
+{#                            <div class="cart-if-items"  >#}
+{#                                {% for product in order_cart_tag %}#}
+{#                                    {% for i in product.products.all %}#}
+{#                                        <div class="cart-if-items-container d-flex">#}
+{#                                            <img src="{{i.product.product_image.url}}" alt="" id="cart-if-items-img">#}
+{#                                            <div class="cart-if-items-thongtinsp">#}
+{#                                                <h6 >{{ i.product }}</h6>#}
+{#                                                <div class="d-flex">#}
+{#                                                    <p>Số lượng: {{ i.quantity }}</p>#}
+{#                                                    <p>Size: {{ i.size }}</p>#}
+{#                                                    <p>Thành Tiền : {{ i.total}}</p>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </form>
               </div>

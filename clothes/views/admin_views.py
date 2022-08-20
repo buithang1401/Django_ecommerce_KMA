@@ -236,6 +236,7 @@ class UpdateUser(LoginRequiredMixin,UpdateView):
     model = User
     template_name = 'clothes/admin_site/user/user_update.html'
     form_class = UserForm
+    success_url = reverse_lazy('clothes:user_admin')
 
 class DeleteUser(LoginRequiredMixin,DeleteView):
     login_url = '/login/'
@@ -280,12 +281,8 @@ class OrderStaticAdminView(LoginRequiredMixin,View):
         order_in_time = Order.objects.filter(ordered_date__range=[date_start, date_end], ordered=True).order_by('-ordered_date')
         top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).values_list('product_id', 'product__product_name')
         # top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).annotate(num_apear=Count('product_id'))
-        print(top_product)
         a = collections.Counter(top_product).most_common()[:int(number_of_top)]
-        b = collections.Counter(top_product).most_common()
-        print(b)
-        # print(b[0][1])
-        # print(int(b[0][0][2])*int(b[0][1]))
+        # b = collections.Counter(top_product).most_common()
 
         context = {
             'order_in_time': order_in_time,
