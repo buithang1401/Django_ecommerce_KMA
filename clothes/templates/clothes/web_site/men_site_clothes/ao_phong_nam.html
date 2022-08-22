@@ -177,16 +177,127 @@
         slideLeft.style.transform = `translateY(${activeSlideIndex * sliderHeight}px)`
       }
     </script>
-    <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+    <div class= "cards" style="
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: wrap;">
         {% for item in object_list %}
-            <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2%; height: 20% ">
+<!--            <div class ="card"-->
+<!--                 style="-->
+<!--                 border-radius: 20px;-->
+<!--                 overflow: hidden;-->
+<!--                 background-color: white;-->
+<!--                 box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;-->
+<!--                 width: 20%;-->
+<!--                 margin: 2% 0 2% 2%;-->
+<!--                 height: 20% ">-->
 
-                    <img src="{{item.product_image.url}}" alt="" class="card-image" />
-                    <div class="card-content">
-                        <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item.pk %}" style="text-decoration: none">{{item.product_name}}</a></h5>
-                        <h5 style="text-align: center; margin-top: 0.5%">{{ item.product_price|to_int }} VNĐ</h5>
-                    </div>
+<!--                    <img src="{{item.product_image.url}}" alt="" class="card-image" />-->
+<!--                    <div class="card-content"-->
+<!--                    style="-->
+<!--                            height: 100px;-->
+<!--                            flex-direction: column;-->
+<!--                            justify-content: center;-->
+<!--                    "-->
+<!--                    >-->
+<!--                        <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item.pk %}" style="text-decoration: none">{{item.product_name}}</a></h5>-->
+<!--                        <h5 style="text-align: center; margin-top: 0.5%">{{ item.product_price|to_int }} VNĐ</h5>-->
+<!--                    </div>-->
+<!--            </div>-->
+        <div class="iteam-sanPham" id="iteam-sanPham-info">
+            <img src="{{item.product_image.url}}" alt="">
+            <div class="iteam-sanPham-info">
+              <span>{{item.product_name}}</span>
+              <h4>{{ item.product_price|to_int }} VNĐ</h4>
             </div>
+            <div class="iteam-XemChiTiet-ThemGioHang">
+              <button type="button" name="button">
+                <a href="{% url 'clothes:product_detail' item.pk %}">XEM NGAY</a>
+              </button>
+            </div>
+        </div>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap');
+            .iteam-sanPham{
+              margin-top: 2%;
+              margin-left:5%;
+              height: auto;
+              width: 26.6%;
+              background-color:#EEEEEE;
+              border-radius: 20px;
+              cursor: pointer;
+              position: relative;
+            }
+            .iteam-sanPham:hover {
+              background-color:#605f7b;
+              color: white;
+            }
+            .iteam-sanPham:hover .iteam-XemChiTiet-ThemGioHang{
+              transform: translateY(0);
+              opacity: 1
+            }
+
+            .iteam-sanPham>img{
+              box-sizing: border-box;
+              width:100%;
+              height:auto;
+              border-top-left-radius: 20px;
+              border-top-Right-radius: 20px;
+            }
+            .iteam-sanPham-info{
+              width: 100%;
+              height: 90px;
+              text-align: center;
+            }
+            .iteam-sanPham-info>span{
+              font-size: 20px;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    display: -webkit-box;
+            }
+            .iteam-sanPham-info>h4{
+              font-size: 25px;
+              font-family: 'Anek Latin', sans-serif;
+              font-weight: bold;
+            }
+            .iteam-XemChiTiet-ThemGioHang{
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 35%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              transform: translateY(200px);
+              opacity: 0;
+              transition: transform 0.3s ease-in
+            }
+            .iteam-XemChiTiet-ThemGioHang>button{
+              width: 50%;
+              margin-top: 2%;
+              text-align: center;
+              align-items: center;
+              background-color: white;
+              height: 8%;
+              border: none;
+              border-radius: 20px
+            }
+            .iteam-XemChiTiet-ThemGioHang>button:hover{
+              background-color: #EEEEEE;
+              color:#333333;
+              font-weight: bold;
+            }
+            .iteam-XemChiTiet-ThemGioHang>button>p{
+              margin: auto;
+            }
+        </style>
         {% endfor %}
     </div>
     <! --------- pagination ----- -->
