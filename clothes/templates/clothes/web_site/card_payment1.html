@@ -177,18 +177,37 @@ button:hover {
                             </div>
                             {% if user%}
                                 <div class="QuanLyThongTin-ThongTinDiaChiKhachHang" style="margin-left: 40px;">
-                                    <style>
-                                        .QuanLyThongTin-ThongTinDiaChiKhachHang>span{
-                                            display:flex;
-                                              justify-content:space-between
-                                        }
-                                    </style>
-                                    <span><p>Họ Và Tên:  </p><p>{{user.name}}</p></span>
-                                    <span><p>Số điện thoại: </p><p>{{ user.phone_number}}</p></span>
-                                    <span><p>Email: </p><p>{{ user.email }}</p></span>
-                                    <span><p>Địa chỉ nhận hàng:</p><p>{{ order.shipping_address}}</p></span>
-                                    <span><p>Thông tin thanh toán:</p><p>{{ order.get_total|to_int}} VNĐ</p></span>
-                                    <span><p>Mã đơn hàng:</p> <p>{{ order.id }}</p></span>
+                                           <style>
+          @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+            @import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400&display=swap');
+
+              #hihaha{
+              width:100%;
+              display: flex;
+              flex-direction: row;
+              }
+              #hihaha>p{
+              margin-right:10px;
+              font-size:25px;
+              font-family: 'Anek Latin', sans-serif;
+              }
+              #hihaha>p>i{
+              margin-right:10px;
+              color:	#000099
+              }
+          </style>
+                                    <div id="hihaha"><p style="margin-right:20px"><i class="bi bi-person-circle"></i>{{user.name}}</p> <p><i class="bi bi-telephone"></i>{{ user.phone_number}}</p></div>
+                                    <div id="hihaha"><p><i class="bi bi-envelope-check"></i>{{ user.email }}</p></div>
+                                    <div id="hihaha"><p><i class="bi bi-geo-alt-fill"></i>{{ order.shipping_address}}</p></div>
+                                    <div id="hihaha"><p><i class="bi bi-cash-coin"></i>{{ order.get_total|to_int}} VNĐ</p></div>
+                                    <div id="hihaha"><p style="font-weight:bold">Mã đơn hàng: </p> <p>{{ order.id }}</p></div>
+<!--                                    -->
+<!--                                    <span><p>Họ Và Tên:  </p><p>{{user.name}}</p></span>-->
+<!--                                    <span><p>Số điện thoại: </p><p>{{ user.phone_number}}</p></span>-->
+<!--                                    <span><p>Email: </p><p>{{ user.email }}</p></span>-->
+<!--                                    <span><p>Địa chỉ nhận hàng:</p><p>{{ order.shipping_address}}</p></span>-->
+<!--                                    <span><p>Thông tin thanh toán:</p><p>{{ order.get_total|to_int}} VNĐ</p></span>-->
+<!--                                    <span><p>Mã đơn hàng:</p> <p>{{ order.id }}</p></span>-->
                                 </div>
                             {% endif %}
                       </div>
