@@ -67,6 +67,7 @@ class ItemDetail(DetailView):
         context['size'] = Size.objects.all()
         return context
 
+#Thêm sản phẩm vào giỏ hàng
 def add_to_cart(request, pk):
     quantity = request.POST.get('quantity')
     size = request.POST.get('size')
@@ -258,7 +259,6 @@ class Payment(View):
     def get(self, request, *args, **kwargs, ):
         try:
             try:
-                print("vao try")
                 user = Customer.objects.filter(user=request.user)
                 order = Order.objects.get(user=self.request.user, ordered=False)
                 if user.exists():
@@ -309,7 +309,6 @@ class Payment(View):
                     new_customer.save()
 
                 if payment_method=="option1":  #thanh toan COD
-                    print("thanh toan khi nhan hang")
                     Order.objects.filter(user=request.user, ordered=False).update(
                         payment_method="COD",
                         shipping_address=customer_address
@@ -320,7 +319,6 @@ class Payment(View):
                         payment_method="Online_Banking",
                         shipping_address=customer_address
                     )
-                    print("thanh toan qua chuyen khoan ngan hang")
                     return redirect('clothes:online_payment')
             except:
                 device = request.COOKIES['device']
@@ -574,7 +572,6 @@ class OrderManage(View):
             messages.success(self.request, "Cảm ơn bạn vì đã tin dùng sản phảm của chúng tôi !!!", extra_tags='success')
             Order.objects.filter(id=id).update(payment_status=True)
         elif 'guidanhgia' in request.POST:
-            print("vao gui danh gia")
             if feedback != []:
                 messages.success(self.request, "Cảm ơn những đánh giá của bạn, nếu hài lòng hãy tiếp tục mua hàng nhé !!!", extra_tags='success')
                 Order.objects.filter(id=id).update(feedback=feedback)

@@ -282,8 +282,6 @@ class OrderStaticAdminView(LoginRequiredMixin,View):
         top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).values_list('product_id', 'product__product_name')
         # top_product = OrderProduct.objects.filter(order__ordered_date__range=[date_start, date_end], order__ordered=True).annotate(num_apear=Count('product_id'))
         a = collections.Counter(top_product).most_common()[:int(number_of_top)]
-        # b = collections.Counter(top_product).most_common()
-
         context = {
             'order_in_time': order_in_time,
             'date_start': date_start,

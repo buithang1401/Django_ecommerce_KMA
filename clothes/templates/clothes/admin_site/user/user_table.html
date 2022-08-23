@@ -2,10 +2,10 @@
 
 {% block admin_content %}
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Manager User</h1>
+    <h1 class="mt-4">Quản lý Nhân viên, người dùng</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{% url 'clothes:admin_view' %}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Manager User</li>
+            <li class="breadcrumb-item active">Quản lý Nhân viên, người dùng</li>
         </ol>
 
         <div class="card mb-4">
@@ -16,7 +16,7 @@
             <div class="card-body">
                 <table id="datatablesSimple">
                     <button style="float: right; margin:0 0 0 0.5%; border: 0.5px solid #adadad; padding: 0.4%; ">
-                        <a style="text-decoration: none; color: black" href="{% url 'clothes:add_user' %}">Add User</a>
+                        <a style="text-decoration: none; color: black" href="{% url 'clothes:add_user' %}">Thêm người dùng</a>
                     </button>
                     <thead>
                     <tr>
