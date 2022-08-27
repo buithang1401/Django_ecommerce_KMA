@@ -132,7 +132,6 @@ def add_to_cart(request, pk):
                     return redirect("clothes:product_detail", pk=pk)
             else:
                 ordered_date = datetime.datetime.now()
-                print(ordered_date)
                 order = Order.objects.create(user=request.user, ordered_date=ordered_date)
                 order.products.add(OrderProduct.objects.create(
                     product=product,
@@ -208,7 +207,6 @@ def add_to_cart(request, pk):
 
                 except:
                     username = randint(1, 100)
-                    print("except")
                     u = User(username=username, first_name='', last_name='')
                     u.set_unusable_password()
                     u.save()
@@ -253,7 +251,6 @@ def add_to_cart(request, pk):
                         return redirect("clothes:payment")
                 else:
                     ordered_date = datetime.datetime.now()
-                    print(ordered_date)
                     order = Order.objects.create(user=request.user, ordered_date=ordered_date)
                     order.products.add(OrderProduct.objects.create(
                         product=product,
@@ -314,7 +311,6 @@ def add_to_cart(request, pk):
 
                 except:
                     username = randint(1, 100)
-                    print("except")
                     u = User(username=username, first_name='', last_name='')
                     u.set_unusable_password()
                     u.save()
@@ -342,7 +338,6 @@ def remove_from_cart(request, pk):
         if order_qs.exists():
             order = order_qs[0]
             exist_product_order = order.products.filter(product__id=product.pk, size=size)
-            print(exist_product_order)
             if exist_product_order.exists():
                 for i in exist_product_order:
                     i.quantity = int(i.quantity) - 1
@@ -378,7 +373,6 @@ def remove_from_cart(request, pk):
 
 def add_single_to_cart(request, pk):
     size = request.POST.get('size_in_pay')
-    print(size)
     product = get_object_or_404(Product, pk=pk)
     if request.user.is_authenticated:
         order_qs = Order.objects.filter(user=request.user, ordered=False)
@@ -432,18 +426,15 @@ class Payment(View):
                     return render(self.request, 'clothes/web_site/pay.html', context)
 
             except:
-                print("vao except")
                 device = request.COOKIES['device']
                 user = Customer.objects.filter(device=device).all()
                 order = Order.objects.get(user__customer__device__exact=device, ordered=False)
-                print(user)
                 context = {
                     'user': user,
                     'object': order,
                 }
                 return render(self.request, 'clothes/web_site/pay.html', context)
         except:
-            print("vao else")
             return render(self.request, 'clothes/web_site/pay.html')
     def post(self, request, *args, **kwargs):
         try:
@@ -492,7 +483,6 @@ class Payment(View):
                 )
 
                 if payment_method=="option1":
-                    print("thanh toan khi nhan hang")
                     Order.objects.filter(user__customer__device=device, ordered=False).update(
                         payment_method="COD",
                         shipping_address=customer_address
@@ -503,7 +493,6 @@ class Payment(View):
                         payment_method="Online_Banking",
                         shipping_address=customer_address
                     )
-                    print("thanh toan qua chuyen khoan ngan hang")
                     return redirect('clothes:online_payment')
         except:
             messages.warning(request, "Bạn chưa có sản phảm nào trong giỏ hàng!" , extra_tags='error')
@@ -583,7 +572,6 @@ class OnlinePayment(View):
                     currency="usd",
                     source=token,
                 )
-                print('try payment')
                 # create the payment
                 payment = PaymentModel()
                 payment.stripe_charge_id = charge['id']
@@ -649,7 +637,6 @@ class OnlinePayment(View):
                     currency="usd",
                     source=token,
                 )
-                print('try payment')
                 # create the payment
                 payment = PaymentModel()
                 payment.stripe_charge_id = charge['id']
@@ -706,7 +693,6 @@ def search_data(request):
     if request.method == "POST":
         search_data = request.POST['search_data']
         match_data = Product.objects.filter(product_name__icontains=search_data)
-        # print(match_data)
         if match_data.exists():
             return render(request,'clothes/web_site/base.html', {'search_data': search_data, 'match_data':match_data})
         else:
@@ -721,14 +707,12 @@ class OrderManage(View):
     def get(self, request, *args, **kwargs):
 
         try:
-            print("vao try")
             order = Order.objects.filter(user=request.user, ordered=True).order_by('-ordered_date').all()
             user = Customer.objects.filter(user=request.user).all()
         except:
             device = request.COOKIES['device']
             order = Order.objects.filter(user__customer__device=device, ordered=True).order_by('-ordered_date').all()
             user = Customer.objects.filter(device=device).all()
-            print("vao try")
         if order.exists():
             return render(request, 'clothes/web_site/customer_manage_order.html', {'order': order, 'user': user})
         else:

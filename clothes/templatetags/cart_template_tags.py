@@ -32,10 +32,8 @@ def order_by_month(user):
         today = datetime.date.today()
         month_ago = today - datetime.timedelta(30)
         qs =Order.objects.filter(ordered_date__gt=month_ago, ordered=True)
-        print(qs)
         if qs.exists():
             total = qs.count()
-            print(total)
             return total
     return 0
 @register.filter
