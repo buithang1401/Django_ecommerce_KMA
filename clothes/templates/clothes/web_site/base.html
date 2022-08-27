@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     {% block extra_head %}
     {% endblock %}
+    {% if search_data %}
+        <title>Tìm kiếm sản phẩm</title>
+    {% endif %}
     <link rel="icon" href="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png"  type="image/x-icon" />
     <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'clothes/site/js/script.js' %} "></script>
@@ -111,7 +114,7 @@
                           <ul>
                              <li> <p class="d-flex justify-content-center fw-bold">Áo</p>
                              <li><a href="{% url 'clothes:ao_phong_nam' %}" class="dropdown-item">Áo phông</a></li>
-                             <li><a href="{% url 'clothes:ao_polo_name' %}" class="dropdown-item">Áo polo</a></li>
+                             <li><a href="{% url 'clothes:ao_polo_nam' %}" class="dropdown-item">Áo polo</a></li>
                            </ul>
                         </div>
                         <div class="QuanNam">
@@ -133,24 +136,16 @@
                         <div class="AoNam">
                           <ul>
                              <li> <p class="d-flex justify-content-center fw-bold">Áo</p>
-                             <li><a href="" class="dropdown-item">Áo phông</a></li>
-                             <li><a href="" class="dropdown-item">Áo sơ mi</a></li>
-                             <li><a href="" class="dropdown-item">Áo Gym</a></li>
-                             <li><a href="" class="dropdown-item">Áo Bra</a></li>
-                             <li><a href="" class="dropdown-item">Áo khoác</a></li>
-                             <li><a href="" class="dropdown-item">Áo hoodie</a></li>
+                             <li><a href="{% url 'clothes:ao_phong_nu' %}" class="dropdown-item">Áo phông</a></li>
+                             <li><a href="{% url 'clothes:ao_polo_nu' %}" class="dropdown-item">Áo polo</a></li>
                            </ul>
                         </div>
                         <div class="QuanNam">
                           <ul>
                             <li><p class="d-flex justify-content-center fw-bold">Quần-Váy</p></li>
-                            <li><a href="" class="dropdown-item">Quần kaki</a></li>
-                            <li><a href="" class="dropdown-item">Quần jean</a></li>
-                            <li><a href="" class="dropdown-item">Quần short</a></li>
-                            <li><a href="" class="dropdown-item">Quần âu</a></li>
-                            <li><a href="" class="dropdown-item">Quần lót</a></li>
-                            <li><a href="" class="dropdown-item">Váy dài</a></li>
-                            <li><a href="" class="dropdown-item">Váy ngắn</a></li>
+                            <li><a href="{% url 'clothes:quan_short_nu' %}" class="dropdown-item">Quần Short</a></li>
+                             <li><a href="{% url 'clothes:quan_jean_nu' %}" class="dropdown-item">Quần Jean</a></li>
+                             <li><a href="{% url 'clothes:vay_nu' %}" class="dropdown-item">Váy</a></li>
                           </ul>
                         </div>
                       </div>
@@ -186,7 +181,13 @@
                 </div>
                 <form class="search-us" method="post", action="{% url 'clothes:search_data' %}">
                     {% csrf_token %}
-                    <input class="form-control me-2" type="text" id="search_data" placeholder="Search" aria-label="Search", name="search_data">
+                    {% if search_data and match_data %}
+                        <input class="form-control me-2" type="text" id="search_data" value="{{ search_data }}" aria-label="Search", name="search_data">
+                    {% endif %}
+                    {% if not match_data %}
+                        <input class="form-control me-2" type="text" id="search_data" placeholder="Search" aria-label="Search", name="search_data">
+                    {% endif %}
+
                     <button class="btn btn-outline-success" type="submit">Search</button>
 
                     <div class="user dropdown">
@@ -293,6 +294,24 @@
 
         {% block content %}
         {% endblock %}
+
+        {% if match_data %}
+            <div style="background: rgba(173,168,168,0.35); padding: 1%; margin: 2%; border-radius: 8px ">
+                <div style="background: rgba(60,141,255,0.38); height: 50px; width: 40%; margin:2% 0 0 30%; border-radius: 5px; padding: 0.5%  ">
+                    <H2 style="text-align: center;">Sản phẩm bạn muốn tìm</H2>
+                </div>
+                <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+                    {%  for match_data in match_data %}
+                        <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2%; float:left;">
+                                        <img style="%" src="{{match_data.product_image.url}}" alt="" class="card-image" />
+                                        <div class="card-content">
+                                            <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' match_data.pk %}" style="text-decoration: none">{{match_data.product_name}}</a></h5>
+                                        </div>
+                                </div>
+                    {%  endfor %}
+                </div>
+            </div>
+        {%  endif %}
 
     </div>
 

@@ -24,6 +24,7 @@
                         <th>User Name</th>
                         <th>Email</th>
                         <th>Name</th>
+                        <th>Role</th>
                         <th colspan="2" style="text-align: center;">Action</th>
                     </tr>
                     </thead>
@@ -33,6 +34,7 @@
                         <th>User Name</th>
                         <th>Email</th>
                         <th>Name</th>
+                        <th>Role</th>
                         <th colspan="2" style="text-align: center;">Action</th>
                     </tr>
                     </tfoot>
@@ -43,6 +45,12 @@
                             <td>{{item.username}}</td>
                             <td>{{item.email}}</td>
                             <td>{{item.first_name}} {{ item.last_name }}</td>
+                            {% if item.groups.get == 'employee' %}
+                                <td>Nhân viên</td>
+                            {% endif %}
+                            {% if item.groups.get != 'employee' %}
+                                <td>Nhân viên </td>
+                            {% endif %}
                             <td><button style="border: 0.5px solid #adadad; margin-left: 40%">
                                 <a style="text-decoration: none; color: black" href="{% url 'clothes:edit_user' item.pk %}">Edit</a>
                             </button> </td>

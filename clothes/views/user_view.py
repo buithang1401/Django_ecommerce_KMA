@@ -18,8 +18,10 @@ def HomeClass(request):
     aopolonam = Product.objects.filter(category_id_id=1, type_id_id=2).order_by("-soled")[:4]
     quanjeannam = Product.objects.filter(category_id_id=1, type_id_id=3).order_by("-soled")[:4]
     quanshortnam = Product.objects.filter(category_id_id=1, type_id_id=4).order_by("-soled")[:4]
+    vaynu = Product.objects.filter(category_id_id=2, type_id_id=5).order_by("-soled")[:4]
+    quanshortnu = Product.objects.filter(category_id_id=2, type_id_id=4).order_by("-soled")[:4]
     # orser = Oder
-    return render(request, 'clothes/web_site/index_site.html', {"aophongnam":aophongnam, "aopolonam":aopolonam, "quanjeannam":quanjeannam, "quanshortnam":quanshortnam})
+    return render(request, 'clothes/web_site/index_site.html', {"aophongnam":aophongnam, "aopolonam":aopolonam, "quanjeannam":quanjeannam, "quanshortnam":quanshortnam, "vaynu":vaynu, "quanshortnu":quanshortnu})
 
 def HomeBaseClass(request):
     try:
@@ -55,6 +57,38 @@ class QuanShortNamView(ListView):
     def get_queryset(self):
         return Product.objects.filter(category_id_id=1, type_id_id=4).all()
 
+# ---------------  women clothes view ------------------
+class ClothesWomenView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/quan_ao_nu.html'
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2).all()
+
+class AoPhongNuView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/ao_phong_nu.html'
+    # paginate_by = 6
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2, type_id_id=1).all()
+
+class AoPoloNuView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/ao_polo_nu.html'
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2, type_id_id=2).all()
+
+class QuanJeanNuView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/quan_jean_nu.html'
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2, type_id_id=3).all()
+
+class QuanShortNuView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/quan_short_nu.html'
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2, type_id_id=4).all()
+
+class VayNuView(ListView):
+    template_name = 'clothes/web_site/woman_site_clothes/vay_nu.html'
+    def get_queryset(self):
+        return Product.objects.filter(category_id_id=2, type_id_id=5).all()
+
 #------------- product detail , add to cart, payment ----------------------------
 class ItemDetail(DetailView):
     model = Product
@@ -69,10 +103,11 @@ class ItemDetail(DetailView):
 
 #Thêm sản phẩm vào giỏ hàng
 def add_to_cart(request, pk):
-    quantity = request.POST.get('quantity')
-    size = request.POST.get('size')
-    product = get_object_or_404(Product, pk=pk)
-    if request.user.is_authenticated:
+    if 'themvaogio' in request.POST:
+        quantity = request.POST.get('quantity')
+        size = request.POST.get('size')
+        product = get_object_or_404(Product, pk=pk)
+        if request.user.is_authenticated:
             order_qs = Order.objects.filter(user=request.user, ordered=False)
             if order_qs.exists():
                 order = order_qs[0]
@@ -109,23 +144,59 @@ def add_to_cart(request, pk):
                 messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
                 return redirect("clothes:product_detail", pk=pk)
             return redirect("clothes:product_detail", pk=pk)
-    else:
-        device = request.COOKIES['device']
-        if Customer.objects.filter(device=device).exists():
-            u = get_object_or_404(User, customer__device__exact=device)
-            order_qs = Order.objects.filter(user__customer__device__exact=device, ordered=False)
-            if order_qs.exists():
-                order = order_qs[0]
-                exist_product_order = order.products.filter(product__id=product.pk, size=size)
-                if exist_product_order.exists():
-                    for i in exist_product_order:
-                        i.quantity = int(i.quantity) + int(quantity)
-                        i.product.soled += int(quantity)
-                        i.total = float(i.total) + float(product.product_price) * float(quantity)
-                        i.save()
-                    messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
-                    return redirect("clothes:product_detail", pk=pk)
+        else:
+            device = request.COOKIES['device']
+            if Customer.objects.filter(device=device).exists():
+                u = get_object_or_404(User, customer__device__exact=device)
+                order_qs = Order.objects.filter(user__customer__device__exact=device, ordered=False)
+                if order_qs.exists():
+                    order = order_qs[0]
+                    exist_product_order = order.products.filter(product__id=product.pk, size=size)
+                    if exist_product_order.exists():
+                        for i in exist_product_order:
+                            i.quantity = int(i.quantity) + int(quantity)
+                            i.product.soled += int(quantity)
+                            i.total = float(i.total) + float(product.product_price) * float(quantity)
+                            i.save()
+                        messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
+                        return redirect("clothes:product_detail", pk=pk)
+                    else:
+                        order.products.add(OrderProduct.objects.create(
+                            product=product,
+                            quantity=quantity,
+                            user=u,
+                            size=size,
+                            total=float(quantity) * float(product.product_price),
+                        ))
+                        messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+                        return redirect("clothes:product_detail", pk=pk)
+
                 else:
+                    u = get_object_or_404(User, customer__device__exact=device)
+                    ordered_date = datetime.datetime.now()
+                    order = Order.objects.create(user=u, ordered_date=ordered_date)
+                    order.products.add(OrderProduct.objects.create(
+                        product=product,
+                        quantity=quantity,
+                        user=request.user,
+                        size=size,
+                        total=float(quantity) * float(product.product_price),
+                    ))
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+                    return redirect("clothes:product_detail", pk=pk)
+                return redirect("clothes:product_detail", pk=pk)
+            else:
+                #tao user anonymous
+                username = randint(1, 100)
+                try:
+                    u = User.objects.create(username=username, first_name='', last_name='')
+                    u.set_unusable_password()
+                    u.save()
+                    Customer.objects.create(user=u , device=device)
+                    my_group = Group.objects.get(name='customer')
+                    my_group.user_set.add(u)
+                    ordered_date = datetime.datetime.now()
+                    order = Order.objects.create(user=u, ordered_date=ordered_date)
                     order.products.add(OrderProduct.objects.create(
                         product=product,
                         quantity=quantity,
@@ -134,47 +205,134 @@ def add_to_cart(request, pk):
                         total=float(quantity) * float(product.product_price),
                     ))
                     messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
-                    return redirect("clothes:product_detail", pk=pk)
+
+                except:
+                    username = randint(1, 100)
+                    print("except")
+                    u = User(username=username, first_name='', last_name='')
+                    u.set_unusable_password()
+                    u.save()
+                    Customer.objects.create(user=u)
+                    ordered_date = datetime.datetime.now()
+                    order = Order.objects.create(user=u, ordered_date=ordered_date)
+                    order.products.add(OrderProduct.objects.create(
+                        product=product,
+                        quantity=quantity,
+                        user=u,
+                        size=size,
+                        total=float(quantity) * float(product.product_price),
+                    ))
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+            return redirect("clothes:product_detail", pk=pk)
+    elif 'muangay' in request.POST:
+        quantity = request.POST.get('quantity')
+        size = request.POST.get('size')
+        product = get_object_or_404(Product, pk=pk)
+        if request.user.is_authenticated:
+                order_qs = Order.objects.filter(user=request.user, ordered=False)
+                if order_qs.exists():
+                    order = order_qs[0]
+                    exist_product_order = order.products.filter(product__id=product.pk, size=size)
+                    if exist_product_order.exists():
+                        for i in exist_product_order:
+                            i.quantity = int(i.quantity) + int(quantity)
+                            i.product.soled += int(quantity)
+                            i.total = float(i.total) + float(product.product_price) * float(quantity)
+                            i.save()
+                        messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
+                        return redirect("clothes:payment")
+                    else:
+                        order.products.add(OrderProduct.objects.create(
+                            product=product,
+                            quantity=quantity,
+                            user=request.user,
+                            size=size,
+                            total=float(quantity) * float(product.product_price),
+                        ))
+                        messages.success(request, "Đã thêm vào giỏ hàng" , extra_tags='success')
+                        return redirect("clothes:payment")
+                else:
+                    ordered_date = datetime.datetime.now()
+                    print(ordered_date)
+                    order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+                    order.products.add(OrderProduct.objects.create(
+                        product=product,
+                        quantity=quantity,
+                        user=request.user,
+                        size=size,
+                        total=float(quantity) * float(product.product_price),
+                    ))
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+                    return redirect("clothes:payment")
+                return redirect("clothes:payment")
         else:
-            #tao user anonymous
-            username = randint(1, 10)
-            try:
-                u = User.objects.create(username=username, first_name='', last_name='')
-                u.set_unusable_password()
-                u.save()
-                Customer.objects.create(user=u , device=device)
-                my_group = Group.objects.get(name='customer')
-                my_group.user_set.add(u)
-                ordered_date = datetime.datetime.now()
-                order = Order.objects.create(user=u, ordered_date=ordered_date)
-                order.products.add(OrderProduct.objects.create(
-                    product=product,
-                    quantity=quantity,
-                    user=u,
-                    size=size,
-                    total=float(quantity) * float(product.product_price),
-                ))
-                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+            device = request.COOKIES['device']
+            if Customer.objects.filter(device=device).exists():
+                u = get_object_or_404(User, customer__device__exact=device)
+                order_qs = Order.objects.filter(user__customer__device__exact=device, ordered=False)
+                if order_qs.exists():
+                    order = order_qs[0]
+                    exist_product_order = order.products.filter(product__id=product.pk, size=size)
+                    if exist_product_order.exists():
+                        for i in exist_product_order:
+                            i.quantity = int(i.quantity) + int(quantity)
+                            i.product.soled += int(quantity)
+                            i.total = float(i.total) + float(product.product_price) * float(quantity)
+                            i.save()
+                        messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
+                        return redirect("clothes:payment")
+                    else:
+                        order.products.add(OrderProduct.objects.create(
+                            product=product,
+                            quantity=quantity,
+                            user=u,
+                            size=size,
+                            total=float(quantity) * float(product.product_price),
+                        ))
+                        messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+                        return redirect("clothes:payment")
+            else:
+                #tao user anonymous
+                username = randint(1, 100)
+                try:
+                    u = User.objects.create(username=username, first_name='', last_name='')
+                    u.set_unusable_password()
+                    u.save()
+                    Customer.objects.create(user=u , device=device)
+                    my_group = Group.objects.get(name='customer')
+                    my_group.user_set.add(u)
+                    ordered_date = datetime.datetime.now()
+                    order = Order.objects.create(user=u, ordered_date=ordered_date)
+                    order.products.add(OrderProduct.objects.create(
+                        product=product,
+                        quantity=quantity,
+                        user=u,
+                        size=size,
+                        total=float(quantity) * float(product.product_price),
+                    ))
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
 
-            except:
-                username = randint(1, 10)
-                print("except")
-                u = User(username=username, first_name='', last_name='')
-                u.set_unusable_password()
-                u.save()
-                Customer.objects.create(user=u)
-                ordered_date = datetime.datetime.now()
-                order = Order.objects.create(user=u, ordered_date=ordered_date)
-                order.products.add(OrderProduct.objects.create(
-                    product=product,
-                    quantity=quantity,
-                    user=u,
-                    size=size,
-                    total=float(quantity) * float(product.product_price),
-                ))
-                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
-        return redirect("clothes:product_detail", pk=pk)
-
+                except:
+                    username = randint(1, 100)
+                    print("except")
+                    u = User(username=username, first_name='', last_name='')
+                    u.set_unusable_password()
+                    u.save()
+                    Customer.objects.create(user=u)
+                    ordered_date = datetime.datetime.now()
+                    order = Order.objects.create(user=u, ordered_date=ordered_date)
+                    order.products.add(OrderProduct.objects.create(
+                        product=product,
+                        quantity=quantity,
+                        user=u,
+                        size=size,
+                        total=float(quantity) * float(product.product_price),
+                    ))
+                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+            return redirect("clothes:payment")
+def buy_immediately(request):
+    add_to_cart
+    return redirect('clothes:payment')
 
 def remove_from_cart(request, pk):
     size = request.POST.get('size_in_pay')
@@ -204,7 +362,6 @@ def remove_from_cart(request, pk):
         if order_qs.exists():
             order = order_qs[0]
             exist_product_order = order.products.filter(product__id=product.pk, size=size)
-            print(exist_product_order)
             if exist_product_order.exists():
                 for i in exist_product_order:
                     i.quantity = int(i.quantity) - 1
@@ -374,12 +531,12 @@ class ConfirmCheckout(View):
             return render(self.request, 'clothes/web_site/confrim_payment.html', context)
     def post(self, request, *args, **kwargs):
         try:
-            Order.objects.filter(user=self.request.user).update(ordered=True)
+            Order.objects.filter(user=self.request.user).update(ordered=True,)
             messages.success(request, "Đã hoàn tất đơn hàng, mời bạn tiếp tục mua sắm", extra_tags='success')
             return redirect("clothes:home")
         except:
             device = request.COOKIES['device']
-            Order.objects.filter(user__customer__device__exact=device).update(ordered=True)
+            Order.objects.filter(user__customer__device__exact=device).update(ordered=True,)
             # order = Order.objects.get(user=self.request.user, ordered=False)
             # # Product.objects.filter()
             # order.products.update(soled=1, quantity=45)
@@ -548,23 +705,36 @@ class OnlinePayment(View):
 def search_data(request):
     if request.method == "POST":
         search_data = request.POST['search_data']
-        match_data = Product.objects.filter(product_name__contains=search_data).all()
-        return render(request,'clothes/web_site/search_data.html', {'search_data': search_data, 'match_data':match_data})
+        match_data = Product.objects.filter(product_name__icontains=search_data)
+        # print(match_data)
+        if match_data.exists():
+            return render(request,'clothes/web_site/base.html', {'search_data': search_data, 'match_data':match_data})
+        else:
+            messages.warning(request, "Không tìm thấy sản phẩm nào! Vui lòng thử lại!" , extra_tags='error')
+            return redirect('clothes:home')
+        # return render(request,'clothes/web_site/base.html', {'search_data': search_data, 'match_data':match_data})
     else:
         return render(request, 'clothes/web_site/index_site.html', {})
 
 
 class OrderManage(View):
     def get(self, request, *args, **kwargs):
+
         try:
+            print("vao try")
             order = Order.objects.filter(user=request.user, ordered=True).order_by('-ordered_date').all()
             user = Customer.objects.filter(user=request.user).all()
         except:
-            # device = request.COOKIES['device']
-            # order = Order.objects.filter(user__customer__device=device, ordered=True).order_by('-ordered_date').all()
+            device = request.COOKIES['device']
+            order = Order.objects.filter(user__customer__device=device, ordered=True).order_by('-ordered_date').all()
+            user = Customer.objects.filter(device=device).all()
+            print("vao try")
+        if order.exists():
+            return render(request, 'clothes/web_site/customer_manage_order.html', {'order': order, 'user': user})
+        else:
             messages.warning(request, "Bạn chưa có đơn hàng nào! Hãy tiếp tục mua sắm" , extra_tags='error')
             return redirect('/')
-        return render(request, 'clothes/web_site/customer_manage_order.html', {'order':order, 'user':user})
+        # return render(request, 'clothes/web_site/customer_manage_order.html', {'order':order, 'user':user})
     def post(self, request, *args, **kwargs):
         id = request.POST.get('id_Don_hang')
         feedback = request.POST.get('danhgia')

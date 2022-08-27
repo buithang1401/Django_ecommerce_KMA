@@ -34,10 +34,11 @@
           </style>
         <div class="QuanLyThongTin-ThongTinDiaChiKhachHang"
          style="margin-left: 40px;">
-            <div id="hihaha"><p style="margin-right:20px"><i class="bi bi-person-circle"></i>{{user.name}}</p> <p><i class="bi bi-telephone"></i>{{ user.phone_number}}</p></div>
-            <div id="hihaha"><p><i class="bi bi-envelope-check"></i>{{ user.email }}</p></div>
-            <div id="hihaha"><p><i class="bi bi-geo-alt-fill"></i>{{ object.shipping_address }}</p></div>
-            <div id="hihaha"><p><i class="bi bi-cash-coin"></i>{{ object.get_total}}</p></div>
+            <div id="hihaha"><p style="margin-right:20px"><i class="bi bi-person-circle"></i>Họ tên: {{user.name}}</p></div>
+            <div id="hihaha"><p><i class="bi bi-telephone"></i>Điện thoại:  {{ user.phone_number}}</p></div>
+            <div id="hihaha"><p><i class="bi bi-envelope-check"></i>Email: {{ user.email }}</p></div>
+            <div id="hihaha"><p><i class="bi bi-geo-alt-fill"></i>Địa chỉ nhận hàng: {{ object.shipping_address }}</p></div>
+            <div id="hihaha"><p><i class="bi bi-cash-coin"></i>Tổng tiền đơn hàng: {{ object.get_total}}</p></div>
             <div id="hihaha"><p style="font-weight:bold">Mã đơn hàng: </p> <p>{{ object.id }}</p></div>
         </div>
 
@@ -56,7 +57,7 @@
 
                 <img src="{{order_product.product.product_image.url}}" alt="" id="thanhtoan-thongtin-sanpham-img">
                 <div class="ThongTinSanPhamTrongGioHang-ChiTietCacSanPham">
-                    <h6 >{{order_product.product.product_name}}</h6>
+                    <h5 >{{order_product.product.product_name}}</h5>
                     <div class="d-flex">
                       <p>Số lượng: {{ order_product.quantity }}</p>
                       <p>Size:{{ order_product.size }}</p>
@@ -64,7 +65,7 @@
                     </div>
                 </div>
 
-              </div>
+              </div><hr />
             {% endfor %}
         </div>
       </div>
@@ -81,7 +82,7 @@
                  font-weight: bold;}
         </style>
     </form>
-    <a id="QuayLaiMuaSam" href="">Quay lại tiếp tục mua sắm</a>
+    <a id="QuayLaiMuaSam" href="{% url 'clothes:home' %}">Quay lại tiếp tục mua sắm</a>
 <!--responsive-->
 <style>
 .QuanLyThongTin-ThongTinKhachHang{

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clothes',
     'phone_field',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [

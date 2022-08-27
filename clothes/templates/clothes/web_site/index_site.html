@@ -287,6 +287,27 @@
         })
       }
     </script>
+    {% if vaynu %}
+        <div style="background: rgba(173,168,168,0.35); padding: 1%; margin: 2%; border-radius: 8px ">
+            <div style="background: rgba(60,141,255,0.38); height: 50px; width: 40%; margin:2% 0 0 30%; border-radius: 5px; padding: 0.5%  ">
+                <H2 style="text-align: center;">Váy Nữ</H2>
+            </div>
+            <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+
+                {% for item1 in vaynu %}
+                    <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2% ">
+
+                            <img style="%" src="{{item1.product_image.url}}" alt="" class="card-image" />
+                            <div class="card-content">
+                                <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item1.pk %}" style="text-decoration: none">{{item1.product_name}}</a></h5>
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'clothes:vay_nu' %}" style="display:block; text-decoration: none">Xem nhiều hơn >>></a>
+        </div>
+    {% endif %}
+
     {% if aophongnam %}
         <div style="background: rgba(173,168,168,0.35); padding: 1%; margin: 2%; border-radius: 8px ">
             <div style="background: rgba(60,141,255,0.38); height: 50px; width: 40%; margin:2% 0 0 30%; border-radius: 5px  ">
@@ -328,7 +349,28 @@
                     </div>
                 {% endfor %}
             </div>
-            <a href="{% url 'clothes:ao_polo_name' %}" style="display:block; text-decoration: none">Xem nhiều hơn >>></a>
+            <a href="{% url 'clothes:ao_polo_nam' %}" style="display:block; text-decoration: none">Xem nhiều hơn >>></a>
+        </div>
+    {% endif %}
+
+    {% if quanshortnu %}
+        <div style="background: rgba(173,168,168,0.35); padding: 1%; margin: 2%; border-radius: 8px ">
+            <div style="background: rgba(60,141,255,0.38); height: 50px; width: 40%; margin:2% 0 0 30%; border-radius: 5px; padding: 0.5%  ">
+                <H2 style="text-align: center;">Quần Short Nữ</H2>
+            </div>
+            <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+
+                {% for item1 in quanshortnu %}
+                    <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2% ">
+
+                            <img style="%" src="{{item1.product_image.url}}" alt="" class="card-image" />
+                            <div class="card-content">
+                                <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item1.pk %}" style="text-decoration: none">{{item1.product_name}}</a></h5>
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'clothes:quan_short_nu' %}" style="display:block; text-decoration: none">Xem nhiều hơn >>></a>
         </div>
     {% endif %}
 
@@ -379,14 +421,16 @@
             <div style="background: rgba(60,141,255,0.38); height: 50px; width: 40%; margin:2% 0 0 30%; border-radius: 5px; padding: 0.5%  ">
                 <H2 style="text-align: center;">Sản phẩm bạn muốn tìm</H2>
             </div>
-            {%  for match_data in match_data %}
-                <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2%; float:left;">
-                                <img style="%" src="{{match_data.product_image.url}}" alt="" class="card-image" />
-                                <div class="card-content">
-                                    <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' match_data.pk %}" style="text-decoration: none">{{match_data.product_name}}</a></h5>
-                                </div>
-                        </div>
-            {%  endfor %}
+            <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+                {%  for match_data in match_data %}
+                    <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2%; float:left;">
+                                    <img style="%" src="{{match_data.product_image.url}}" alt="" class="card-image" />
+                                    <div class="card-content">
+                                        <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' match_data.pk %}" style="text-decoration: none">{{match_data.product_name}}</a></h5>
+                                    </div>
+                            </div>
+                {%  endfor %}
+            </div>
         </div>
     {%  endif %}
 {% endblock %}

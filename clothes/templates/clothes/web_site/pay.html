@@ -18,33 +18,49 @@
                     Thông tin khách hàng được bảo mật</p>
                     <hr>
                     {% if user%}
-                    <div class="input-group mb-3 d-flex justify-content-between ">
-                        <h5>Họ và tên khách hàng  </h5>
-                        <div class="forminpt">
-                            <input type="text" class="form-control" value="{{object.user.customer.name}}" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
+                        <div class="input-group mb-3 d-flex justify-content-between ">
+                            <h5>Họ và tên khách hàng  </h5>
+                            <div class="forminpt">
+                                {% if object.user.customer.name != None %}
+                                    <input type="text" class="form-control" value="{{object.user.customer.name}}" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
+                                {% endif %}
+                                {% if object.user.customer.name == None %}
+                                    <input type="text" class="form-control" value="" aria-label="Username" aria-describedby="basic-addon1", name="ten_khachhang" required>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-3 d-flex justify-content-between ">
-                        <h5>Email </h5>
-                        <div class="forminpt">
-                            <input type="email" class="form-control" value="{{ object.user.customer.email}}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
+                        <div class="input-group mb-3 d-flex justify-content-between ">
+                            <h5>Email </h5>
+                            <div class="forminpt">
+                                {% if object.user.customer.email != None %}
+                                    <input type="email" class="form-control" value="{{ object.user.customer.email}}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
+                                {% endif %}
+                                {% if object.user.customer.email == None %}
+                                    <input type="email" class="form-control" value="" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email_khachhang" required>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-3 d-flex justify-content-between ">
-                        <h5>Số điện thoại</h5>
-                        <div class="forminpt">
-                            <input type="number" class="form-control" value="{{ object.user.customer.phone_number}}" aria-label="Username" aria-describedby="basic-addon1" name="sdt_khachhang" required>
+                        <div class="input-group mb-3 d-flex justify-content-between ">
+                            <h5>Số điện thoại</h5>
+                            <div class="forminpt">
+                                <input type="number" class="form-control" value="{{ object.user.customer.phone_number}}" aria-label="Username" aria-describedby="basic-addon1" name="sdt_khachhang" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group mb-3 d-flex justify-content-between ">
-                        <h5>Địa chỉ nhận hàng</h5>
-                        <div class="forminpt">
-                            <input type="text" class="form-control" value="{{ object.shipping_address}}" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
+                        <div class="input-group mb-3 d-flex justify-content-between ">
+                            <h5>Địa chỉ nhận hàng</h5>
+                            <div class="forminpt">
+                                {% if object.user.customer.address != None %}
+                                    <input type="text" class="form-control" value="{{ object.user.customer.address}}" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
+                                {% endif %}
+                                {% if object.user.customer.address == None %}
+                                    <input type="text" class="form-control" value="" aria-label="Username" aria-describedby="basic-addon1" name="diachi_nhanhang" required>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
+
                     <h4>PHƯƠNG THỨC THANH TOÁN</h4>
                     <div class="thanhtoan-phuongThucThanhToan">
                         <div class="thanhtoan-phuongThucThanhToan-container">

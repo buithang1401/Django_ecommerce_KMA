@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
@@ -58,12 +58,14 @@ class Register(View):
             User.objects.filter(customer__email=email).update(username=username, email=email, first_name=first_name, last_name=last_name)
             User.objects.get(customer__email=email).set_password(password)
             profile_obj = Profile.objects.create(user=User.objects.get(username=username))
+
             profile_obj.save()
         else:
-            user_obj = User(username=username, email=email, first_name=first_name, last_name=last_name)
+            user_obj = User(username=username, email=email, first_name=first_name, last_name=last_name,)
             user_obj.set_password(password)
             user_obj.save()
-
+            group = Group.objects.get(name="customer")
+            group.user_set.add(user_obj)
             Customer.objects.create(
                 user=user_obj,
                 name=first_name + " " + last_name,
@@ -165,6 +167,7 @@ class UpdateProduct(LoginRequiredMixin,UpdateView):
     model = Product
     template_name = 'clothes/admin_site/product/product_update.html'
     form_class = ProductForm
+    success_url = reverse_lazy('clothes:product_admin')
 class DeleteProduct(LoginRequiredMixin,DeleteView):
     login_url = '/login/'
     model = Product
@@ -188,6 +191,7 @@ class UpdateType(LoginRequiredMixin,UpdateView):
     model = ClothesType
     template_name = 'clothes/admin_site/type/type_update.html'
     form_class = TypeForm
+    success_url = reverse_lazy('clothes:type_admin')
 
 class DeleteType(LoginRequiredMixin,DeleteView):
     login_url = '/login/'
@@ -212,6 +216,7 @@ class UpdateCate(LoginRequiredMixin,UpdateView):
     model = Category
     template_name = 'clothes/admin_site/category/category_update.html'
     form_class = TypeForm
+    success_url = reverse_lazy('clothes:type_admin')
 
 class DeleteCate(LoginRequiredMixin,DeleteView):
     login_url = '/login/'
@@ -224,6 +229,8 @@ class UserAdminView(LoginRequiredMixin,ListView):
     login_url = '/login/'
     model = User
     template_name = 'clothes/admin_site/user/user_table.html'
+    def get_queryset(self):
+        return User.objects.filter(groups__name='employee')
 
 class AddUser(LoginRequiredMixin,CreateView):
     login_url = '/login/'
@@ -244,11 +251,15 @@ class DeleteUser(LoginRequiredMixin,DeleteView):
     template_name = 'clothes/admin_site/user/user_delete.html'
     success_url = reverse_lazy('clothes:user_admin')
 
+
 #admin manager customer
 class CusAdminView(LoginRequiredMixin,ListView):
     login_url = '/login/'
     model = Customer
     template_name = 'clothes/admin_site/customer/cus_table.html'
+
+    def get_queryset(self):
+        return Customer.objects.filter(user__groups__name='customer')
 
 #admin manager order
 class OrderAdminView(LoginRequiredMixin,ListView):

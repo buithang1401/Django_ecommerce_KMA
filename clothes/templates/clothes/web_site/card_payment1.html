@@ -155,7 +155,6 @@ button:hover {
                   <div class="stripe-form-row">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
-                      <label class="custom-control-label" for="save_card_info">Save for future purchases</label>
                     </div>
                   </div>
                   <div id="card-errors" role="alert"></div>
@@ -165,14 +164,7 @@ button:hover {
               <div class="warp-thongTinThanhToan" style="
               display:flex;flex-direction: row;">
                       <div class="QuanLyThongTin-ThongTinKhachHang"
-                            style=" width:50%;
-                                    margin-right: 10px;
-                                    margin-left: 10px;
-                                    box-shadow: 1px 1px 1px 1px grey;
-                                    padding-right:10px;
-                                    margin-left:30px;
-                                    height: auto;
-                                                                        ">
+                            style=" width:50%; ">
                             <div id="TieuDe-QLTT">
                               <h3 >Thông tin nhận hàng</h3>
                             </div>
@@ -205,7 +197,8 @@ button:hover {
               background: white
               }
           </style>
-                                    <div id="hihaha"><p style="margin-right:20px"><i class="bi bi-person-circle"></i>{{user.name}}</p> <p><i class="bi bi-telephone"></i>{{ user.phone_number}}</p></div>
+                                    <div id="hihaha"><p style="margin-right:20px"><i class="bi bi-person-circle"></i>{{user.name}}</p></div>
+                                    <div id="hihaha"><p><i class="bi bi-telephone"></i>{{ user.phone_number}}</p></div>
                                     <div id="hihaha"><p><i class="bi bi-envelope-check"></i>{{ user.email }}</p></div>
                                     <div id="hihaha"><p><i class="bi bi-geo-alt-fill"></i>{{ order.shipping_address}}</p></div>
                                     <div id="hihaha"><p><i class="bi bi-cash-coin"></i>{{ order.get_total|to_int}} VNĐ</p></div>

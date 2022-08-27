@@ -6,7 +6,8 @@ from clothes.views.admin_views import AdminView, TableAdminView, ChartAdminView,
     Logout, CusAdminView, OrderAdminView, OrderStaticAdminView
 from clothes.views.user_view import HomeClass, AoPhongNamView, ItemDetail, AoPoloNamView, QuanJeanNamView, \
     QuanShortNamView, ClothesMenView, add_to_cart, Payment, remove_from_cart, add_single_to_cart, ConfirmCheckout, \
-    OnlinePayment, OrderManage, search_data
+    OnlinePayment, OrderManage, search_data, buy_immediately, ClothesWomenView, AoPhongNuView, AoPoloNuView, \
+    QuanJeanNuView, QuanShortNuView, VayNuView
 
 app_name = 'clothes'
 urlpatterns = [
@@ -19,16 +20,25 @@ urlpatterns = [
     path('order_manage/', OrderManage.as_view(), name='manage_order'),
 
     path('add_to_cart/<pk>', add_to_cart, name='add_to_cart'),
+    path('buy_immediately', buy_immediately, name='buy_immediately'),
     path('remove_from_cart/<pk>', remove_from_cart, name='remove_from_cart'),
     path('add_single_to_cart/<pk>', add_single_to_cart, name='add_single_to_cart'),
 
     #ao phong nam
     path('product/nam/', ClothesMenView.as_view(), name='quan_ao_nam'),
     path('product/nam/aophong/', AoPhongNamView.as_view(), name='ao_phong_nam'),
-    path('product/nam/aopolo/', AoPoloNamView.as_view(), name='ao_polo_name'),
+    path('product/nam/aopolo/', AoPoloNamView.as_view(), name='ao_polo_nam'),
     path('product/nam/quanjean/', QuanJeanNamView.as_view(), name='quan_jean_nam'),
     path('product/nam/quanshort/', QuanShortNamView.as_view(), name='quan_short_nam'),
     path('detail/nam/<int:pk>', ItemDetail.as_view(), name='product_detail'),
+
+    # ao phong nu
+    path('product/nu/', ClothesWomenView.as_view(), name='quan_ao_nu'),
+    path('product/nu/aophong/', AoPhongNuView.as_view(), name='ao_phong_nu'),
+    path('product/nu/aopolo/', AoPoloNuView.as_view(), name='ao_polo_nu'),
+    path('product/nu/quanjean/', QuanJeanNuView.as_view(), name='quan_jean_nu'),
+    path('product/nu/quanshort/', QuanShortNuView.as_view(), name='quan_short_nu'),
+    path('product/nu/vay/', VayNuView.as_view(), name='vay_nu'),
 
     #admin site
     path('adminview/', AdminView, name='admin_view'),

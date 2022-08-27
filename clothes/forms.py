@@ -6,7 +6,7 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = ['product_name', 'category_id', 'product_description',
-                  'product_status','type_id','product_image','product_price','quantity','size']
+                  'product_status','type_id','product_image','product_price','quantity','size',]
 
 class TypeForm(ModelForm):
     class Meta:
@@ -21,7 +21,7 @@ class CateForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', ]
+        fields = ['username', 'first_name', 'last_name', 'email','groups', 'user_permissions' ]
 
 class CheckoutForm(forms.Form):
     street_address = forms.CharField()

@@ -3586,7 +3586,7 @@ textarea.form-control-lg {
   border-radius: 0.25rem;
   opacity: 0;
   animation-name: show-div;
-  animation-duration: 1s;
+  animation-duration: 5s;
 }
 @keyframes show-div{
   from{opacity: 0;}

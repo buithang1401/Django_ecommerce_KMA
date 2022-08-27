@@ -1,0 +1,287 @@
+{% extends 'clothes/web_site/base.html' %}
+{% block extra_head %}
+    <title>Váy nữ</title>
+{% endblock %}
+{% load cart_template_tags %}
+{% block content %}
+    {% load static %}
+    <div style="justify-content: center">
+        <H1 style="text-align: center">Đầm Váy Nữ</H1>
+    </div>
+    <h2 style=" text-align: center;">Sản phẩm nổi bật</h2>
+  <div class="slider-container">
+      <div class="left-slide">
+        <div style="background-color: #009999">
+          <h1>Bộ áo đá bóng MS-491</h1>
+          <p>Thiết kế foodball player</p>
+          <p>sản phẩm co dãn tốt, thoáng mát</p>
+          <button type="button" class="btn btn-outline-light">Xem Ngay </button>
+        </div>
+        <div style="background-color: #2A86BA">
+          <h1>Áo Phông MS-126</h1>
+          <p>Thiết kế Bassic</p>
+          <p>Mẫu sản phẩm được nhiều bạn trẻ ưa chuộng</p>
+          <p>phong cách thiết kế đơn giản, lịch thiệp</p>
+          <button type="button" class="btn btn-outline-light">Xem Ngay </button>
+
+        </div>
+        <div style="background-color: #252E33">
+          <h1>Áo Phông MS-142</h1>
+          <p>Thiết kế Sport- fitness coach</p>
+          <p>Công nghệ vải nano thoáng mát</p>
+          <p>Tự tin trong mọi cuộc chơi</p>
+          <button type="button" class="btn btn-outline-light">Xem Ngay </button>
+        </div>
+        <div style="background-color: grey">
+          <h1>Áo Phông MS-268</h1>
+          <p>Thiết kế street style năng động</p>
+          <p>Công nghệ vải nano siêu thoáng mát</p>
+          <p>ngăn ngừa vi khuẩn, khử mùi hôi</p>
+          <button type="button" class="btn btn-outline-light">Xem Ngay </button>
+        </div>
+
+      </div>
+      <div class="right-slide">
+        <div style="background-image: url('https://media.gq.com/photos/57699e8bbb4815a46c0fef11/16:9/w_2560%2Cc_limit/milan-ss17-day3-07.jpg')"></div>
+        <div style="background-image: url('https://ae01.alicdn.com/kf/H43c62dc55bc24cf3aea885b51c4dee56w/Plus-Size-Men-Compression-Sport-T-Shirt-Top-Long-Sleeve-Gym-Running-Clothing-Fitness-Tight-Sportswear.jpg_Q90.jpg_.webp')"></div>
+        <div style="background-image: url('https://media.gq.com/photos/61f31ab5820feb128b83a635/master/w_2000,h_1333,c_limit/Buck-Mason-Field-Spec-cotton-vintage-surplus-tee.jpg')"></div>
+        <div style="background-image: url('https://img.freepik.com/free-vector/t-shirt-sport-design-template-soccer-jersey-football-club-uniform-front-back-view_115282-12.jpg')"></div>
+      </div>
+      <div class="action-buttons">
+        <button class="down-button">
+          <i class="fas fa-arrow-down"></i>
+        </button>
+        <button class="up-button">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+      </div>
+    </div>
+    <style>
+      .slider-container {
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+        width: 90vw;
+        height: 100vh;
+        margin-bottom: 30px;
+      }
+
+      .left-slide {
+        height: 100%;
+        width: 35%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .left-slide > div {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+
+      .left-slide h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        margin-top: -30px;
+      }
+
+      .right-slide {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 35%;
+        width: 65%;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .right-slide > div {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        height: 100%;
+        width: 100%;
+      }
+
+      button {
+        background-color: #fff;
+        border: none;
+        color: #aaa;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 15px;
+      }
+
+      button:hover {
+        color: #222;
+      }
+
+      button:focus {
+        outline: none;
+      }
+
+      .slider-container .action-buttons button {
+        position: absolute;
+        left: 35%;
+        top: 50%;
+        z-index: 100;
+      }
+
+      .slider-container .action-buttons .down-button {
+        transform: translateX(-100%);
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+
+      .slider-container .action-buttons .up-button {
+        transform: translateY(-100%);
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    </style>
+    <script type="text/javascript">
+      const sliderContainer = document.querySelector('.slider-container')
+      const slideRight = document.querySelector('.right-slide')
+      const slideLeft = document.querySelector('.left-slide')
+      const upButton = document.querySelector('.up-button')
+      const downButton = document.querySelector('.down-button')
+      const slidesLength = slideRight.querySelectorAll('div').length
+
+      let activeSlideIndex = 0
+
+      slideLeft.style.top = `-${(slidesLength - 1) * 100}vh`
+
+      upButton.addEventListener('click', () => changeSlide('up'))
+      downButton.addEventListener('click', () => changeSlide('down'))
+
+      const changeSlide = (direction) => {
+        const sliderHeight = sliderContainer.clientHeight
+        if(direction === 'up') {
+            activeSlideIndex++
+            if(activeSlideIndex > slidesLength - 1) {
+                activeSlideIndex = 0
+            }
+        } else if(direction === 'down') {
+            activeSlideIndex--
+            if(activeSlideIndex < 0) {
+                activeSlideIndex = slidesLength - 1
+            }
+        }
+
+        slideRight.style.transform = `translateY(-${activeSlideIndex * sliderHeight}px)`
+        slideLeft.style.transform = `translateY(${activeSlideIndex * sliderHeight}px)`
+      }
+    </script>
+    <div class= "cards" style="display: flex; align-items: stretch; justify-content: space-around; flex-wrap: wrap;">
+        {% for item in object_list %}
+<!--            <div class ="card" style="border-radius: 20px; overflow: hidden; background-color: white; box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width: 20%; margin: 2% 0 2% 2%; height: 20% ">-->
+
+<!--                    <img style="%" src="{{item.product_image.url}}" alt="" class="card-image" />-->
+<!--                    <div class="card-content">-->
+<!--                        <h5 style="text-align: center; margin-top: 0.5%"><a href="{% url 'clothes:product_detail' item.pk %}" style="text-decoration: none">{{item.product_name}}</a></h5>-->
+<!--                        <h5 style="text-align: center; margin-top: 0.5%">{{ item.product_price|to_int }} VNĐ</h5>-->
+<!--                    </div>-->
+<!--            </div>-->
+        <div class="iteam-sanPham" id="iteam-sanPham-info">
+            <img src="{{item.product_image.url}}" alt="">
+            <div class="iteam-sanPham-info">
+              <span>{{item.product_name}}</span>
+              <h4>{{ item.product_price|to_int }} VNĐ</h4>
+            </div>
+            <div class="iteam-XemChiTiet-ThemGioHang">
+              <button type="button" name="button">
+                <a href="{% url 'clothes:product_detail' item.pk %}">XEM NGAY</a>
+              </button>
+            </div>
+        </div>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap');
+            .iteam-sanPham{
+              margin-top: 2%;
+              margin-left:2%;
+              height: auto;
+              width: 20%;
+              background-color:#EEEEEE;
+              border-radius: 20px;
+              cursor: pointer;
+              position: relative;
+            }
+            .iteam-sanPham:hover {
+              background-color:#605f7b;
+              color: white;
+            }
+            .iteam-sanPham:hover .iteam-XemChiTiet-ThemGioHang{
+              transform: translateY(0);
+              opacity: 1
+            }
+
+            .iteam-sanPham>img{
+              box-sizing: border-box;
+              width:100%;
+              height:auto;
+              border-top-left-radius: 20px;
+              border-top-Right-radius: 20px;
+            }
+            .iteam-sanPham-info{
+              width: 100%;
+              height: 90px;
+              text-align: center;
+            }
+            .iteam-sanPham-info>span{
+              font-size: 20px;
+                font-weight: 800;
+                margin-bottom: 10px;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
+                display: -webkit-box;
+                font-family: 'Anek Latin', sans-serif;
+            }
+            .iteam-sanPham-info>h4{
+              font-size: 25px;
+              font-family: 'Anek Latin', sans-serif;
+              font-weight: bold;
+            }
+            .iteam-XemChiTiet-ThemGioHang{
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 35%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              transform: translateY(200px);
+              opacity: 0;
+              transition: transform 0.3s ease-in
+            }
+            .iteam-XemChiTiet-ThemGioHang>button{
+              width: 50%;
+              margin-top: 2%;
+              text-align: center;
+              align-items: center;
+              background-color: white;
+              height: 8%;
+              border: none;
+              border-radius: 20px
+            }
+            .iteam-XemChiTiet-ThemGioHang>button:hover{
+              background-color: #EEEEEE;
+              color:#333333;
+              font-weight: bold;
+            }
+            .iteam-XemChiTiet-ThemGioHang>button>p{
+              margin: auto;
+            }
+        </style>
+        {% endfor %}
+    </div>
+{% endblock %}
