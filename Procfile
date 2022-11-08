@@ -1,0 +1,1 @@
+web: gunicorn Web_clothes_1.wsgi

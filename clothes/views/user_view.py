@@ -227,31 +227,19 @@ def add_to_cart(request, pk):
         size = request.POST.get('size')
         product = get_object_or_404(Product, pk=pk)
         if request.user.is_authenticated:
-                order_qs = Order.objects.filter(user=request.user, ordered=False)
-                if order_qs.exists():
-                    order = order_qs[0]
-                    exist_product_order = order.products.filter(product__id=product.pk, size=size)
-                    if exist_product_order.exists():
-                        for i in exist_product_order:
-                            i.quantity = int(i.quantity) + int(quantity)
-                            i.product.soled += int(quantity)
-                            i.total = float(i.total) + float(product.product_price) * float(quantity)
-                            i.save()
-                        messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
-                        return redirect("clothes:payment")
-                    else:
-                        order.products.add(OrderProduct.objects.create(
-                            product=product,
-                            quantity=quantity,
-                            user=request.user,
-                            size=size,
-                            total=float(quantity) * float(product.product_price),
-                        ))
-                        messages.success(request, "Đã thêm vào giỏ hàng" , extra_tags='success')
-                        return redirect("clothes:payment")
+            order_qs = Order.objects.filter(user=request.user, ordered=False)
+            if order_qs.exists():
+                order = order_qs[0]
+                exist_product_order = order.products.filter(product__id=product.pk, size=size)
+                if exist_product_order.exists():
+                    for i in exist_product_order:
+                        i.quantity = int(i.quantity) + int(quantity)
+                        i.product.soled += int(quantity)
+                        i.total = float(i.total) + float(product.product_price) * float(quantity)
+                        i.save()
+                    messages.success(request, "Cập nhật số lượng thành công", extra_tags='success')
+                    return redirect("clothes:payment")
                 else:
-                    ordered_date = datetime.datetime.now()
-                    order = Order.objects.create(user=request.user, ordered_date=ordered_date)
                     order.products.add(OrderProduct.objects.create(
                         product=product,
                         quantity=quantity,
@@ -259,9 +247,21 @@ def add_to_cart(request, pk):
                         size=size,
                         total=float(quantity) * float(product.product_price),
                     ))
-                    messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
+                    messages.success(request, "Đã thêm vào giỏ hàng" , extra_tags='success')
                     return redirect("clothes:payment")
+            else:
+                ordered_date = datetime.datetime.now()
+                order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+                order.products.add(OrderProduct.objects.create(
+                    product=product,
+                    quantity=quantity,
+                    user=request.user,
+                    size=size,
+                    total=float(quantity) * float(product.product_price),
+                ))
+                messages.success(request, "Đã thêm vào giỏ hàng", extra_tags='success')
                 return redirect("clothes:payment")
+            return redirect("clothes:payment")
         else:
             device = request.COOKIES['device']
             if Customer.objects.filter(device=device).exists():

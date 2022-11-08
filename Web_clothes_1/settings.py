@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+import django_heroku
 import environ
 from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-z#3s$+2jk9_aq15q&tpn^tezgx6z3)mi+j8r6q)q10izhwld!j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mydjsite-deploy.herokuapp.com']
 
 
 # Application definition
@@ -152,3 +152,5 @@ EMAIL_HOST_PASSWORD = 'xmxzvosojplesnmb'
 STRIPE_PUBLIC_KEY=env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET=env('STRIPE_WEBHOOK_SECRET')
+
+django_heroku.settings(locals())

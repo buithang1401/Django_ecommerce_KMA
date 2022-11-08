@@ -181,6 +181,6 @@ nav{
 }
 
 nav.sticky{
-  box-shadow: 0 5px 5px 5px rgba(94, 147, 255, 0.64);
+  box-shadow: 0 5px 5px 5px rgba(148, 148, 148, 0.64);
   height: 8%;
 }
