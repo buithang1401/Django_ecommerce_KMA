@@ -23,20 +23,20 @@
                         <div class="DonHang-top-right">
                             {% if item.ordered == False %}
                                 <p>Chưa đặt hàng</p>
-                                <i class="gg-close-o" style="  color: red;" ></i>
+                                <img src="{% static 'images/remove.png' %}" width="3%">
                             {% endif %}
                             {% if item.ordered == True %}
                                 <p>Đã đặt hàng</p>
-                                <i class="gg-check-o"></i>
+                                <img src="{% static 'images/accept.png' %}" width="3%">
                             {% endif %}
-                            <span content="\007C">&#124;</span>
+{#                            <span content="\007C">&#124;</span>#}
                             {% if item.payment_status == False %}
                                 <p>Chưa giao hàng </p>
-                                <i class="gg-close-o" style="  color: red; margin-right:0;" ></i>
+                                <img src="{% static 'images/remove.png' %}" width="3%">
                             {% endif %}
                             {% if item.payment_status == True %}
                                 <p>Đã giao hàng </p>
-                                <i class="gg-check-o" style=" margin-right:0;"></i>
+                                <img src="{% static 'images/accept.png' %}" width="3%">
                             {% endif %}
                         </div>
                     </div>

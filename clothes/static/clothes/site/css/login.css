@@ -45,7 +45,7 @@ nav{
   display: block;
   box-sizing: border-box;
   margin-left: 4px;
-  width: auto;
+  width: 100px;
   height: auto;
   border: 1px solid black;
   border-radius: 3px;
@@ -56,11 +56,13 @@ nav{
   padding-top: 7px;
   box-sizing: border-box;
   margin-left: 4px;;
-  width: auto;
+  width: 100px;
   height: auto;
   border: 1px solid black;
   border-radius: 3px;
 }
+
+
 .overlay {
   background-color: rgba(0, 0, 0, 0.7);
   top: 0;
