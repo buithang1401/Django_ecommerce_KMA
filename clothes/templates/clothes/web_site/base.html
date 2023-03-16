@@ -191,8 +191,8 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
 
                     <div class="user dropdown">
-                        <button onmouseenter="myFunction()" onmouseleave="mouseout()" class="dropbtn" type="button">
-                                <a href="{% url 'clothes:login' %}" > <i class="gg-user"></i></a>
+                        <button onmouseenter="myFunction()" onmouseleave="mouseout()" class="dropbtn" type="button" >
+                                <a href="{% url 'clothes:login' %}"><img src="{% static 'images/user.png' %}" width="80%"></a>
                         </button>
                         <div id="myDropdown" class="dropdown-content" onmouseleave="mouseout()" onmouseenter="myFunction()" >
                             {% if not request.user.is_authenticated %}
@@ -207,7 +207,7 @@
                     </div>
                     <div class="cart">
                         <a href="{% url 'clothes:payment' %}" >
-                          <i class="gg-shopping-cart" style="display: block"></i>
+                          <img src="{% static 'images/shopping-cart.png' %}" width="65%">
                           {% if request.user.is_authenticated %}
                             <span style="font-size: 14px; font-weight: 900; position:absolute; width: 8px; height: 14px; top: 52%; right: 2.1%">{{ request.user|cart_item_count }}</span>
                           {% endif %}
