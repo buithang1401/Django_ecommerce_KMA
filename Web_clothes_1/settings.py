@@ -28,7 +28,6 @@ environ.Env.read_env()
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECRET_KEY = env('SECRET_KEY')
-SECRET_KEY = 'django-insecure-z#3s$+2jk9_aq15q&tpn^tezgx6z3)mi+j8r6q)q10izhwld!j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
@@ -146,8 +145,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER= 'buithang1401@gmail.com'
-EMAIL_HOST_PASSWORD = 'xmxzvosojplesnmb'
 
 STRIPE_PUBLIC_KEY=env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
